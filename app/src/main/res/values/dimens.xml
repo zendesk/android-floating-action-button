@@ -2,6 +2,8 @@
     <dimen name="fab_size_normal">56dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
 
+    <dimen name="fab_icon_size">24dp</dimen>
+
     <dimen name="fab_shadow_offset">3dp</dimen>
     <dimen name="fab_shadow_radius">9dp</dimen>
 

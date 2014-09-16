@@ -13,6 +13,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -116,10 +117,26 @@ public class FloatingActionButton extends ImageButton {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(circleRect),
             createStrokesDrawable(circleRect),
-            // icon
+            getIconDrawable()
         });
 
+    float iconOffset = (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2f;
+
+    int iconInsetHorizontal = (int) (mShadowRadius + iconOffset);
+    int iconInsetTop = (int) (circleTop + iconOffset);
+    int iconInsetBottom = (int) (mShadowRadius + mShadowOffset + iconOffset);
+
+    layerDrawable.setLayerInset(3, iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
+
     setBackgroundCompat(layerDrawable);
+  }
+
+  Drawable getIconDrawable() {
+    if (mIcon != 0) {
+      return getResources().getDrawable(mIcon);
+    } else {
+      return new ColorDrawable(Color.TRANSPARENT);
+    }
   }
 
   private StateListDrawable createFillDrawable(RectF circleRect) {
