@@ -1,5 +1,7 @@
 package com.getbase.floatingactionbutton;
 
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -112,12 +114,38 @@ public class FloatingActionButton extends ImageButton {
 
     final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
 
+    final Paint paint = new Paint();
+    paint.setColor(Color.BLACK);
+
+    final ValueAnimator animator = ValueAnimator.ofFloat(0f, 360f);
+
+    final Drawable rotatingDrawable = new LayerDrawable(new Drawable[] { getIconDrawable() }) {
+      @Override
+      public void draw(Canvas canvas) {
+        canvas.save();
+        canvas.rotate((Float) animator.getAnimatedValue(), getBounds().centerX(), getBounds().centerY());
+        super.draw(canvas);
+        canvas.restore();
+      }
+    };
+
+    animator.addUpdateListener(new AnimatorUpdateListener() {
+      @Override
+      public void onAnimationUpdate(ValueAnimator animation) {
+        rotatingDrawable.invalidateSelf();
+      }
+    });
+
+    animator.setDuration(1000);
+    animator.setRepeatCount(ValueAnimator.INFINITE);
+    animator.start();
+
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(circleRect),
             createStrokesDrawable(circleRect),
-            getIconDrawable()
+            rotatingDrawable
         });
 
     float iconOffset = (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2f;
