@@ -114,9 +114,6 @@ public class FloatingActionButton extends ImageButton {
 
     final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
 
-    final Paint paint = new Paint();
-    paint.setColor(Color.BLACK);
-
     final ValueAnimator animator = ValueAnimator.ofFloat(0f, 360f);
 
     final Drawable rotatingDrawable = new LayerDrawable(new Drawable[] { getIconDrawable() }) {
