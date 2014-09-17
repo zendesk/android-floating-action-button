@@ -4,6 +4,9 @@
 
     <dimen name="fab_icon_size">24dp</dimen>
 
+    <dimen name="fab_plus_icon_size">14dp</dimen>
+    <dimen name="fab_plus_icon_stroke">2dp</dimen>
+
     <dimen name="fab_shadow_offset">3dp</dimen>
     <dimen name="fab_shadow_radius">9dp</dimen>
 

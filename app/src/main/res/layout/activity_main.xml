@@ -10,7 +10,6 @@
         android:layout_height="match_parent"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/le_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:icon="@drawable/ic_action_add"
@@ -18,4 +17,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"/>
+
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:plusIconColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"/>
 </RelativeLayout>

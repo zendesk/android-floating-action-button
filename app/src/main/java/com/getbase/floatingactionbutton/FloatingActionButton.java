@@ -62,7 +62,7 @@ public class FloatingActionButton extends ImageButton {
     init(context, attrs);
   }
 
-  private void init(Context context, AttributeSet attributeSet) {
+  void init(Context context, AttributeSet attributeSet) {
     mColorNormal = getColor(android.R.color.holo_blue_dark);
     mColorPressed = getColor(android.R.color.holo_blue_light);
     mIcon = 0;
@@ -79,11 +79,11 @@ public class FloatingActionButton extends ImageButton {
     updateBackground();
   }
 
-  private int getColor(@ColorRes int id) {
+  int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
 
-  private float getDimension(@DimenRes int id) {
+  float getDimension(@DimenRes int id) {
     return getResources().getDimension(id);
   }
 
@@ -108,7 +108,7 @@ public class FloatingActionButton extends ImageButton {
   }
 
   @DebugLog
-  private void updateBackground() {
+  void updateBackground() {
     float circleLeft = mShadowRadius;
     float circleTop = mShadowRadius - mShadowOffset;
 
