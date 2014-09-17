@@ -12,4 +12,9 @@
     <declare-styleable name="AddFloatingActionButton">
         <attr name="plusIconColor" format="color"/>
     </declare-styleable>
+    <declare-styleable name="FloatingActionsMenu">
+        <attr name="addButtonColorPressed" format="color"/>
+        <attr name="addButtonColorNormal" format="color"/>
+        <attr name="addButtonPlusIconColor" format="color"/>
+    </declare-styleable>
 </resources>

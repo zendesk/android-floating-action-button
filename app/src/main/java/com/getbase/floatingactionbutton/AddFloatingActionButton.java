@@ -11,7 +11,7 @@ import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 
 public class AddFloatingActionButton extends FloatingActionButton {
-  private int mPlusColor;
+  int mPlusColor;
 
   public AddFloatingActionButton(Context context) {
     this(context, null);

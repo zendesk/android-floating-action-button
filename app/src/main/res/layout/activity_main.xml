@@ -8,16 +8,38 @@
         android:layout_height="wrap_content"
         fab:icon="@drawable/ic_action_add"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:plusIconColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp">
+
+        <com.getbase.floatingactionbutton.AddFloatingActionButton
+            android:id="@+id/teal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:colorNormal="@color/teal"
+            fab:colorPressed="@color/teal_pressed"/>
+
+        <com.getbase.floatingactionbutton.AddFloatingActionButton
+            android:id="@+id/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:colorNormal="@color/red"
+            fab:colorPressed="@color/red_pressed"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>
