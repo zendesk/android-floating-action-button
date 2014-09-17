@@ -11,7 +11,7 @@ import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 
 public class AddFloatingActionButton extends FloatingActionButton {
-  private int mColorPressed;
+  private int mPlusColor;
 
   public AddFloatingActionButton(Context context) {
     this(context, null);
@@ -31,13 +31,13 @@ public class AddFloatingActionButton extends FloatingActionButton {
       TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.AddFloatingActionButton, 0, 0);
       if (attr != null) {
         try {
-          mColorPressed = attr.getColor(R.styleable.AddFloatingActionButton_plusIconColor, getColor(android.R.color.white));
+          mPlusColor = attr.getColor(R.styleable.AddFloatingActionButton_plusIconColor, getColor(android.R.color.white));
         } finally {
           attr.recycle();
         }
       }
     } else {
-      mColorPressed = getColor(android.R.color.white);
+      mPlusColor = getColor(android.R.color.white);
     }
 
     super.init(context, attributeSet);
@@ -63,7 +63,7 @@ public class AddFloatingActionButton extends FloatingActionButton {
     ShapeDrawable drawable = new ShapeDrawable(shape);
 
     final Paint paint = drawable.getPaint();
-    paint.setColor(mColorPressed);
+    paint.setColor(mPlusColor);
     paint.setStyle(Style.FILL);
     paint.setAntiAlias(true);
 
