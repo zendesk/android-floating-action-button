@@ -174,16 +174,21 @@ public class FloatingActionsMenu extends ViewGroup {
 
       if (child == mAddButton) continue;
 
-      int childY = mExpanded ? (bottomY - child.getMeasuredWidth()) : addButtonY;
+      int childY = bottomY - child.getMeasuredHeight();
       child.layout(0, childY, child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+
+      float collapsedTranslation = addButtonY - childY;
+      float expandedTranslation = 0f;
+
+      child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
       child.setAlpha(mExpanded ? 1f : 0f);
 
       LayoutParams params = (LayoutParams) child.getLayoutParams();
-      params.mCollapseY.setFloatValues(addButtonY);
-      params.mExpandY.setFloatValues(bottomY - child.getMeasuredWidth());
+      params.mCollapseY.setFloatValues(collapsedTranslation);
+      params.mExpandY.setFloatValues(expandedTranslation);
       params.setAnimationsTarget(child);
 
-      bottomY -= child.getMeasuredHeight() + mButtonSpacing;
+      bottomY = childY - mButtonSpacing;
     }
   }
 
@@ -231,8 +236,8 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpandAlpha.setProperty(View.ALPHA);
       mExpandAlpha.setFloatValues(1f);
 
-      mCollapseY.setProperty(View.Y);
-      mExpandY.setProperty(View.Y);
+      mCollapseY.setProperty(View.TRANSLATION_Y);
+      mExpandY.setProperty(View.TRANSLATION_Y);
 
       mExpandAnimation.play(mExpandAlpha);
       mExpandAnimation.play(mExpandY);
