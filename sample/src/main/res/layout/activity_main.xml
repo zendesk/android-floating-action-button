@@ -6,7 +6,7 @@
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:icon="@drawable/ic_action_add"
+        fab:icon="@drawable/ic_fab_star"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"/>
