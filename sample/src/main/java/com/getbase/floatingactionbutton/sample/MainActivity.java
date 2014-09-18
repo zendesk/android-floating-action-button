@@ -1,4 +1,4 @@
-package com.getbase.floatingactionbutton;
+package com.getbase.floatingactionbutton.sample;
 
 import android.app.Activity;
 import android.os.Bundle;

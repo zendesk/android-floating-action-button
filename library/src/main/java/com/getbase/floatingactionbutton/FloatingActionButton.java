@@ -25,8 +25,6 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
-import hugo.weaving.DebugLog;
-
 public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
@@ -105,7 +103,6 @@ public class FloatingActionButton extends ImageButton {
     setMeasuredDimension(mDrawableSize, mDrawableSize);
   }
 
-  @DebugLog
   void updateBackground() {
     float circleLeft = mShadowRadius;
     float circleTop = mShadowRadius - mShadowOffset;

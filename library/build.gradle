@@ -1,15 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
-    }
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'hugo'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 19
@@ -17,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.getbase.floatingactionbutton"
-        minSdkVersion 17
+        minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName "0.9"
     }
     buildTypes {
         release {
@@ -31,6 +20,5 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-annotations:19.1.0'
 }

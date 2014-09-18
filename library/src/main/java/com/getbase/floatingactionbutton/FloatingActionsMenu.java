@@ -18,8 +18,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
-import hugo.weaving.DebugLog;
-
 public class FloatingActionsMenu extends ViewGroup {
   private static final int ANIMATION_DURATION = 300;
   private static final float COLLAPSED_PLUS_ROTATION = 0f;
@@ -52,7 +50,6 @@ public class FloatingActionsMenu extends ViewGroup {
     init(context, attrs);
   }
 
-  @DebugLog
   private void init(Context context, AttributeSet attributeSet) {
     mAddButtonPlusColor = getColor(android.R.color.white);
     mAddButtonColorNormal = getColor(android.R.color.holo_blue_dark);
@@ -148,7 +145,6 @@ public class FloatingActionsMenu extends ViewGroup {
     return getResources().getColor(id);
   }
 
-  @DebugLog
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     measureChildren(widthMeasureSpec, heightMeasureSpec);
@@ -169,7 +165,6 @@ public class FloatingActionsMenu extends ViewGroup {
     setMeasuredDimension(width, height);
   }
 
-  @DebugLog
   @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     int addButtonY = b - t - mAddButton.getMeasuredHeight();
