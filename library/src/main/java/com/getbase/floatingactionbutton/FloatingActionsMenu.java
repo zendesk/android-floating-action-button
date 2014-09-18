@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -216,7 +216,8 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   private static Interpolator sExpandInterpolator = new OvershootInterpolator();
-  private static Interpolator sCollapseInterpolator = new AccelerateInterpolator();
+  private static Interpolator sCollapseInterpolator = new DecelerateInterpolator(3f);
+  private static Interpolator sAlphaExpandInterpolator = new DecelerateInterpolator();
 
   private class LayoutParams extends ViewGroup.LayoutParams {
 
@@ -229,7 +230,7 @@ public class FloatingActionsMenu extends ViewGroup {
       super(source);
 
       mExpandY.setInterpolator(sExpandInterpolator);
-      mExpandAlpha.setInterpolator(sExpandInterpolator);
+      mExpandAlpha.setInterpolator(sAlphaExpandInterpolator);
       mCollapseY.setInterpolator(sCollapseInterpolator);
       mCollapseAlpha.setInterpolator(sCollapseInterpolator);
 
