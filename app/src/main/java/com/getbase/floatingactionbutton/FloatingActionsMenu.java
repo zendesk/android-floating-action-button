@@ -7,7 +7,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import hugo.weaving.DebugLog;
 
 public class FloatingActionsMenu extends ViewGroup {
   private static final int ANIMATION_DURATION = 300;
+  private static final float COLLAPSED_PLUS_ROTATION = 0f;
+  private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;
 
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
@@ -31,6 +36,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AddFloatingActionButton mAddButton;
+  private RotatingDrawable mRotatingDrawable;
 
   public FloatingActionsMenu(Context context) {
     this(context, null);
@@ -46,6 +52,7 @@ public class FloatingActionsMenu extends ViewGroup {
     init(context, attrs);
   }
 
+  @DebugLog
   private void init(Context context, AttributeSet attributeSet) {
     mAddButtonPlusColor = getColor(android.R.color.white);
     mAddButtonColorNormal = getColor(android.R.color.holo_blue_dark);
@@ -109,11 +116,12 @@ public class FloatingActionsMenu extends ViewGroup {
       @Override
       Drawable getIconDrawable() {
         final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
+        mRotatingDrawable = rotatingDrawable;
 
         final OvershootInterpolator interpolator = new OvershootInterpolator();
 
-        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", 0f);
-        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", 90f + 45f);
+        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION);
+        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION);
 
         collapseAnimator.setInterpolator(interpolator);
         expandAnimator.setInterpolator(interpolator);
@@ -282,5 +290,62 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseAnimation.cancel();
       mExpandAnimation.start();
     }
+  }
+
+  @Override
+  public Parcelable onSaveInstanceState() {
+    Parcelable superState = super.onSaveInstanceState();
+    SavedState savedState = new SavedState(superState);
+    savedState.mExpanded = mExpanded;
+
+    return savedState;
+  }
+
+  @Override
+  public void onRestoreInstanceState(Parcelable state) {
+    if (state instanceof SavedState) {
+      SavedState savedState = (SavedState) state;
+      mExpanded = savedState.mExpanded;
+
+      if (mRotatingDrawable != null) {
+        mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+      }
+
+      super.onRestoreInstanceState(savedState.getSuperState());
+    } else {
+      super.onRestoreInstanceState(state);
+    }
+  }
+
+  public static class SavedState extends BaseSavedState {
+    public boolean mExpanded;
+
+    public SavedState(Parcelable parcel) {
+      super(parcel);
+    }
+
+    private SavedState(Parcel in) {
+      super(in);
+      mExpanded = in.readInt() == 1;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel out, int flags) {
+      super.writeToParcel(out, flags);
+      out.writeInt(mExpanded ? 1 : 0);
+    }
+
+    public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+      @Override
+      public SavedState createFromParcel(Parcel in) {
+        return new SavedState(in);
+      }
+
+      @Override
+      public SavedState[] newArray(int size) {
+        return new SavedState[size];
+      }
+    };
   }
 }
