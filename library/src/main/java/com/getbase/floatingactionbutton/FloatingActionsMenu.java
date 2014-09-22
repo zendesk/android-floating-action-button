@@ -117,8 +117,8 @@ public class FloatingActionsMenu extends ViewGroup {
 
         final OvershootInterpolator interpolator = new OvershootInterpolator();
 
-        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION);
-        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION);
+        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
+        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
 
         collapseAnimator.setInterpolator(interpolator);
         expandAnimator.setInterpolator(interpolator);
@@ -187,8 +187,8 @@ public class FloatingActionsMenu extends ViewGroup {
       child.setAlpha(mExpanded ? 1f : 0f);
 
       LayoutParams params = (LayoutParams) child.getLayoutParams();
-      params.mCollapseY.setFloatValues(collapsedTranslation);
-      params.mExpandY.setFloatValues(expandedTranslation);
+      params.mCollapseY.setFloatValues(expandedTranslation, collapsedTranslation);
+      params.mExpandY.setFloatValues(collapsedTranslation, expandedTranslation);
       params.setAnimationsTarget(child);
 
       bottomY = childY - mButtonSpacing;
@@ -235,10 +235,10 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseAlpha.setInterpolator(sCollapseInterpolator);
 
       mCollapseAlpha.setProperty(View.ALPHA);
-      mCollapseAlpha.setFloatValues(0f);
+      mCollapseAlpha.setFloatValues(1f, 0f);
 
       mExpandAlpha.setProperty(View.ALPHA);
-      mExpandAlpha.setFloatValues(1f);
+      mExpandAlpha.setFloatValues(0f, 1f);
 
       mCollapseY.setProperty(View.TRANSLATION_Y);
       mExpandY.setProperty(View.TRANSLATION_Y);
