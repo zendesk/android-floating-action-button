@@ -5,5 +5,7 @@
 .DS_Store
 /build
 
+gen
+
 .idea
 *.iml
