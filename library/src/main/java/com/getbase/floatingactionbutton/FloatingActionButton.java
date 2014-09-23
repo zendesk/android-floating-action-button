@@ -59,6 +59,7 @@ public class FloatingActionButton extends ImageButton {
   }
 
   void init(Context context, AttributeSet attributeSet) {
+    isInEditMode();
     mColorNormal = getColor(android.R.color.holo_blue_dark);
     mColorPressed = getColor(android.R.color.holo_blue_light);
     mIcon = 0;
