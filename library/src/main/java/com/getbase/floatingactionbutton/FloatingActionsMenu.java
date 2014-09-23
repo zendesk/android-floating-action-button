@@ -51,6 +51,7 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   private void init(Context context, AttributeSet attributeSet) {
+    isInEditMode();
     mAddButtonPlusColor = getColor(android.R.color.white);
     mAddButtonColorNormal = getColor(android.R.color.holo_blue_dark);
     mAddButtonColorPressed = getColor(android.R.color.holo_blue_light);
