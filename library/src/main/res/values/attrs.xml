@@ -3,7 +3,7 @@
     <declare-styleable name="FloatingActionButton">
         <attr name="colorPressed" format="color"/>
         <attr name="colorNormal" format="color"/>
-        <attr name="icon" format="reference"/>
+        <attr name="drawable" format="reference"/>
         <attr name="size" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
