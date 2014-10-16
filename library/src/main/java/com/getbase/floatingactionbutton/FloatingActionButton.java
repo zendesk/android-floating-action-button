@@ -90,7 +90,7 @@ public class FloatingActionButton extends ImageButton {
         mColorNormal = attr.getColor(R.styleable.FloatingActionButton_colorNormal, getColor(android.R.color.holo_blue_dark));
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_colorPressed, getColor(android.R.color.holo_blue_light));
         mSize = attr.getInt(R.styleable.FloatingActionButton_size, SIZE_NORMAL);
-        mIcon = attr.getResourceId(R.styleable.FloatingActionButton_icon, 0);
+        mIcon = attr.getResourceId(R.styleable.FloatingActionButton_drawable, 0);
       } finally {
         attr.recycle();
       }
