@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="FloatingActionButton">
-        <attr name="colorPressed" format="color"/>
-        <attr name="colorNormal" format="color"/>
-        <attr name="icon" format="reference"/>
-        <attr name="size" format="enum">
+        <attr name="fab_colorPressed" format="color"/>
+        <attr name="fab_colorNormal" format="color"/>
+        <attr name="fab_icon" format="reference"/>
+        <attr name="fab_size" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
         </attr>
     </declare-styleable>
     <declare-styleable name="AddFloatingActionButton">
-        <attr name="plusIconColor" format="color"/>
+        <attr name="fab_plusIconColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="FloatingActionsMenu">
-        <attr name="addButtonColorPressed" format="color"/>
-        <attr name="addButtonColorNormal" format="color"/>
-        <attr name="addButtonPlusIconColor" format="color"/>
+        <attr name="fab_addButtonColorPressed" format="color"/>
+        <attr name="fab_addButtonColorNormal" format="color"/>
+        <attr name="fab_addButtonPlusIconColor" format="color"/>
     </declare-styleable>
 </resources>

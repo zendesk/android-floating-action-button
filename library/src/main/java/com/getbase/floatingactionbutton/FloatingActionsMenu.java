@@ -61,9 +61,9 @@ public class FloatingActionsMenu extends ViewGroup {
       TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
       if (attr != null) {
         try {
-          mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_addButtonPlusIconColor, getColor(android.R.color.white));
-          mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
-          mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+          mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
+          mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
+          mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
         } finally {
           attr.recycle();
         }
