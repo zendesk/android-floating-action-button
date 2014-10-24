@@ -52,8 +52,8 @@ public class FloatingActionsMenu extends ViewGroup {
 
   private void init(Context context, AttributeSet attributeSet) {
     mAddButtonPlusColor = getColor(android.R.color.white);
-    mAddButtonColorNormal = getColor(android.R.color.holo_blue_dark);
-    mAddButtonColorPressed = getColor(android.R.color.holo_blue_light);
+    mAddButtonColorNormal = getColor(R.color.default_normal);
+    mAddButtonColorPressed = getColor(R.color.default_pressed);
 
     mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
 
@@ -62,8 +62,8 @@ public class FloatingActionsMenu extends ViewGroup {
       if (attr != null) {
         try {
           mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
-          mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
-          mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+          mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(R.color.default_normal));
+          mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(R.color.default_pressed));
         } finally {
           attr.recycle();
         }
@@ -234,14 +234,14 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseY.setInterpolator(sCollapseInterpolator);
       mCollapseAlpha.setInterpolator(sCollapseInterpolator);
 
-      mCollapseAlpha.setProperty(View.ALPHA);
+      mCollapseAlpha.setPropertyName("alpha");
       mCollapseAlpha.setFloatValues(1f, 0f);
 
-      mExpandAlpha.setProperty(View.ALPHA);
+      mExpandAlpha.setPropertyName("alpha");
       mExpandAlpha.setFloatValues(0f, 1f);
 
-      mCollapseY.setProperty(View.TRANSLATION_Y);
-      mExpandY.setProperty(View.TRANSLATION_Y);
+      mCollapseY.setPropertyName("translationY");
+      mExpandY.setPropertyName("translationY");
 
       mExpandAnimation.play(mExpandAlpha);
       mExpandAnimation.play(mExpandY);
