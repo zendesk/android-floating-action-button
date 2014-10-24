@@ -234,14 +234,14 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseY.setInterpolator(sCollapseInterpolator);
       mCollapseAlpha.setInterpolator(sCollapseInterpolator);
 
-      mCollapseAlpha.setProperty(View.ALPHA);
+      mCollapseAlpha.setPropertyName("alpha");
       mCollapseAlpha.setFloatValues(1f, 0f);
 
-      mExpandAlpha.setProperty(View.ALPHA);
+      mExpandAlpha.setPropertyName("alpha");
       mExpandAlpha.setFloatValues(0f, 1f);
 
-      mCollapseY.setProperty(View.TRANSLATION_Y);
-      mExpandY.setProperty(View.TRANSLATION_Y);
+      mCollapseY.setPropertyName("translationY");
+      mExpandY.setPropertyName("translationY");
 
       mExpandAnimation.play(mExpandAlpha);
       mExpandAnimation.play(mExpandY);
