@@ -1,7 +1,5 @@
 package com.getbase.floatingactionbutton;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -17,6 +15,10 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
+
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
 public class FloatingActionsMenu extends ViewGroup {
   private static final int ANIMATION_DURATION = 300;
@@ -183,8 +185,8 @@ public class FloatingActionsMenu extends ViewGroup {
       float collapsedTranslation = addButtonY - childY;
       float expandedTranslation = 0f;
 
-      child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
-      child.setAlpha(mExpanded ? 1f : 0f);
+      ViewHelper.setTranslationY(child, mExpanded ? expandedTranslation : collapsedTranslation);
+      ViewHelper.setAlpha(child, mExpanded ? 1f : 0f);
 
       LayoutParams params = (LayoutParams) child.getLayoutParams();
       params.mCollapseY.setFloatValues(expandedTranslation, collapsedTranslation);

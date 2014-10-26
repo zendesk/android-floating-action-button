@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_normal">#ff0099cc</color><!-- android.R.color.holo_blue_dark -->
+    <color name="default_pressed">#ff33b5e5</color><!-- android.R.color.holo_blue_light -->
+</resources>
