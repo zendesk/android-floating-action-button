@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_icon="@drawable/ic_fab_star"
@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"/>
 
-    <com.getbase.floatingactionbutton.AddFloatingActionButton
+    <net.i2p.android.ext.floatingactionbutton.AddFloatingActionButton
         android:id="@+id/normal_plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"/>
 
-    <com.getbase.floatingactionbutton.AddFloatingActionButton
+    <net.i2p.android.ext.floatingactionbutton.AddFloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/normal_plus"
@@ -42,7 +42,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"/>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,21 +56,21 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,21 +85,21 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,17 +114,17 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

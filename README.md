@@ -2,6 +2,8 @@ FloatingActionButton
 ====================
 Yet another library for drawing [Material Design promoted actions](http://www.google.com/design/spec/patterns/promoted-actions.html).
 
+This library supports API 4+.
+
 Features
 ========
 * Support for normal `56dp` and mini `40dp` buttons.
@@ -22,7 +24,7 @@ Usage
 The library will be soon available on Maven Central, but for now you have to build it and install it in your local Maven repo:
 
 ```
-git clone https://github.com/futuresimple/android-floating-action-button
+git clone https://github.com/str4d/android-floating-action-button
 cd android-floating-action-button
 cd library
 gradle installArchives
@@ -32,7 +34,7 @@ And add the following configuration to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'com.getbase:floatingactionbutton:1.1.0'
+    compile 'net.i2p.android.ext:floatingactionbutton:1.1.0'
 }
 ```
 
@@ -46,11 +48,14 @@ Unlike some other FloatingActionButton libraries this library doesn't implement 
 
 Credits
 =======
-I used [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton) library by [Oleksandr Melnykov](https://github.com/makovkastar) as a base for development.
+This library is a supported backwards-compatible version of the [FloatingActionButton](https://github.com/futuresimple/FloatingActionButton) library by [Jerzy Chalupski](https://github.com/chalup).
+
+That library used [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton) library by [Oleksandr Melnykov](https://github.com/makovkastar) as a base for development.
 
 License
 =======
 
+    Copyright (C) 2014 str4d
     Copyright (C) 2014 Jerzy Chalupski
 
     Licensed under the Apache License, Version 2.0 (the "License");

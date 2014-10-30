@@ -1,4 +1,4 @@
-package com.getbase.floatingactionbutton;
+package net.i2p.android.ext.floatingactionbutton;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

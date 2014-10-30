@@ -1,4 +1,4 @@
-package com.getbase.floatingactionbutton.sample;
+package net.i2p.android.ext.floatingactionbutton.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
