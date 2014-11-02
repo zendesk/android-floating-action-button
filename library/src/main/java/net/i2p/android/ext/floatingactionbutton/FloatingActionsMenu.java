@@ -212,8 +212,9 @@ public class FloatingActionsMenu extends ViewGroup {
 
           if (child == mAddButton) continue;
 
+          int childX = (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
           int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
-          child.layout(0, childY, child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
           float collapsedTranslation = addButtonY - childY;
           float expandedTranslation = 0f;
@@ -249,7 +250,8 @@ public class FloatingActionsMenu extends ViewGroup {
           if (child == mAddButton) continue;
 
           int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-          child.layout(childX, 0, childX + child.getMeasuredWidth(), child.getMeasuredHeight());
+          int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
           float collapsedTranslation = addButtonX - childX;
           float expandedTranslation = 0f;

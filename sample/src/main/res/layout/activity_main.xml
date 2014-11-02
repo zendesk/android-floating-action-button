@@ -89,7 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
-            fab:fab_colorPressed="@color/white_pressed"/>
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_size="mini"/>
 
         <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
@@ -124,7 +125,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
-            fab:fab_colorPressed="@color/white_pressed"/>
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_size="mini"/>
 
     </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>
