@@ -43,6 +43,7 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
+  private boolean mEnableInnerColor;
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -91,6 +92,7 @@ public class FloatingActionButton extends ImageButton {
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
         mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
         mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+        mEnableInnerColor = attr.getBoolean(R.styleable.FloatingActionButton_fab_enable_inner_color, true);
       } finally {
         attr.recycle();
       }
@@ -191,23 +193,25 @@ public class FloatingActionButton extends ImageButton {
     paint.setAlpha(opacityToAlpha(0.02f));
     canvas.drawOval(outerStrokeRect, paint);
 
-    // inner bottom
-    paint.setShader(new LinearGradient(innerStrokeRect.centerX(), innerStrokeRect.top, innerStrokeRect.centerX(), innerStrokeRect.bottom,
-        new int[] { Color.TRANSPARENT, HALF_TRANSPARENT_BLACK, Color.BLACK },
-        new float[] { 0f, 0.8f, 1f },
-        TileMode.CLAMP
-    ));
-    paint.setAlpha(opacityToAlpha(0.04f));
-    canvas.drawOval(innerStrokeRect, paint);
+      if (mEnableInnerColor) {
+          // inner bottom
+          paint.setShader(new LinearGradient(innerStrokeRect.centerX(), innerStrokeRect.top, innerStrokeRect.centerX(), innerStrokeRect.bottom,
+                  new int[]{Color.TRANSPARENT, HALF_TRANSPARENT_BLACK, Color.BLACK},
+                  new float[]{0f, 0.8f, 1f},
+                  TileMode.CLAMP
+          ));
+          paint.setAlpha(opacityToAlpha(0.04f));
+          canvas.drawOval(innerStrokeRect, paint);
 
-    // inner top
-    paint.setShader(new LinearGradient(innerStrokeRect.centerX(), innerStrokeRect.top, innerStrokeRect.centerX(), innerStrokeRect.bottom,
-        new int[] { Color.WHITE, HALF_TRANSPARENT_WHITE, Color.TRANSPARENT },
-        new float[] { 0f, 0.2f, 1f },
-        TileMode.CLAMP
-    ));
-    paint.setAlpha(opacityToAlpha(0.8f));
-    canvas.drawOval(innerStrokeRect, paint);
+          // inner top
+          paint.setShader(new LinearGradient(innerStrokeRect.centerX(), innerStrokeRect.top, innerStrokeRect.centerX(), innerStrokeRect.bottom,
+                  new int[]{Color.WHITE, HALF_TRANSPARENT_WHITE, Color.TRANSPARENT},
+                  new float[]{0f, 0.2f, 1f},
+                  TileMode.CLAMP
+          ));
+          paint.setAlpha(opacityToAlpha(0.8f));
+          canvas.drawOval(innerStrokeRect, paint);
+      }
 
     return new BitmapDrawable(getResources(), bitmap);
   }
