@@ -35,6 +35,7 @@ public class FloatingActionButton extends ImageButton {
 
   int mColorNormal;
   int mColorPressed;
+  boolean mEnableInnerShadow = true;
   @DrawableRes
   private int mIcon;
   private int mSize;
@@ -43,7 +44,6 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
-  private boolean mEnableInnerShadow = true;
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -92,7 +92,7 @@ public class FloatingActionButton extends ImageButton {
         mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
         mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
         mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
-        mEnableInnerShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_enable_inner_color, true);
+        mEnableInnerShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_enableInnerShadow, true);
       } finally {
         attr.recycle();
       }
