@@ -4,7 +4,7 @@
         <attr name="fab_colorPressed" format="color"/>
         <attr name="fab_colorNormal" format="color"/>
         <attr name="fab_icon" format="reference"/>
-        <attr name="fab_enable_inner_color" format="boolean"/>
+        <attr name="fab_enable_inner_shadow" format="boolean"/>
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
