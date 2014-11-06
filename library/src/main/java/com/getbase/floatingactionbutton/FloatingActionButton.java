@@ -67,13 +67,67 @@ public class FloatingActionButton extends ImageButton {
       initAttributes(context, attributeSet);
     }
 
-    mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+    updateCircleSize();
     mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
     mShadowOffset = getDimension(R.dimen.fab_shadow_offset);
-    mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
+    updateDrawableSize();
 
     updateBackground();
   }
+
+  private void updateDrawableSize() {
+    mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
+  }
+
+  private void updateCircleSize() {
+    mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+  }
+
+  public void setSize(int size) {
+    if (this.mSize != size) {
+      this.mSize = size;
+      updateCircleSize();
+      updateDrawableSize();
+      updateBackground();
+    }
+  }
+
+  public int getSize() {
+    return mSize;
+  }
+
+  public void setIcon(@DrawableRes int mIcon) {
+    if (this.mIcon != mIcon) {
+      this.mIcon = mIcon;
+      updateBackground();
+    }
+  }
+
+  /**
+   * @return the current Color for nomal state. Note it returns the color and not the resource!
+   */
+  public int getColorNormal() {
+    return mColorNormal;
+  }
+
+  public void setColorNormal(@ColorRes int colorNormal) {
+    this.mColorNormal = getColor(colorNormal);
+    updateBackground();
+  }
+
+  /**
+   *
+   * @return the current color for pressed state. note that it returns the color and not the resource
+   */
+  public int getColorPressed() {
+    return mColorPressed;
+  }
+
+  public void setColorPressed(@ColorRes int colorPressed) {
+    this.mColorPressed = getColor(colorPressed);
+    updateBackground();
+  }
+
 
   int getColor(@ColorRes int id) {
     return getResources().getColor(id);
