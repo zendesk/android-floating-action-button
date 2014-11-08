@@ -21,7 +21,17 @@ Features
 
 Usage
 =====
-The library will be soon available on Maven Central, but for now you have to build it and install it in your local Maven repo:
+Add the following configuration to your `build.gradle`:
+
+```groovy
+dependencies {
+    compile 'net.i2p.android.ext:floatingactionbutton:1.1.0'
+}
+```
+
+The library is available on Maven Central (`mavenCentral()` in your repositories list).
+
+Alternatively, you can build it manually and install it in your local Maven repo:
 
 ```
 git clone https://github.com/str4d/android-floating-action-button
@@ -30,13 +40,7 @@ cd library
 gradle installArchives
 ```
 
-And add the following configuration to your `build.gradle`:
-
-```groovy
-dependencies {
-    compile 'net.i2p.android.ext:floatingactionbutton:1.1.0'
-}
-```
+Then add `mavenLocal()` to the top of your repositories list (so it is checked first).
 
 To see how the buttons are added to your xml layouts, check the sample project.
 
