@@ -23,9 +23,13 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageButton;
 
-public class FloatingActionButton extends ImageButton {
+import com.getbase.floatingactionbutton.implement.ToggleImpl;
+import com.getbase.floatingactionbutton.interfaces.ToggleInterface;
+
+public class FloatingActionButton extends ImageButton implements ToggleInterface{
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
@@ -43,6 +47,8 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
+
+  private ToggleImpl toggleImpl = new ToggleImpl();
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -221,4 +227,24 @@ public class FloatingActionButton extends ImageButton {
       setBackgroundDrawable(drawable);
     }
   }
+
+    @Override
+    public void toggle(View view, boolean visible, boolean animate, boolean force) {
+        toggleImpl.toggle(view , visible, animate, force);
+    }
+
+    @Override
+    public void show(boolean animate) {
+        toggleImpl.show(animate);
+    }
+
+    @Override
+    public void hide(boolean animate) {
+        toggleImpl.hide(animate);
+    }
+
+    @Override
+    public int getMarginBottom(View view) {
+        return toggleImpl.getMarginBottom(view);
+    }
 }

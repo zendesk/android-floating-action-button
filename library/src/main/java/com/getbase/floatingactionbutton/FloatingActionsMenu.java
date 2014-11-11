@@ -18,7 +18,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
-public class FloatingActionsMenu extends ViewGroup {
+import com.getbase.floatingactionbutton.implement.ToggleImpl;
+import com.getbase.floatingactionbutton.interfaces.ToggleInterface;
+
+public class FloatingActionsMenu extends ViewGroup implements ToggleInterface{
   public static final int EXPAND_UP = 0;
   public static final int EXPAND_DOWN = 1;
   public static final int EXPAND_LEFT = 2;
@@ -41,6 +44,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AddFloatingActionButton mAddButton;
   private RotatingDrawable mRotatingDrawable;
+
+  private ToggleImpl toggleImpl = new ToggleImpl();
 
   public FloatingActionsMenu(Context context) {
     this(context, null);
@@ -427,4 +432,24 @@ public class FloatingActionsMenu extends ViewGroup {
       }
     };
   }
+
+    @Override
+    public void toggle(View view, boolean visible, boolean animate, boolean force) {
+        toggleImpl.toggle(view, visible, animate, force);
+    }
+
+    @Override
+    public void show(boolean animate) {
+        toggleImpl.show(animate);
+    }
+
+    @Override
+    public void hide(boolean animate) {
+        toggleImpl.hide(animate);
+    }
+
+    @Override
+    public int getMarginBottom(View view) {
+        return toggleImpl.getMarginBottom(view);
+    }
 }
