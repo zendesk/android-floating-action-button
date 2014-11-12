@@ -10,6 +10,9 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.R;
+
 public class AddFloatingActionButton extends FloatingActionButton {
   int mPlusColor;
 

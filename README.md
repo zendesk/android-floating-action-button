@@ -1,8 +1,6 @@
 FloatingActionButton
 ====================
-Yet another library for drawing [Material Design promoted actions](http://www.google.com/design/spec/patterns/promoted-actions.html).
-
-Features
+Yet another library for drawing [Material Design promoted actions](http://www.google.com/design/spec/patterns/promoted-actions.html).)"Features
 ========
 * Support for normal `56dp` and mini `40dp` buttons.
 
@@ -46,7 +44,9 @@ Unlike some other FloatingActionButton libraries this library doesn't implement 
 
 Credits
 =======
-I used [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton) library by [Oleksandr Melnykov](https://github.com/makovkastar) as a base for development.
+I used [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton) library by [Oleksandr Melnykov](https://github.com/makovkastar) as a base for development.)is"    
+
+
 
 License
 =======
