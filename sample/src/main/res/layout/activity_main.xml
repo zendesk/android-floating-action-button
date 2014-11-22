@@ -5,12 +5,31 @@
     android:layout_height="match_parent">
 
     <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pink_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_icon="@drawable/ic_fab_star"
         fab:fab_colorNormal="@color/pink"
         fab:fab_colorPressed="@color/pink_pressed"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pink_icon"
+        android:text="Text below button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"/>
+
+    <net.i2p.android.ext.floatingactionbutton.AddFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pink_icon"
+        fab:fab_plusIconColor="@color/white"
+        fab:fab_colorNormal="@color/blue_semi_transparent"
+        fab:fab_colorPressed="@color/blue_semi_transparent_pressed"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"/>
 

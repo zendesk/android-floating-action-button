@@ -13,7 +13,8 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled true
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
