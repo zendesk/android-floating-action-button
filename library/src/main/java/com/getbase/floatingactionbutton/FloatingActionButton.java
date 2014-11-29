@@ -110,7 +110,7 @@ public class FloatingActionButton extends ImageButton {
     return mColorNormal;
   }
 
-  public void setColorNormal(@ColorRes int colorNormal) {
+  public void setColorNormalResId(@ColorRes int colorNormal) {
     mColorNormal = getColor(colorNormal);
     updateBackground();
   }
@@ -122,7 +122,7 @@ public class FloatingActionButton extends ImageButton {
     return mColorPressed;
   }
 
-  public void setColorPressed(@ColorRes int colorPressed) {
+  public void setColorPressedResId(@ColorRes int colorPressed) {
     mColorPressed = getColor(colorPressed);
     updateBackground();
   }
