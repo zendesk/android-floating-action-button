@@ -22,6 +22,7 @@ import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
@@ -29,6 +30,10 @@ public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
+
+  @IntDef({ SIZE_NORMAL, SIZE_MINI })
+  public @interface FAB_SIZE {
+  }
 
   private static final int HALF_TRANSPARENT_WHITE = Color.argb(128, 255, 255, 255);
   private static final int HALF_TRANSPARENT_BLACK = Color.argb(128, 0, 0, 0);
@@ -83,7 +88,11 @@ public class FloatingActionButton extends ImageButton {
     mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
   }
 
-  public void setSize(int size) {
+  public void setSize(@FAB_SIZE int size) {
+    if (size != SIZE_MINI && size != SIZE_NORMAL) {
+      throw new IllegalArgumentException("Use @FAB_SIZE constants only!");
+    }
+
     if (mSize != size) {
       mSize = size;
       updateCircleSize();
@@ -92,6 +101,7 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
+  @FAB_SIZE
   public int getSize() {
     return mSize;
   }
