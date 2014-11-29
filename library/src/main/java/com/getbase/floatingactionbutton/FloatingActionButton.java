@@ -111,8 +111,14 @@ public class FloatingActionButton extends ImageButton {
   }
 
   public void setColorNormalResId(@ColorRes int colorNormal) {
-    mColorNormal = getColor(colorNormal);
-    updateBackground();
+    setColorNormal(getColor(colorNormal));
+  }
+
+  private void setColorNormal(int color) {
+    if (mColorNormal != color) {
+      mColorNormal = color;
+      updateBackground();
+    }
   }
 
   /**
@@ -123,8 +129,14 @@ public class FloatingActionButton extends ImageButton {
   }
 
   public void setColorPressedResId(@ColorRes int colorPressed) {
-    mColorPressed = getColor(colorPressed);
-    updateBackground();
+    setColorPressed(getColor(colorPressed));
+  }
+
+  private void setColorPressed(int color) {
+    if (mColorPressed != color) {
+      mColorPressed = color;
+      updateBackground();
+    }
   }
 
   int getColor(@ColorRes int id) {

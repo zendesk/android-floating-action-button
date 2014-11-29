@@ -52,8 +52,14 @@ public class AddFloatingActionButton extends FloatingActionButton {
   }
 
   public void setPlusColorResId(@ColorRes int plusColor) {
-    mPlusColor = getColor(plusColor);
-    updateBackground();
+    setPlusColor(getColor(plusColor));
+  }
+
+  private void setPlusColor(int color) {
+    if (mPlusColor != color) {
+      mPlusColor = color;
+      updateBackground();
+    }
   }
 
   @Override
