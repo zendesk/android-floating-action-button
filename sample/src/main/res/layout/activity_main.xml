@@ -24,12 +24,21 @@
         android:layout_marginBottom="48dp"/>
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/semi_transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/pink_icon"
         fab:fab_plusIconColor="@color/white"
         fab:fab_colorNormal="@color/blue_semi_transparent"
         fab:fab_colorPressed="@color/blue_semi_transparent_pressed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/setter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/semi_transparent"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"/>
 
