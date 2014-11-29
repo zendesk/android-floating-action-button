@@ -84,8 +84,8 @@ public class FloatingActionButton extends ImageButton {
   }
 
   public void setSize(int size) {
-    if (this.mSize != size) {
-      this.mSize = size;
+    if (mSize != size) {
+      mSize = size;
       updateCircleSize();
       updateDrawableSize();
       updateBackground();
@@ -96,38 +96,36 @@ public class FloatingActionButton extends ImageButton {
     return mSize;
   }
 
-  public void setIcon(@DrawableRes int mIcon) {
-    if (this.mIcon != mIcon) {
-      this.mIcon = mIcon;
+  public void setIcon(@DrawableRes int icon) {
+    if (mIcon != icon) {
+      mIcon = icon;
       updateBackground();
     }
   }
 
   /**
-   * @return the current Color for nomal state. Note it returns the color and not the resource!
+   * @return the current Color for normal state.
    */
   public int getColorNormal() {
     return mColorNormal;
   }
 
   public void setColorNormal(@ColorRes int colorNormal) {
-    this.mColorNormal = getColor(colorNormal);
+    mColorNormal = getColor(colorNormal);
     updateBackground();
   }
 
   /**
-   *
-   * @return the current color for pressed state. note that it returns the color and not the resource
+   * @return the current color for pressed state.
    */
   public int getColorPressed() {
     return mColorPressed;
   }
 
   public void setColorPressed(@ColorRes int colorPressed) {
-    this.mColorPressed = getColor(colorPressed);
+    mColorPressed = getColor(colorPressed);
     updateBackground();
   }
-
 
   int getColor(@ColorRes int id) {
     return getResources().getColor(id);
