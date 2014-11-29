@@ -8,6 +8,7 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 
 public class AddFloatingActionButton extends FloatingActionButton {
@@ -41,6 +42,18 @@ public class AddFloatingActionButton extends FloatingActionButton {
     }
 
     super.init(context, attributeSet);
+  }
+
+  /**
+   * @return the current Color of plus icon.
+   */
+  public int getPlusColor() {
+    return mPlusColor;
+  }
+
+  public void setPlusColorResId(@ColorRes int plusColor) {
+    mPlusColor = getColor(plusColor);
+    updateBackground();
   }
 
   @Override
