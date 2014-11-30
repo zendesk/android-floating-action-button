@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
 public class AddFloatingActionButton extends FloatingActionButton {
@@ -60,6 +61,11 @@ public class AddFloatingActionButton extends FloatingActionButton {
       mPlusColor = color;
       updateBackground();
     }
+  }
+
+  @Override
+  public void setIcon(@DrawableRes int icon) {
+    throw new UnsupportedOperationException("Use FloatingActionButton if you want to use custom icon");
   }
 
   @Override
