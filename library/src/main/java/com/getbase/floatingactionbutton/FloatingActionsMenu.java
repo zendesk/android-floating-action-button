@@ -371,6 +371,10 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  public boolean isExpanded() {
+    return mExpanded;
+  }
+
   @Override
   public Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
