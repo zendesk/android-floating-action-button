@@ -19,16 +19,7 @@ Features
 
 Usage
 =====
-The library will be soon available on Maven Central, but for now you have to build it and install it in your local Maven repo:
-
-```
-git clone https://github.com/futuresimple/android-floating-action-button
-cd android-floating-action-button
-cd library
-gradle installArchives
-```
-
-And add the following configuration to your `build.gradle`:
+Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
