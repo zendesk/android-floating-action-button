@@ -22,6 +22,7 @@ import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
@@ -29,6 +30,10 @@ public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
+
+  @IntDef({ SIZE_NORMAL, SIZE_MINI })
+  public @interface FAB_SIZE {
+  }
 
   private static final int HALF_TRANSPARENT_WHITE = Color.argb(128, 255, 255, 255);
   private static final int HALF_TRANSPARENT_BLACK = Color.argb(128, 0, 0, 0);
@@ -67,12 +72,81 @@ public class FloatingActionButton extends ImageButton {
       initAttributes(context, attributeSet);
     }
 
-    mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+    updateCircleSize();
     mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
     mShadowOffset = getDimension(R.dimen.fab_shadow_offset);
-    mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
+    updateDrawableSize();
 
     updateBackground();
+  }
+
+  private void updateDrawableSize() {
+    mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
+  }
+
+  private void updateCircleSize() {
+    mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+  }
+
+  public void setSize(@FAB_SIZE int size) {
+    if (size != SIZE_MINI && size != SIZE_NORMAL) {
+      throw new IllegalArgumentException("Use @FAB_SIZE constants only!");
+    }
+
+    if (mSize != size) {
+      mSize = size;
+      updateCircleSize();
+      updateDrawableSize();
+      updateBackground();
+    }
+  }
+
+  @FAB_SIZE
+  public int getSize() {
+    return mSize;
+  }
+
+  public void setIcon(@DrawableRes int icon) {
+    if (mIcon != icon) {
+      mIcon = icon;
+      updateBackground();
+    }
+  }
+
+  /**
+   * @return the current Color for normal state.
+   */
+  public int getColorNormal() {
+    return mColorNormal;
+  }
+
+  public void setColorNormalResId(@ColorRes int colorNormal) {
+    setColorNormal(getColor(colorNormal));
+  }
+
+  public void setColorNormal(int color) {
+    if (mColorNormal != color) {
+      mColorNormal = color;
+      updateBackground();
+    }
+  }
+
+  /**
+   * @return the current color for pressed state.
+   */
+  public int getColorPressed() {
+    return mColorPressed;
+  }
+
+  public void setColorPressedResId(@ColorRes int colorPressed) {
+    setColorPressed(getColor(colorPressed));
+  }
+
+  public void setColorPressed(int color) {
+    if (mColorPressed != color) {
+      mColorPressed = color;
+      updateBackground();
+    }
   }
 
   int getColor(@ColorRes int id) {
