@@ -10,7 +10,7 @@ Features
 
   ![Demo](screenshots/buttons.png)
 
-* Customizable background colors for normal and pressed states (only solid colors supported) and icon drawable.
+* Customizable background colors for normal and pressed states and icon drawable.
 
   ![Demo](screenshots/custom.png)
 
@@ -21,7 +21,7 @@ Features
 
 Usage
 =====
-Add the following configuration to your `build.gradle`:
+Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {

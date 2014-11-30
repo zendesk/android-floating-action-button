@@ -1,5 +1,7 @@
 package net.i2p.android.ext.floatingactionbutton.sample;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,5 +20,11 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Clicked pink Floating Action Button", Toast.LENGTH_SHORT).show();
       }
     });
+
+    FloatingActionButton button = (FloatingActionButton) findViewById(R.id.setter);
+    button.setSize(FloatingActionButton.SIZE_MINI);
+    button.setColorNormalResId(R.color.pink);
+    button.setColorPressedResId(R.color.pink_pressed);
+    button.setIcon(R.drawable.ic_fab_star);
   }
 }
