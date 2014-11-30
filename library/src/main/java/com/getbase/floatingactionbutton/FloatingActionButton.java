@@ -124,7 +124,7 @@ public class FloatingActionButton extends ImageButton {
     setColorNormal(getColor(colorNormal));
   }
 
-  private void setColorNormal(int color) {
+  public void setColorNormal(int color) {
     if (mColorNormal != color) {
       mColorNormal = color;
       updateBackground();
@@ -142,7 +142,7 @@ public class FloatingActionButton extends ImageButton {
     setColorPressed(getColor(colorPressed));
   }
 
-  private void setColorPressed(int color) {
+  public void setColorPressed(int color) {
     if (mColorPressed != color) {
       mColorPressed = color;
       updateBackground();
