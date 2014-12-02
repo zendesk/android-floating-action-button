@@ -31,6 +31,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
+  private boolean mAddButtonEnableInnerShadow;
   private int mExpandDirection;
 
   private int mButtonSpacing;
@@ -60,6 +61,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonPlusColor = getColor(android.R.color.white);
     mAddButtonColorNormal = getColor(android.R.color.holo_blue_dark);
     mAddButtonColorPressed = getColor(android.R.color.holo_blue_light);
+    mAddButtonEnableInnerShadow = true;
     mExpandDirection = EXPAND_UP;
 
     mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
@@ -71,6 +73,7 @@ public class FloatingActionsMenu extends ViewGroup {
           mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
           mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
           mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+          mAddButtonEnableInnerShadow = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonEnableInnerShadow, true);
           mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
         } finally {
           attr.recycle();
@@ -115,6 +118,7 @@ public class FloatingActionsMenu extends ViewGroup {
         mPlusColor = mAddButtonPlusColor;
         mColorNormal = mAddButtonColorNormal;
         mColorPressed = mAddButtonColorPressed;
+        mEnableInnerShadow = mAddButtonEnableInnerShadow;
         super.updateBackground();
       }
 
