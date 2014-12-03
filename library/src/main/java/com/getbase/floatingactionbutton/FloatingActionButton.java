@@ -64,13 +64,12 @@ public class FloatingActionButton extends ImageButton {
   }
 
   void init(Context context, AttributeSet attributeSet) {
-    mColorNormal = getColor(android.R.color.holo_blue_dark);
-    mColorPressed = getColor(android.R.color.holo_blue_light);
-    mIcon = 0;
-    mSize = SIZE_NORMAL;
-    if (attributeSet != null) {
-      initAttributes(context, attributeSet);
-    }
+    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
+    mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
+    mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
+    mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
+    mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+    attr.recycle();
 
     updateCircleSize();
     mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
@@ -155,20 +154,6 @@ public class FloatingActionButton extends ImageButton {
 
   float getDimension(@DimenRes int id) {
     return getResources().getDimension(id);
-  }
-
-  private void initAttributes(Context context, AttributeSet attributeSet) {
-    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
-    if (attr != null) {
-      try {
-        mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
-        mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
-        mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
-        mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
-      } finally {
-        attr.recycle();
-      }
-    }
   }
 
   @Override
