@@ -162,28 +162,28 @@ public class FloatingActionsMenu extends ViewGroup {
       View child = getChildAt(i);
 
       switch (mExpandDirection) {
-        case EXPAND_UP:
-        case EXPAND_DOWN:
-          width = Math.max(width, child.getMeasuredWidth());
-          height += child.getMeasuredHeight();
-          break;
-        case EXPAND_LEFT:
-        case EXPAND_RIGHT:
-          width += child.getMeasuredWidth();
-          height = Math.max(height, child.getMeasuredHeight());
+      case EXPAND_UP:
+      case EXPAND_DOWN:
+        width = Math.max(width, child.getMeasuredWidth());
+        height += child.getMeasuredHeight();
+        break;
+      case EXPAND_LEFT:
+      case EXPAND_RIGHT:
+        width += child.getMeasuredWidth();
+        height = Math.max(height, child.getMeasuredHeight());
       }
     }
 
     switch (mExpandDirection) {
-      case EXPAND_UP:
-      case EXPAND_DOWN:
-        height += mButtonSpacing * (getChildCount() - 1);
-        height = adjustForOvershoot(height);
-        break;
-      case EXPAND_LEFT:
-      case EXPAND_RIGHT:
-        width += mButtonSpacing * (getChildCount() - 1);
-        width = adjustForOvershoot(width);
+    case EXPAND_UP:
+    case EXPAND_DOWN:
+      height += mButtonSpacing * (getChildCount() - 1);
+      height = adjustForOvershoot(height);
+      break;
+    case EXPAND_LEFT:
+    case EXPAND_RIGHT:
+      width += mButtonSpacing * (getChildCount() - 1);
+      width = adjustForOvershoot(width);
     }
 
     setMeasuredDimension(width, height);
@@ -196,78 +196,78 @@ public class FloatingActionsMenu extends ViewGroup {
   @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     switch (mExpandDirection) {
-      case EXPAND_UP:
-      case EXPAND_DOWN:
-        boolean expandUp = mExpandDirection == EXPAND_UP;
+    case EXPAND_UP:
+    case EXPAND_DOWN:
+      boolean expandUp = mExpandDirection == EXPAND_UP;
 
-        int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
-        mAddButton.layout(0, addButtonY, mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
+      int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
+      mAddButton.layout(0, addButtonY, mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
-        int nextY = expandUp ?
-            addButtonY - mButtonSpacing :
-            addButtonY + mAddButton.getMeasuredHeight() + mButtonSpacing;
+      int nextY = expandUp ?
+          addButtonY - mButtonSpacing :
+          addButtonY + mAddButton.getMeasuredHeight() + mButtonSpacing;
 
-        for (int i = getChildCount() - 1; i >= 0; i--) {
-          final View child = getChildAt(i);
+      for (int i = getChildCount() - 1; i >= 0; i--) {
+        final View child = getChildAt(i);
 
-          if (child == mAddButton) continue;
+        if (child == mAddButton) continue;
 
-          int childX = (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
-          int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
-          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+        int childX = (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+        int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
+        child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-          float collapsedTranslation = addButtonY - childY;
-          float expandedTranslation = 0f;
+        float collapsedTranslation = addButtonY - childY;
+        float expandedTranslation = 0f;
 
-          child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
-          child.setAlpha(mExpanded ? 1f : 0f);
+        child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
+        child.setAlpha(mExpanded ? 1f : 0f);
 
-          LayoutParams params = (LayoutParams) child.getLayoutParams();
-          params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-          params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-          params.setAnimationsTarget(child);
+        LayoutParams params = (LayoutParams) child.getLayoutParams();
+        params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+        params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+        params.setAnimationsTarget(child);
 
-          nextY = expandUp ?
-              childY - mButtonSpacing :
-              childY + child.getMeasuredHeight() + mButtonSpacing;
-        }
-        break;
+        nextY = expandUp ?
+            childY - mButtonSpacing :
+            childY + child.getMeasuredHeight() + mButtonSpacing;
+      }
+      break;
 
-      case EXPAND_LEFT:
-      case EXPAND_RIGHT:
-        boolean expandLeft = mExpandDirection == EXPAND_LEFT;
+    case EXPAND_LEFT:
+    case EXPAND_RIGHT:
+      boolean expandLeft = mExpandDirection == EXPAND_LEFT;
 
-        int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
-        mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
+      int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
+      mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
 
-        int nextX = expandLeft ?
-            addButtonX - mButtonSpacing :
-            addButtonX + mAddButton.getMeasuredWidth() + mButtonSpacing;
+      int nextX = expandLeft ?
+          addButtonX - mButtonSpacing :
+          addButtonX + mAddButton.getMeasuredWidth() + mButtonSpacing;
 
-        for (int i = getChildCount() - 1; i >= 0; i--) {
-          final View child = getChildAt(i);
+      for (int i = getChildCount() - 1; i >= 0; i--) {
+        final View child = getChildAt(i);
 
-          if (child == mAddButton) continue;
+        if (child == mAddButton) continue;
 
-          int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-          int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
-          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+        int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
+        int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+        child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-          float collapsedTranslation = addButtonX - childX;
-          float expandedTranslation = 0f;
+        float collapsedTranslation = addButtonX - childX;
+        float expandedTranslation = 0f;
 
-          child.setTranslationX(mExpanded ? expandedTranslation : collapsedTranslation);
-          child.setAlpha(mExpanded ? 1f : 0f);
+        child.setTranslationX(mExpanded ? expandedTranslation : collapsedTranslation);
+        child.setAlpha(mExpanded ? 1f : 0f);
 
-          LayoutParams params = (LayoutParams) child.getLayoutParams();
-          params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-          params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-          params.setAnimationsTarget(child);
+        LayoutParams params = (LayoutParams) child.getLayoutParams();
+        params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+        params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+        params.setAnimationsTarget(child);
 
-          nextX = expandLeft ?
-              childX - mButtonSpacing :
-              childX + child.getMeasuredWidth() + mButtonSpacing;
-        }
+        nextX = expandLeft ?
+            childX - mButtonSpacing :
+            childX + child.getMeasuredWidth() + mButtonSpacing;
+      }
     }
   }
 
@@ -317,15 +317,15 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpandAlpha.setFloatValues(0f, 1f);
 
       switch (mExpandDirection) {
-        case EXPAND_UP:
-        case EXPAND_DOWN:
-          mCollapseDir.setProperty(View.TRANSLATION_Y);
-          mExpandDir.setProperty(View.TRANSLATION_Y);
-          break;
-        case EXPAND_LEFT:
-        case EXPAND_RIGHT:
-          mCollapseDir.setProperty(View.TRANSLATION_X);
-          mExpandDir.setProperty(View.TRANSLATION_X);
+      case EXPAND_UP:
+      case EXPAND_DOWN:
+        mCollapseDir.setProperty(View.TRANSLATION_Y);
+        mExpandDir.setProperty(View.TRANSLATION_Y);
+        break;
+      case EXPAND_LEFT:
+      case EXPAND_RIGHT:
+        mCollapseDir.setProperty(View.TRANSLATION_X);
+        mExpandDir.setProperty(View.TRANSLATION_X);
       }
 
       mExpandAnimation.play(mExpandAlpha);
