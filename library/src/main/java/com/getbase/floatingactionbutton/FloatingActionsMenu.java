@@ -168,15 +168,19 @@ public class FloatingActionsMenu extends ViewGroup {
       case EXPAND_UP:
       case EXPAND_DOWN:
         height += mButtonSpacing * (getChildCount() - 1);
-        height = height * 12 / 10; // for overshoot
+        height = adjustForOvershoot(height);
         break;
       case EXPAND_LEFT:
       case EXPAND_RIGHT:
         width += mButtonSpacing * (getChildCount() - 1);
-        width = width * 12 / 10; // for overshoot
+        width = adjustForOvershoot(width);
     }
 
     setMeasuredDimension(width, height);
+  }
+
+  private int adjustForOvershoot(int dimension) {
+    return dimension * 12 / 10;
   }
 
   @Override
