@@ -26,11 +26,15 @@ import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
 
+  @Retention(RetentionPolicy.SOURCE)
   @IntDef({ SIZE_NORMAL, SIZE_MINI })
   public @interface FAB_SIZE {
   }
