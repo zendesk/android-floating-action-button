@@ -68,7 +68,15 @@ public class FloatingActionsMenu extends ViewGroup {
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     attr.recycle();
 
+    if (mLabelsStyle != 0 && expandsHorizontally()) {
+      throw new IllegalStateException("Action labels in horizontal expand orientation is not supported.");
+    }
+
     createAddButton(context);
+  }
+
+  private boolean expandsHorizontally() {
+    return mExpandDirection == EXPAND_LEFT || mExpandDirection == EXPAND_RIGHT;
   }
 
   private static class RotatingDrawable extends LayerDrawable {
