@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.2.1 *(2014-12-04)*
+----------------------------
+
+ * Fixed IDE error when using `setSize(FloatingActionButton.SIZE_FOO)` setter.
+
 Version 1.2.0 *(2014-12-02)*
 ----------------------------
 
