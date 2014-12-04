@@ -34,6 +34,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mExpandDirection;
 
   private int mButtonSpacing;
+  private int mMenuOffset;
 
   private boolean mExpanded;
 
@@ -145,8 +146,8 @@ public class FloatingActionsMenu extends ViewGroup {
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     measureChildren(widthMeasureSpec, heightMeasureSpec);
 
-    int width = 0;
-    int height = 0;
+    int[] width = {0, 0};
+    int[] height = {0, 0};
 
     for (int i = 0; i < getChildCount(); i++) {
       View child = getChildAt(i);
@@ -154,40 +155,78 @@ public class FloatingActionsMenu extends ViewGroup {
       switch (mExpandDirection) {
         case EXPAND_UP:
         case EXPAND_DOWN:
-          width = Math.max(width, child.getMeasuredWidth());
-          height += child.getMeasuredHeight();
+          getMaxWidth(width, child);
+          height[0] += child.getMeasuredHeight();
           break;
         case EXPAND_LEFT:
         case EXPAND_RIGHT:
-          width += child.getMeasuredWidth();
-          height = Math.max(height, child.getMeasuredHeight());
+          width[0] += child.getMeasuredWidth();
+          getMaxHeight(height, child);
       }
     }
 
     switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
-        height += mButtonSpacing * (getChildCount() - 1);
-        height = height * 12 / 10; // for overshoot
+        mMenuOffset = width[0];
+        height[0] += mButtonSpacing * (getChildCount() - 1);
+        height[0] = height[0] * 12 / 10; // for overshoot
         break;
       case EXPAND_LEFT:
       case EXPAND_RIGHT:
-        width += mButtonSpacing * (getChildCount() - 1);
-        width = width * 12 / 10; // for overshoot
+        width[0] += mButtonSpacing * (getChildCount() - 1);
+        width[0] = width[0] * 12 / 10; // for overshoot
+        mMenuOffset = height[0];
     }
 
-    setMeasuredDimension(width, height);
+    setMeasuredDimension(width[0] + width[1], height[0] + height[1]);
+  }
+
+  private static void getMaxWidth(int[] width, View view) {
+    if (view instanceof ViewGroup) {
+      ViewGroup group = (ViewGroup) view;
+      for (int i = 0; i < group.getChildCount(); i++) {
+        View child = group.getChildAt(i);
+        if (child instanceof FloatingActionButton) {
+          int childCenter = (child.getMeasuredWidth() / 2) + child.getLeft();
+          width[0] = Math.max(width[0], childCenter);
+          width[1] = Math.max(width[1], view.getMeasuredWidth() - childCenter);
+        }
+      }
+    } else {
+      width[0] = Math.max(width[0], view.getMeasuredWidth() / 2);
+      width[1] = Math.max(width[1], view.getMeasuredWidth() / 2);
+    }
+  }
+
+  private static void getMaxHeight(int[] height, View view) {
+    if (view instanceof ViewGroup) {
+      ViewGroup group = (ViewGroup) view;
+      for (int i = 0; i < group.getChildCount(); i++) {
+        View child = group.getChildAt(i);
+        if (child instanceof FloatingActionButton) {
+          int childCenter = (child.getMeasuredHeight() / 2) + child.getTop();
+          height[0] = Math.max(height[0], childCenter);
+          height[1] = Math.max(height[1], view.getMeasuredHeight() - childCenter);
+        }
+      }
+    } else {
+      height[0] = Math.max(height[0], view.getMeasuredHeight() / 2);
+      height[1] = Math.max(height[1], view.getMeasuredHeight() / 2);
+    }
   }
 
   @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    int addButtonX, addButtonY;
     switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
         boolean expandUp = mExpandDirection == EXPAND_UP;
 
-        int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
-        mAddButton.layout(0, addButtonY, mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
+        addButtonX = mMenuOffset - (mAddButton.getMeasuredWidth() / 2);
+        addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
+        mAddButton.layout(addButtonX, addButtonY, addButtonX + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
         int nextY = expandUp ?
             addButtonY - mButtonSpacing :
@@ -198,7 +237,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
           if (child == mAddButton) continue;
 
-          int childX = (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+          int childX = getViewLeft(child, mMenuOffset);
           int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
           child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
@@ -223,8 +262,9 @@ public class FloatingActionsMenu extends ViewGroup {
       case EXPAND_RIGHT:
         boolean expandLeft = mExpandDirection == EXPAND_LEFT;
 
-        int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
-        mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
+        addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
+        addButtonY = mMenuOffset - (mAddButton.getMeasuredHeight() / 2);
+        mAddButton.layout(addButtonX, addButtonY, addButtonX + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
         int nextX = expandLeft ?
             addButtonX - mButtonSpacing :
@@ -236,7 +276,7 @@ public class FloatingActionsMenu extends ViewGroup {
           if (child == mAddButton) continue;
 
           int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-          int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+          int childY = getViewTop(child, mMenuOffset);
           child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
           float collapsedTranslation = addButtonX - childX;
@@ -255,6 +295,32 @@ public class FloatingActionsMenu extends ViewGroup {
               childX + child.getMeasuredWidth() + mButtonSpacing;
         }
     }
+  }
+
+  private static int getViewLeft(View view, int offset) {
+    if (view instanceof ViewGroup) {
+      ViewGroup group = (ViewGroup) view;
+      for (int i = 0; i < group.getChildCount(); i++) {
+        View child = group.getChildAt(i);
+        if (child instanceof FloatingActionButton) {
+          return offset - (child.getMeasuredWidth() / 2) - child.getLeft();
+        }
+      }
+    }
+    return offset - (view.getMeasuredWidth() / 2);
+  }
+
+  private static int getViewTop(View view, int offset) {
+    if (view instanceof ViewGroup) {
+      ViewGroup group = (ViewGroup) view;
+      for (int i = 0; i < group.getChildCount(); i++) {
+        View child = group.getChildAt(i);
+        if (child instanceof FloatingActionButton) {
+          return offset - (child.getMeasuredHeight() / 2) - child.getTop();
+        }
+      }
+    }
+    return offset - (view.getMeasuredHeight() / 2);
   }
 
   @Override
