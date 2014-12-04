@@ -171,6 +171,7 @@ public class FloatingActionsMenu extends ViewGroup {
       case EXPAND_RIGHT:
         width += child.getMeasuredWidth();
         height = Math.max(height, child.getMeasuredHeight());
+        break;
       }
     }
 
@@ -184,6 +185,7 @@ public class FloatingActionsMenu extends ViewGroup {
     case EXPAND_RIGHT:
       width += mButtonSpacing * (getChildCount() - 1);
       width = adjustForOvershoot(width);
+      break;
     }
 
     setMeasuredDimension(width, height);
@@ -268,6 +270,8 @@ public class FloatingActionsMenu extends ViewGroup {
             childX - mButtonSpacing :
             childX + child.getMeasuredWidth() + mButtonSpacing;
       }
+
+      break;
     }
   }
 
@@ -326,6 +330,7 @@ public class FloatingActionsMenu extends ViewGroup {
       case EXPAND_RIGHT:
         mCollapseDir.setProperty(View.TRANSLATION_X);
         mExpandDir.setProperty(View.TRANSLATION_X);
+        break;
       }
 
       mExpandAnimation.play(mExpandAlpha);
