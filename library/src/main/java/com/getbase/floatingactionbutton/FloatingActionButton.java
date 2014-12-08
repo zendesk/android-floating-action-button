@@ -44,6 +44,7 @@ public class FloatingActionButton extends ImageButton {
 
   int mColorNormal;
   int mColorPressed;
+  String mTitle;
   @DrawableRes
   private int mIcon;
   private int mSize;
@@ -73,6 +74,7 @@ public class FloatingActionButton extends ImageButton {
     mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+    mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     attr.recycle();
 
     updateCircleSize();
@@ -158,6 +160,10 @@ public class FloatingActionButton extends ImageButton {
 
   float getDimension(@DimenRes int id) {
     return getResources().getDimension(id);
+  }
+
+  public String getTitle() {
+    return mTitle;
   }
 
   @Override
