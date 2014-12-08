@@ -26,11 +26,15 @@ import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
 
+  @Retention(RetentionPolicy.SOURCE)
   @IntDef({ SIZE_NORMAL, SIZE_MINI })
   public @interface FAB_SIZE {
   }
@@ -40,6 +44,7 @@ public class FloatingActionButton extends ImageButton {
 
   int mColorNormal;
   int mColorPressed;
+  String mTitle;
   @DrawableRes
   private int mIcon;
   private int mSize;
@@ -64,13 +69,13 @@ public class FloatingActionButton extends ImageButton {
   }
 
   void init(Context context, AttributeSet attributeSet) {
-    mColorNormal = getColor(R.color.default_normal);
-    mColorPressed = getColor(R.color.default_pressed);
-    mIcon = 0;
-    mSize = SIZE_NORMAL;
-    if (attributeSet != null) {
-      initAttributes(context, attributeSet);
-    }
+    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
+    mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.default_normal));
+    mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(R.color.default_pressed));
+    mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
+    mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+    mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
+    attr.recycle();
 
     updateCircleSize();
     mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
@@ -157,18 +162,8 @@ public class FloatingActionButton extends ImageButton {
     return getResources().getDimension(id);
   }
 
-  private void initAttributes(Context context, AttributeSet attributeSet) {
-    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
-    if (attr != null) {
-      try {
-        mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.default_normal));
-        mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(R.color.default_pressed));
-        mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
-        mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
-      } finally {
-        attr.recycle();
-      }
-    }
+  public String getTitle() {
+    return mTitle;
   }
 
   @Override

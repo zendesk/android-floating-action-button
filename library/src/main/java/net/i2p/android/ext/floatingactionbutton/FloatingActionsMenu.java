@@ -10,11 +10,13 @@ import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.TextView;
 
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -36,6 +38,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mExpandDirection;
 
   private int mButtonSpacing;
+  private int mLabelsMargin;
+  private int mLabelsVerticalOffset;
 
   private boolean mExpanded;
 
@@ -43,6 +47,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AddFloatingActionButton mAddButton;
   private RotatingDrawable mRotatingDrawable;
+  private int mLabelsStyle;
+  private int mButtonsCount;
 
   public FloatingActionsMenu(Context context) {
     this(context, null);
@@ -59,28 +65,27 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   private void init(Context context, AttributeSet attributeSet) {
-    mAddButtonPlusColor = getColor(android.R.color.white);
-    mAddButtonColorNormal = getColor(R.color.default_normal);
-    mAddButtonColorPressed = getColor(R.color.default_pressed);
-    mExpandDirection = EXPAND_UP;
-
     mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
+    mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
+    mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
 
-    if (attributeSet != null) {
-      TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
-      if (attr != null) {
-        try {
-          mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
-          mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(R.color.default_normal));
-          mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(R.color.default_pressed));
-          mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
-        } finally {
-          attr.recycle();
-        }
-      }
+    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
+    mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
+    mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(R.color.default_normal));
+    mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(R.color.default_pressed));
+    mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
+    mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
+    attr.recycle();
+
+    if (mLabelsStyle != 0 && expandsHorizontally()) {
+      throw new IllegalStateException("Action labels in horizontal expand orientation is not supported.");
     }
 
     createAddButton(context);
+  }
+
+  private boolean expandsHorizontally() {
+    return mExpandDirection == EXPAND_LEFT || mExpandDirection == EXPAND_RIGHT;
   }
 
   private static class RotatingDrawable extends LayerDrawable {
@@ -162,112 +167,152 @@ public class FloatingActionsMenu extends ViewGroup {
     int width = 0;
     int height = 0;
 
-    for (int i = 0; i < getChildCount(); i++) {
+    int maxLabelWidth = 0;
+
+    for (int i = 0; i < mButtonsCount; i++) {
       View child = getChildAt(i);
 
       switch (mExpandDirection) {
-        case EXPAND_UP:
-        case EXPAND_DOWN:
-          width = Math.max(width, child.getMeasuredWidth());
-          height += child.getMeasuredHeight();
-          break;
-        case EXPAND_LEFT:
-        case EXPAND_RIGHT:
-          width += child.getMeasuredWidth();
-          height = Math.max(height, child.getMeasuredHeight());
-      }
-    }
-
-    switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
-        height += mButtonSpacing * (getChildCount() - 1);
-        height = height * 12 / 10; // for overshoot
+        width = Math.max(width, child.getMeasuredWidth());
+        height += child.getMeasuredHeight();
         break;
       case EXPAND_LEFT:
       case EXPAND_RIGHT:
-        width += mButtonSpacing * (getChildCount() - 1);
-        width = width * 12 / 10; // for overshoot
+        width += child.getMeasuredWidth();
+        height = Math.max(height, child.getMeasuredHeight());
+        break;
+      }
+
+      if (!expandsHorizontally()) {
+        TextView label = (TextView) child.getTag(R.id.fab_label);
+        if (label != null) {
+          maxLabelWidth = Math.max(maxLabelWidth, label.getMeasuredWidth());
+        }
+      }
+    }
+
+    if (!expandsHorizontally()) {
+      width += maxLabelWidth + mLabelsMargin;
+    }
+
+    switch (mExpandDirection) {
+    case EXPAND_UP:
+    case EXPAND_DOWN:
+      height += mButtonSpacing * (getChildCount() - 1);
+      height = adjustForOvershoot(height);
+      break;
+    case EXPAND_LEFT:
+    case EXPAND_RIGHT:
+      width += mButtonSpacing * (getChildCount() - 1);
+      width = adjustForOvershoot(width);
+      break;
     }
 
     setMeasuredDimension(width, height);
   }
 
+  private int adjustForOvershoot(int dimension) {
+    return dimension * 12 / 10;
+  }
+
   @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     switch (mExpandDirection) {
-      case EXPAND_UP:
-      case EXPAND_DOWN:
-        boolean expandUp = mExpandDirection == EXPAND_UP;
+    case EXPAND_UP:
+    case EXPAND_DOWN:
+      boolean expandUp = mExpandDirection == EXPAND_UP;
 
-        int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
-        mAddButton.layout(0, addButtonY, mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
+      int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
+      int addButtonLeft = r - l - mAddButton.getMeasuredWidth();
+      mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
-        int nextY = expandUp ?
-            addButtonY - mButtonSpacing :
-            addButtonY + mAddButton.getMeasuredHeight() + mButtonSpacing;
+      int labelsRight = addButtonLeft - mLabelsMargin;
 
-        for (int i = getChildCount() - 1; i >= 0; i--) {
-          final View child = getChildAt(i);
+      int nextY = expandUp ?
+          addButtonY - mButtonSpacing :
+          addButtonY + mAddButton.getMeasuredHeight() + mButtonSpacing;
 
-          if (child == mAddButton) continue;
+      for (int i = mButtonsCount - 1; i >= 0; i--) {
+        final View child = getChildAt(i);
 
-          int childX = (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
-          int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
-          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+        if (child == mAddButton) continue;
 
-          float collapsedTranslation = addButtonY - childY;
-          float expandedTranslation = 0f;
+        int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+        int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
+        child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-          ViewHelper.setTranslationY(child, mExpanded ? expandedTranslation : collapsedTranslation);
-          ViewHelper.setAlpha(child, mExpanded ? 1f : 0f);
+        float collapsedTranslation = addButtonY - childY;
+        float expandedTranslation = 0f;
 
-          LayoutParams params = (LayoutParams) child.getLayoutParams();
-          params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-          params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-          params.setAnimationsTarget(child);
+        ViewHelper.setTranslationY(child, mExpanded ? expandedTranslation : collapsedTranslation);
+        ViewHelper.setAlpha(child, mExpanded ? 1f : 0f);
 
-          nextY = expandUp ?
-              childY - mButtonSpacing :
-              childY + child.getMeasuredHeight() + mButtonSpacing;
+        LayoutParams params = (LayoutParams) child.getLayoutParams();
+        params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+        params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+        params.setAnimationsTarget(child);
+
+        View label = (View) child.getTag(R.id.fab_label);
+        if (label != null) {
+          int labelLeft = labelsRight - label.getMeasuredWidth();
+          int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
+
+          label.layout(labelLeft, labelTop, labelsRight, labelTop + label.getMeasuredHeight());
+
+          ViewHelper.setTranslationY(label, mExpanded ? expandedTranslation : collapsedTranslation);
+          ViewHelper.setAlpha(label, mExpanded ? 1f : 0f);
+
+          LayoutParams labelParams = (LayoutParams) label.getLayoutParams();
+          labelParams.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+          labelParams.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+          labelParams.setAnimationsTarget(label);
         }
-        break;
 
-      case EXPAND_LEFT:
-      case EXPAND_RIGHT:
-        boolean expandLeft = mExpandDirection == EXPAND_LEFT;
+        nextY = expandUp ?
+            childY - mButtonSpacing :
+            childY + child.getMeasuredHeight() + mButtonSpacing;
+      }
+      break;
 
-        int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
-        mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
+    case EXPAND_LEFT:
+    case EXPAND_RIGHT:
+      boolean expandLeft = mExpandDirection == EXPAND_LEFT;
 
-        int nextX = expandLeft ?
-            addButtonX - mButtonSpacing :
-            addButtonX + mAddButton.getMeasuredWidth() + mButtonSpacing;
+      int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
+      mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
 
-        for (int i = getChildCount() - 1; i >= 0; i--) {
-          final View child = getChildAt(i);
+      int nextX = expandLeft ?
+          addButtonX - mButtonSpacing :
+          addButtonX + mAddButton.getMeasuredWidth() + mButtonSpacing;
 
-          if (child == mAddButton) continue;
+      for (int i = mButtonsCount - 1; i >= 0; i--) {
+        final View child = getChildAt(i);
 
-          int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-          int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
-          child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+        if (child == mAddButton) continue;
 
-          float collapsedTranslation = addButtonX - childX;
-          float expandedTranslation = 0f;
+        int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
+        int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+        child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-          ViewHelper.setTranslationX(child, mExpanded ? expandedTranslation : collapsedTranslation);
-          ViewHelper.setAlpha(child, mExpanded ? 1f : 0f);
+        float collapsedTranslation = addButtonX - childX;
+        float expandedTranslation = 0f;
 
-          LayoutParams params = (LayoutParams) child.getLayoutParams();
-          params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-          params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-          params.setAnimationsTarget(child);
+        ViewHelper.setTranslationX(child, mExpanded ? expandedTranslation : collapsedTranslation);
+        ViewHelper.setAlpha(child, mExpanded ? 1f : 0f);
 
-          nextX = expandLeft ?
-              childX - mButtonSpacing :
-              childX + child.getMeasuredWidth() + mButtonSpacing;
-        }
+        LayoutParams params = (LayoutParams) child.getLayoutParams();
+        params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+        params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+        params.setAnimationsTarget(child);
+
+        nextX = expandLeft ?
+            childX - mButtonSpacing :
+            childX + child.getMeasuredWidth() + mButtonSpacing;
+      }
+
+      break;
     }
   }
 
@@ -317,15 +362,16 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpandAlpha.setFloatValues(0f, 1f);
 
       switch (mExpandDirection) {
-        case EXPAND_UP:
-        case EXPAND_DOWN:
-          mCollapseDir.setPropertyName("translationY");
-          mExpandDir.setPropertyName("translationY");
-          break;
-        case EXPAND_LEFT:
-        case EXPAND_RIGHT:
-          mCollapseDir.setPropertyName("translationX");
-          mExpandDir.setPropertyName("translationX");
+      case EXPAND_UP:
+      case EXPAND_DOWN:
+        mCollapseDir.setPropertyName("translationY");
+        mExpandDir.setPropertyName("translationY");
+        break;
+      case EXPAND_LEFT:
+      case EXPAND_RIGHT:
+        mCollapseDir.setPropertyName("translationX");
+        mExpandDir.setPropertyName("translationX");
+        break;
       }
 
       mExpandAnimation.play(mExpandAlpha);
@@ -346,7 +392,30 @@ public class FloatingActionsMenu extends ViewGroup {
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();
+
     bringChildToFront(mAddButton);
+    mButtonsCount = getChildCount();
+
+    if (mLabelsStyle != 0) {
+      createLabels();
+    }
+  }
+
+  private void createLabels() {
+    Context context = new ContextThemeWrapper(getContext(), mLabelsStyle);
+
+    for (int i = 0; i < mButtonsCount; i++) {
+      FloatingActionButton button = (FloatingActionButton) getChildAt(i);
+      String title = button.getTitle();
+
+      if (button == mAddButton || title == null) continue;
+
+      TextView label = new TextView(context);
+      label.setText(button.getTitle());
+      addView(label);
+
+      button.setTag(R.id.fab_label, label);
+    }
   }
 
   public void collapse() {

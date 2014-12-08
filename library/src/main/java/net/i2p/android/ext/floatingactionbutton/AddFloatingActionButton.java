@@ -29,18 +29,9 @@ public class AddFloatingActionButton extends FloatingActionButton {
 
   @Override
   void init(Context context, AttributeSet attributeSet) {
-    if (attributeSet != null) {
-      TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.AddFloatingActionButton, 0, 0);
-      if (attr != null) {
-        try {
-          mPlusColor = attr.getColor(R.styleable.AddFloatingActionButton_fab_plusIconColor, getColor(android.R.color.white));
-        } finally {
-          attr.recycle();
-        }
-      }
-    } else {
-      mPlusColor = getColor(android.R.color.white);
-    }
+    TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.AddFloatingActionButton, 0, 0);
+    mPlusColor = attr.getColor(R.styleable.AddFloatingActionButton_fab_plusIconColor, getColor(android.R.color.white));
+    attr.recycle();
 
     super.init(context, attributeSet);
   }
