@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.3.0 *(2014-12-08)*
+----------------------------
+
+ * Added support for labels in FloatingActionsMenu expanding in vertical direction.
+
 Version 1.2.1 *(2014-12-04)*
 ----------------------------
 
