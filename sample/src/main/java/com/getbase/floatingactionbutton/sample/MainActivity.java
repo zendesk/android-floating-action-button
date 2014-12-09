@@ -26,5 +26,13 @@ public class MainActivity extends Activity {
     button.setColorNormalResId(R.color.pink);
     button.setColorPressedResId(R.color.pink_pressed);
     button.setIcon(R.drawable.ic_fab_star);
+
+    final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.action_a);
+    actionA.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        actionA.setTitle("Action A clicked");
+      }
+    });
   }
 }
