@@ -154,6 +154,15 @@ public class FloatingActionsMenu extends ViewGroup {
     addView(mAddButton, super.generateDefaultLayoutParams());
   }
 
+  public void addButton(FloatingActionButton button) {
+    addView(button, mButtonsCount-1);
+    mButtonsCount++;
+
+    if (mLabelsStyle != 0) {
+      createLabels();
+    }
+  }
+
   private int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
@@ -406,7 +415,8 @@ public class FloatingActionsMenu extends ViewGroup {
       FloatingActionButton button = (FloatingActionButton) getChildAt(i);
       String title = button.getTitle();
 
-      if (button == mAddButton || title == null) continue;
+      if (button == mAddButton || title == null ||
+          button.getTag(R.id.fab_label) != null) continue;
 
       TextView label = new TextView(context);
       label.setText(button.getTitle());

@@ -1,12 +1,13 @@
 package com.getbase.floatingactionbutton.sample;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 public class MainActivity extends Activity {
   @Override
@@ -26,5 +27,8 @@ public class MainActivity extends Activity {
     button.setColorNormalResId(R.color.pink);
     button.setColorPressedResId(R.color.pink_pressed);
     button.setIcon(R.drawable.ic_fab_star);
+
+    FloatingActionButton actionC = new FloatingActionButton(getBaseContext());
+    ((FloatingActionsMenu)findViewById(R.id.multiple_actions)).addButton(actionC);
   }
 }
