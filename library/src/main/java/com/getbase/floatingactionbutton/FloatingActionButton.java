@@ -2,12 +2,14 @@ package com.getbase.floatingactionbutton;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
+import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
@@ -16,14 +18,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageButton;
 
 import java.lang.annotation.Retention;
@@ -44,6 +48,7 @@ public class FloatingActionButton extends ImageButton {
 
   int mColorNormal;
   int mColorPressed;
+  int mColorRipple;
   String mTitle;
   @DrawableRes
   private int mIcon;
@@ -72,14 +77,16 @@ public class FloatingActionButton extends ImageButton {
     TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
     mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
     mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
+    mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple, getColor(android.R.color.white));
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     attr.recycle();
 
     updateCircleSize();
-    mShadowRadius = getDimension(R.dimen.fab_shadow_radius);
-    mShadowOffset = getDimension(R.dimen.fab_shadow_offset);
+    // Setting these to zero correctly adjusts the later calculations for API 21+
+    mShadowRadius = hasLollipopApi() ? 0 : getDimension(R.dimen.fab_shadow_radius);
+    mShadowOffset = hasLollipopApi() ? 0 : getDimension(R.dimen.fab_shadow_offset);
     updateDrawableSize();
 
     updateBackground();
@@ -154,6 +161,24 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
+  /**
+   * @return the current color for ripple.
+   */
+  public int getColorRipple() {
+    return mColorRipple;
+  }
+
+  public void setColorRippleResId(@ColorRes int colorRipple) {
+    setColorRipple(getColor(colorRipple));
+  }
+
+  public void setColorRipple(int color) {
+    if (mColorRipple != color) {
+      mColorRipple = color;
+      updateBackground();
+    }
+  }
+
   int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
@@ -178,7 +203,12 @@ public class FloatingActionButton extends ImageButton {
 
     final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
 
-    LayerDrawable layerDrawable = new LayerDrawable(
+    LayerDrawable layerDrawable = new LayerDrawable(hasLollipopApi() ?
+        new Drawable[] {
+            createFillDrawable(circleRect),
+            createStrokesDrawable(circleRect),
+            getIconDrawable()
+        } :
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(circleRect),
@@ -192,7 +222,8 @@ public class FloatingActionButton extends ImageButton {
     int iconInsetTop = (int) (circleTop + iconOffset);
     int iconInsetBottom = (int) (mShadowRadius + mShadowOffset + iconOffset);
 
-    layerDrawable.setLayerInset(3, iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
+    layerDrawable.setLayerInset(hasLollipopApi() ? 2 : 3,
+        iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
 
     setBackgroundCompat(layerDrawable);
   }
@@ -284,10 +315,33 @@ public class FloatingActionButton extends ImageButton {
   @SuppressWarnings("deprecation")
   @SuppressLint("NewApi")
   private void setBackgroundCompat(Drawable drawable) {
-    if (Build.VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+    if (hasLollipopApi()) {
+      float elevation = getElevation() > 0.0f ? getElevation()
+          : getDimension(R.dimen.fab_elevation_lollipop);
+      setElevation(elevation);
+      RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
+          new int[]{mColorRipple}), drawable, null);
+      setOutlineProvider(new ViewOutlineProvider() {
+        @Override
+        public void getOutline(View view, Outline outline) {
+          int size = (int) mCircleSize;
+          outline.setOval(0, 0, size, size);
+        }
+      });
+      setClipToOutline(true);
+      setBackground(rippleDrawable);
+    } else if (hasJellyBeanApi()) {
       setBackground(drawable);
     } else {
       setBackgroundDrawable(drawable);
     }
+  }
+
+  private boolean hasLollipopApi() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+  }
+
+  private boolean hasJellyBeanApi() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
   }
 }

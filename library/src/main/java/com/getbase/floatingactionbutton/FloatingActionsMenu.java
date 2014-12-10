@@ -2,11 +2,13 @@ package com.getbase.floatingactionbutton;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
@@ -399,6 +401,7 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  @SuppressLint("NewApi")
   private void createLabels() {
     Context context = new ContextThemeWrapper(getContext(), mLabelsStyle);
 
@@ -410,6 +413,8 @@ public class FloatingActionsMenu extends ViewGroup {
 
       TextView label = new TextView(context);
       label.setText(button.getTitle());
+      if (hasLollipopApi())
+        label.setElevation(button.getElevation());
       addView(label);
 
       button.setTag(R.id.fab_label, label);
@@ -499,5 +504,9 @@ public class FloatingActionsMenu extends ViewGroup {
         return new SavedState[size];
       }
     };
+  }
+
+  private boolean hasLollipopApi() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
   }
 }

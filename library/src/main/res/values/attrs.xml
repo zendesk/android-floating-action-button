@@ -3,6 +3,7 @@
     <declare-styleable name="FloatingActionButton">
         <attr name="fab_colorPressed" format="color"/>
         <attr name="fab_colorNormal" format="color"/>
+        <attr name="fab_colorRipple" format="color"/>
         <attr name="fab_icon" format="reference"/>
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0"/>
