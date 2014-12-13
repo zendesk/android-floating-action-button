@@ -25,6 +25,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -160,6 +161,13 @@ public class FloatingActionButton extends ImageButton {
 
   float getDimension(@DimenRes int id) {
     return getResources().getDimension(id);
+  }
+
+  public void setTitle(String title) {
+    mTitle = title;
+    TextView label = (TextView) getTag(R.id.fab_label);
+    if (label != null)
+      label.setText(title);
   }
 
   public String getTitle() {
