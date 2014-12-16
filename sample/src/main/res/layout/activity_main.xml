@@ -161,4 +161,13 @@
             fab:fab_size="mini"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.getbase.floatingactionbutton.FloatingActionButton"
+        android:id="@+id/setter_drawable"
+        android:layout_above="@+id/setter"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
