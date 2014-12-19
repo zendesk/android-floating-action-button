@@ -47,6 +47,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private RotatingDrawable mRotatingDrawable;
   private int mLabelsStyle;
   private int mButtonsCount;
+  
+  private OnFloatingActionMenuUpdateListener onFloatingActionMenuUpdateListener;
 
   public FloatingActionsMenu(Context context) {
     this(context, null);
@@ -161,6 +163,10 @@ public class FloatingActionsMenu extends ViewGroup {
     if (mLabelsStyle != 0) {
       createLabels();
     }
+  }
+  
+  public void setOnFloatingActionMenuUpdateListener( OnFloatingActionMenuUpdateListener listener ) {
+    onFloatingActionMenuUpdateListener = listener;
   }
 
   private int getColor(@ColorRes int id) {
@@ -440,6 +446,10 @@ public class FloatingActionsMenu extends ViewGroup {
     } else {
       expand();
     }
+
+    if( onFloatingActionMenuUpdateListener != null ) {
+      onFloatingActionMenuUpdateListener.actionMenuToggled();
+    }
   }
 
   public void expand() {
@@ -509,5 +519,9 @@ public class FloatingActionsMenu extends ViewGroup {
         return new SavedState[size];
       }
     };
+  }
+
+  public interface OnFloatingActionMenuUpdateListener {
+      public void actionMenuToggled();
   }
 }
