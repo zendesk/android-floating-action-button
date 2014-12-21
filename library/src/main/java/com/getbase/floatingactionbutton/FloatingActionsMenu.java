@@ -48,6 +48,13 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mLabelsStyle;
   private int mButtonsCount;
 
+  private OnFloatingActionsMenuUpdateListener mListener;
+
+  public interface OnFloatingActionsMenuUpdateListener {
+    void onMenuExpanded();
+    void onMenuCollapsed();
+  }
+
   public FloatingActionsMenu(Context context) {
     this(context, null);
   }
@@ -80,6 +87,10 @@ public class FloatingActionsMenu extends ViewGroup {
     }
 
     createAddButton(context);
+  }
+
+  public void setOnFloatingActionsMenuUpdateListener(OnFloatingActionsMenuUpdateListener listener) {
+    mListener = listener;
   }
 
   private boolean expandsHorizontally() {
@@ -431,6 +442,10 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpanded = false;
       mCollapseAnimation.start();
       mExpandAnimation.cancel();
+
+      if (mListener != null) {
+        mListener.onMenuCollapsed();
+      }
     }
   }
 
@@ -447,6 +462,10 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpanded = true;
       mCollapseAnimation.cancel();
       mExpandAnimation.start();
+
+      if (mListener != null) {
+        mListener.onMenuExpanded();
+      }
     }
   }
 
