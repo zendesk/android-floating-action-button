@@ -185,7 +185,7 @@ public class FloatingActionButton extends ImageButton {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(),
             createOuterStrokeDrawable(strokeWidth),
-            createInnerStrokesDrawable(strokeWidth),
+            createInnerStrokesDrawable(mColorNormal, strokeWidth),
             getIconDrawable()
         });
 
@@ -290,12 +290,12 @@ public class FloatingActionButton extends ImageButton {
     );
   }
 
-  private Drawable createInnerStrokesDrawable(float strokeWidth) {
+  private Drawable createInnerStrokesDrawable(final int color, float strokeWidth) {
     ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
 
-    final int bottomStrokeColor = darkenColor(mColorNormal);
+    final int bottomStrokeColor = darkenColor(color);
     final int bottomStrokeColorHalfTransparent = halfTransparent(bottomStrokeColor);
-    final int topStrokeColor = lightenColor(mColorNormal);
+    final int topStrokeColor = lightenColor(color);
     final int topStrokeColorHalfTransparent = halfTransparent(topStrokeColor);
 
     final Paint paint = shapeDrawable.getPaint();
@@ -306,7 +306,7 @@ public class FloatingActionButton extends ImageButton {
       @Override
       public Shader resize(int width, int height) {
         return new LinearGradient(width / 2, 0, width / 2, height,
-            new int[] { topStrokeColor, topStrokeColorHalfTransparent, mColorNormal, bottomStrokeColorHalfTransparent, bottomStrokeColor },
+            new int[] { topStrokeColor, topStrokeColorHalfTransparent, color, bottomStrokeColorHalfTransparent, bottomStrokeColor },
             new float[] { 0f, 0.2f, 0.5f, 0.8f, 1f },
             TileMode.CLAMP
         );
