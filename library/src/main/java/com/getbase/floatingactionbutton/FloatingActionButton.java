@@ -183,9 +183,8 @@ public class FloatingActionButton extends ImageButton {
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
-            createFillDrawable(),
+            createFillDrawable(strokeWidth),
             createOuterStrokeDrawable(strokeWidth),
-            createInnerStrokesDrawable(mColorNormal, strokeWidth),
             getIconDrawable()
         });
 
@@ -208,12 +207,6 @@ public class FloatingActionButton extends ImageButton {
         (int) (circleInsetBottom - halfStrokeWidth));
 
     layerDrawable.setLayerInset(3,
-        (int) (circleInsetHorizontal + halfStrokeWidth),
-        (int) (circleInsetTop + halfStrokeWidth),
-        (int) (circleInsetHorizontal + halfStrokeWidth),
-        (int) (circleInsetBottom + halfStrokeWidth));
-
-    layerDrawable.setLayerInset(4,
         circleInsetHorizontal + iconOffset,
         circleInsetTop + iconOffset,
         circleInsetHorizontal + iconOffset,
@@ -230,21 +223,29 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
-  private StateListDrawable createFillDrawable() {
+  private StateListDrawable createFillDrawable(float strokeWidth) {
     StateListDrawable drawable = new StateListDrawable();
-    drawable.addState(new int[] { android.R.attr.state_pressed }, createCircleDrawable(mColorPressed));
-    drawable.addState(new int[] { }, createCircleDrawable(mColorNormal));
+    drawable.addState(new int[] { android.R.attr.state_pressed }, createCircleDrawable(mColorPressed, strokeWidth));
+    drawable.addState(new int[] { }, createCircleDrawable(mColorNormal, strokeWidth));
     return drawable;
   }
 
-  private Drawable createCircleDrawable(int color) {
-    ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
+  private Drawable createCircleDrawable(int color, float strokeWidth) {
+    ShapeDrawable fillDrawable = new ShapeDrawable(new OvalShape());
 
-    final Paint paint = shapeDrawable.getPaint();
+    final Paint paint = fillDrawable.getPaint();
     paint.setAntiAlias(true);
     paint.setColor(color);
 
-    return shapeDrawable;
+    LayerDrawable drawable = new LayerDrawable(new Drawable[] {
+        fillDrawable,
+        createInnerStrokesDrawable(color, strokeWidth)
+    });
+
+    int halfStrokeWidth = (int) (strokeWidth / 2f);
+    drawable.setLayerInset(1, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth);
+
+    return drawable;
   }
 
   private Drawable createOuterStrokeDrawable(float strokeWidth) {
