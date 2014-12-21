@@ -39,9 +39,6 @@ public class FloatingActionButton extends ImageButton {
   public @interface FAB_SIZE {
   }
 
-  private static final int HALF_TRANSPARENT_WHITE = Color.argb(128, 255, 255, 255);
-  private static final int HALF_TRANSPARENT_BLACK = Color.argb(128, 0, 0, 0);
-
   int mColorNormal;
   int mColorPressed;
   String mTitle;
