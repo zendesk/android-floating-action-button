@@ -267,47 +267,56 @@ public class FloatingActionButton extends ImageButton {
     return (int) (255f * opacity);
   }
 
+  private int darkenColor(int argb) {
+    return adjustColorBrightness(argb, 0.9f);
+  }
+
+  private int lightenColor(int argb) {
+    return adjustColorBrightness(argb, 1.1f);
+  }
+
+  private int adjustColorBrightness(int argb, float factor) {
+    float[] hsv = new float[3];
+    Color.colorToHSV(argb, hsv);
+
+    hsv[2] = Math.min(hsv[2] * factor, 1f);
+
+    return Color.HSVToColor(Color.alpha(argb), hsv);
+  }
+
+  private int halfTransparent(int argb) {
+    return Color.argb(
+        Color.alpha(argb) / 2,
+        Color.red(argb),
+        Color.green(argb),
+        Color.blue(argb)
+    );
+  }
+
   private Drawable createInnerStrokesDrawable(float strokeWidth) {
-    ShapeDrawable innerBottom = new ShapeDrawable(new OvalShape());
+    ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
 
-    final Paint bottomPaint = innerBottom.getPaint();
-    bottomPaint.setAntiAlias(true);
-    bottomPaint.setStrokeWidth(strokeWidth);
-    bottomPaint.setStyle(Style.STROKE);
-    bottomPaint.setAlpha(opacityToAlpha(0.04f));
-    innerBottom.setShaderFactory(new ShaderFactory() {
+    final int bottomStrokeColor = darkenColor(mColorNormal);
+    final int bottomStrokeColorHalfTransparent = halfTransparent(bottomStrokeColor);
+    final int topStrokeColor = lightenColor(mColorNormal);
+    final int topStrokeColorHalfTransparent = halfTransparent(topStrokeColor);
+
+    final Paint paint = shapeDrawable.getPaint();
+    paint.setAntiAlias(true);
+    paint.setStrokeWidth(strokeWidth);
+    paint.setStyle(Style.STROKE);
+    shapeDrawable.setShaderFactory(new ShaderFactory() {
       @Override
       public Shader resize(int width, int height) {
         return new LinearGradient(width / 2, 0, width / 2, height,
-            new int[] { Color.TRANSPARENT, HALF_TRANSPARENT_BLACK, Color.BLACK },
-            new float[] { 0f, 0.8f, 1f },
+            new int[] { topStrokeColor, topStrokeColorHalfTransparent, mColorNormal, bottomStrokeColorHalfTransparent, bottomStrokeColor },
+            new float[] { 0f, 0.2f, 0.5f, 0.8f, 1f },
             TileMode.CLAMP
         );
       }
     });
 
-    ShapeDrawable innerTop = new ShapeDrawable(new OvalShape());
-
-    final Paint topPaint = innerTop.getPaint();
-    topPaint.setAntiAlias(true);
-    topPaint.setStrokeWidth(strokeWidth);
-    topPaint.setStyle(Style.STROKE);
-    topPaint.setAlpha(opacityToAlpha(0.8f));
-    innerTop.setShaderFactory(new ShaderFactory() {
-      @Override
-      public Shader resize(int width, int height) {
-        return new LinearGradient(width / 2, 0, width / 2, height,
-            new int[] { Color.WHITE, HALF_TRANSPARENT_WHITE, Color.TRANSPARENT },
-            new float[] { 0f, 0.2f, 1f },
-            TileMode.CLAMP
-        );
-      }
-    });
-
-    return new LayerDrawable(new Drawable[] {
-        innerBottom,
-        innerTop
-    });
+    return shapeDrawable;
   }
 
   @SuppressWarnings("deprecation")
