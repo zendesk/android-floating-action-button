@@ -16,7 +16,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.ColorRes;
@@ -189,18 +191,28 @@ public class FloatingActionButton extends ImageButton {
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
-            createFillDrawable(circleRect),
+            createFillDrawable(),
             createStrokesDrawable(circleRect),
             getIconDrawable()
         });
 
-    float iconOffset = (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2f;
+    int iconOffset = (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
 
-    int iconInsetHorizontal = (int) (mShadowRadius + iconOffset);
-    int iconInsetTop = (int) (circleTop + iconOffset);
-    int iconInsetBottom = (int) (mShadowRadius + mShadowOffset + iconOffset);
+    int circleInsetHorizontal = (int) (mShadowRadius);
+    int circleInsetTop = (int) (mShadowRadius - mShadowOffset);
+    int circleInsetBottom = (int) (mShadowRadius + mShadowOffset);
 
-    layerDrawable.setLayerInset(3, iconInsetHorizontal, iconInsetTop, iconInsetHorizontal, iconInsetBottom);
+    layerDrawable.setLayerInset(1,
+        circleInsetHorizontal,
+        circleInsetTop,
+        circleInsetHorizontal,
+        circleInsetBottom);
+
+    layerDrawable.setLayerInset(3,
+        circleInsetHorizontal + iconOffset,
+        circleInsetTop + iconOffset,
+        circleInsetHorizontal + iconOffset,
+        circleInsetBottom + iconOffset);
 
     setBackgroundCompat(layerDrawable);
   }
@@ -213,24 +225,21 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
-  private StateListDrawable createFillDrawable(RectF circleRect) {
+  private StateListDrawable createFillDrawable() {
     StateListDrawable drawable = new StateListDrawable();
-    drawable.addState(new int[] { android.R.attr.state_pressed }, createCircleDrawable(circleRect, mColorPressed));
-    drawable.addState(new int[] { }, createCircleDrawable(circleRect, mColorNormal));
+    drawable.addState(new int[] { android.R.attr.state_pressed }, createCircleDrawable(mColorPressed));
+    drawable.addState(new int[] { }, createCircleDrawable(mColorNormal));
     return drawable;
   }
 
-  private Drawable createCircleDrawable(RectF circleRect, int color) {
-    final Bitmap bitmap = Bitmap.createBitmap(mDrawableSize, mDrawableSize, Config.ARGB_8888);
-    final Canvas canvas = new Canvas(bitmap);
+  private Drawable createCircleDrawable(int color) {
+    ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
 
-    final Paint paint = new Paint();
+    final Paint paint = shapeDrawable.getPaint();
     paint.setAntiAlias(true);
     paint.setColor(color);
 
-    canvas.drawOval(circleRect, paint);
-
-    return new BitmapDrawable(getResources(), bitmap);
+    return shapeDrawable;
   }
 
   private int opacityToAlpha(float opacity) {
