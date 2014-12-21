@@ -186,13 +186,17 @@ public class FloatingActionButton extends ImageButton {
     float circleLeft = mShadowRadius;
     float circleTop = mShadowRadius - mShadowOffset;
 
+    final float strokeWidth = getDimension(R.dimen.fab_stroke_width);
+    final float halfStrokeWidth = strokeWidth / 2f;
+
     final RectF circleRect = new RectF(circleLeft, circleTop, circleLeft + mCircleSize, circleTop + mCircleSize);
 
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(),
-            createStrokesDrawable(circleRect),
+            createOuterStrokeDrawable(strokeWidth),
+            createInnerStrokesDrawable(circleRect),
             getIconDrawable()
         });
 
@@ -208,7 +212,13 @@ public class FloatingActionButton extends ImageButton {
         circleInsetHorizontal,
         circleInsetBottom);
 
-    layerDrawable.setLayerInset(3,
+    layerDrawable.setLayerInset(2,
+        (int) (circleInsetHorizontal - halfStrokeWidth),
+        (int) (circleInsetTop - halfStrokeWidth),
+        (int) (circleInsetHorizontal - halfStrokeWidth),
+        (int) (circleInsetBottom - halfStrokeWidth));
+
+    layerDrawable.setLayerInset(4,
         circleInsetHorizontal + iconOffset,
         circleInsetTop + iconOffset,
         circleInsetHorizontal + iconOffset,
@@ -242,23 +252,29 @@ public class FloatingActionButton extends ImageButton {
     return shapeDrawable;
   }
 
+  private Drawable createOuterStrokeDrawable(float strokeWidth) {
+    ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
+
+    final Paint paint = shapeDrawable.getPaint();
+    paint.setAntiAlias(true);
+    paint.setStrokeWidth(strokeWidth);
+    paint.setStyle(Style.STROKE);
+    paint.setColor(Color.BLACK);
+    paint.setAlpha(opacityToAlpha(0.02f));
+
+    return shapeDrawable;
+  }
+
   private int opacityToAlpha(float opacity) {
     return (int) (255f * opacity);
   }
 
-  private Drawable createStrokesDrawable(RectF circleRect) {
+  private Drawable createInnerStrokesDrawable(RectF circleRect) {
     final Bitmap bitmap = Bitmap.createBitmap(mDrawableSize, mDrawableSize, Config.ARGB_8888);
     final Canvas canvas = new Canvas(bitmap);
 
     final float strokeWidth = getDimension(R.dimen.fab_stroke_width);
     final float halfStrokeWidth = strokeWidth / 2f;
-
-    RectF outerStrokeRect = new RectF(
-        circleRect.left - halfStrokeWidth,
-        circleRect.top - halfStrokeWidth,
-        circleRect.right + halfStrokeWidth,
-        circleRect.bottom + halfStrokeWidth
-    );
 
     RectF innerStrokeRect = new RectF(
         circleRect.left + halfStrokeWidth,
@@ -271,11 +287,6 @@ public class FloatingActionButton extends ImageButton {
     paint.setAntiAlias(true);
     paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Style.STROKE);
-
-    // outer
-    paint.setColor(Color.BLACK);
-    paint.setAlpha(opacityToAlpha(0.02f));
-    canvas.drawOval(outerStrokeRect, paint);
 
     // inner bottom
     paint.setShader(new LinearGradient(innerStrokeRect.centerX(), innerStrokeRect.top, innerStrokeRect.centerX(), innerStrokeRect.bottom,
