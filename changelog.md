@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.4.0 *(2014-12-21)*
+----------------------------
+
+ * Added labels setter for FloatingActionButton
+ * Reduce memory footprint of FloatingActionButton and fix OOM issues.
+
 Version 1.3.0 *(2014-12-08)*
 ----------------------------
 
