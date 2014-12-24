@@ -21,6 +21,10 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 public class FloatingActionsMenu extends ViewGroup {
+  public static final int GRAVITY_START = 0;
+  public static final int GRAVITY_CENTER = 1;
+  public static final int GRAVITY_END = 2;
+
   public static final int EXPAND_UP = 0;
   public static final int EXPAND_DOWN = 1;
   public static final int EXPAND_LEFT = 2;
@@ -34,6 +38,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
   private int mExpandDirection;
+  private float mGravity;
 
   private int mButtonSpacing;
   private int mLabelsMargin;
@@ -80,6 +85,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
+    mGravity = attr.getInt(R.styleable.FloatingActionsMenu_fab_gravity, GRAVITY_CENTER) / 2f;
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -243,10 +249,9 @@ public class FloatingActionsMenu extends ViewGroup {
       boolean expandUp = mExpandDirection == EXPAND_UP;
 
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
-      int addButtonLeft = r - l - mAddButton.getMeasuredWidth();
+      int width = r - l;
+      int addButtonLeft = (int) (mGravity * (width - mAddButton.getMeasuredWidth()));
       mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
-
-      int labelsRight = addButtonLeft - mLabelsMargin;
 
       int nextY = expandUp ?
           addButtonY - mButtonSpacing :
@@ -257,9 +262,10 @@ public class FloatingActionsMenu extends ViewGroup {
 
         if (child == mAddButton) continue;
 
-        int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+        int childX = (int) (mGravity * (width - child.getMeasuredWidth()));
         int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
-        child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+        int childRight = childX + child.getMeasuredWidth();
+        child.layout(childX, childY, childRight, childY + child.getMeasuredHeight());
 
         float collapsedTranslation = addButtonY - childY;
         float expandedTranslation = 0f;
@@ -274,10 +280,15 @@ public class FloatingActionsMenu extends ViewGroup {
 
         View label = (View) child.getTag(R.id.fab_label);
         if (label != null) {
-          int labelLeft = labelsRight - label.getMeasuredWidth();
+          int labelLeft = mGravity == GRAVITY_START ?
+                  childRight + mLabelsMargin :
+                  childX - mLabelsMargin - label.getMeasuredWidth();
+          int labelRight = mGravity == GRAVITY_START ?
+                  childRight + mLabelsMargin + label.getMeasuredWidth() :
+                  childX - mLabelsMargin;
           int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
 
-          label.layout(labelLeft, labelTop, labelsRight, labelTop + label.getMeasuredHeight());
+          label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
 
           label.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
           label.setAlpha(mExpanded ? 1f : 0f);
@@ -298,8 +309,10 @@ public class FloatingActionsMenu extends ViewGroup {
     case EXPAND_RIGHT:
       boolean expandLeft = mExpandDirection == EXPAND_LEFT;
 
+      int height = b - t;
       int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
-      mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
+      int addButtonTop = (int) (mGravity * (height - mAddButton.getMeasuredHeight()));
+      mAddButton.layout(addButtonX, addButtonTop, addButtonX + mAddButton.getMeasuredWidth(),  addButtonTop + mAddButton.getMeasuredHeight());
 
       int nextX = expandLeft ?
           addButtonX - mButtonSpacing :
@@ -311,7 +324,7 @@ public class FloatingActionsMenu extends ViewGroup {
         if (child == mAddButton) continue;
 
         int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-        int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+        int childY = (int) (mGravity * (height - child.getMeasuredHeight()));
         child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
         float collapsedTranslation = addButtonX - childX;
