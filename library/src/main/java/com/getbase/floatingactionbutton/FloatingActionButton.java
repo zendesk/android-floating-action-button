@@ -3,10 +3,12 @@ package com.getbase.floatingactionbutton;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.ColorDrawable;
@@ -231,21 +233,45 @@ public class FloatingActionButton extends ImageButton {
   }
 
   private Drawable createCircleDrawable(int color, float strokeWidth) {
+    int alpha = Color.alpha(color);
+    int opaqueColor = opaque(color);
+
     ShapeDrawable fillDrawable = new ShapeDrawable(new OvalShape());
 
     final Paint paint = fillDrawable.getPaint();
     paint.setAntiAlias(true);
-    paint.setColor(color);
+    paint.setColor(opaqueColor);
 
-    LayerDrawable drawable = new LayerDrawable(new Drawable[] {
+    Drawable[] layers = {
         fillDrawable,
-        createInnerStrokesDrawable(color, strokeWidth)
-    });
+        createInnerStrokesDrawable(opaqueColor, strokeWidth)
+    };
+
+    LayerDrawable drawable = alpha == 255
+        ? new LayerDrawable(layers)
+        : new TranslucentLayerDrawable(alpha, layers);
 
     int halfStrokeWidth = (int) (strokeWidth / 2f);
     drawable.setLayerInset(1, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth);
 
     return drawable;
+  }
+
+  private static class TranslucentLayerDrawable extends LayerDrawable {
+    private final int mAlpha;
+
+    public TranslucentLayerDrawable(int alpha, Drawable... layers) {
+      super(layers);
+      mAlpha = alpha;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+      Rect bounds = getBounds();
+      canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, mAlpha, Canvas.ALL_SAVE_FLAG);
+      super.draw(canvas);
+      canvas.restore();
+    }
   }
 
   private Drawable createOuterStrokeDrawable(float strokeWidth) {
@@ -285,6 +311,14 @@ public class FloatingActionButton extends ImageButton {
   private int halfTransparent(int argb) {
     return Color.argb(
         Color.alpha(argb) / 2,
+        Color.red(argb),
+        Color.green(argb),
+        Color.blue(argb)
+    );
+  }
+
+  private int opaque(int argb) {
+    return Color.rgb(
         Color.red(argb),
         Color.green(argb),
         Color.blue(argb)
