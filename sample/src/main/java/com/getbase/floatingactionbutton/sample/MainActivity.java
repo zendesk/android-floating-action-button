@@ -4,6 +4,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import android.app.Activity;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +33,10 @@ public class MainActivity extends Activity {
 
     FloatingActionButton actionC = new FloatingActionButton(getBaseContext());
     ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
+
+    ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
+    drawable.getPaint().setColor(getResources().getColor(R.color.white));
+    ((FloatingActionButton) findViewById(R.id.setter_drawable)).setIconDrawable(drawable);
 
     final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.action_a);
     actionA.setOnClickListener(new OnClickListener() {
