@@ -52,7 +52,7 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
-  private boolean mStrokeVisible;
+  boolean mStrokeVisible;
 
   public FloatingActionButton(Context context) {
     this(context, null);

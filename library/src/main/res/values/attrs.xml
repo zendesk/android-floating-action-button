@@ -18,6 +18,7 @@
         <attr name="fab_addButtonColorPressed" format="color"/>
         <attr name="fab_addButtonColorNormal" format="color"/>
         <attr name="fab_addButtonPlusIconColor" format="color"/>
+        <attr name="fab_addButtonStrokeVisible" format="boolean"/>
         <attr name="fab_labelStyle" format="reference"/>
         <attr name="fab_expandDirection" format="enum">
             <enum name="up" value="0"/>
