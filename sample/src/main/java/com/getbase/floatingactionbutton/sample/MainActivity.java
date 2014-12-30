@@ -31,7 +31,16 @@ public class MainActivity extends Activity {
     button.setIcon(R.drawable.ic_fab_star);
     button.setStrokeVisible(false);
 
+    final View actionB = findViewById(R.id.action_b);
+
     FloatingActionButton actionC = new FloatingActionButton(getBaseContext());
+    actionC.setTitle("Hide/Show Action B");
+    actionC.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+      }
+    });
     ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
 
     ShapeDrawable drawable = new ShapeDrawable(new OvalShape());

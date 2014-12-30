@@ -193,6 +193,10 @@ public class FloatingActionsMenu extends ViewGroup {
     for (int i = 0; i < mButtonsCount; i++) {
       View child = getChildAt(i);
 
+      if (child.getVisibility() == GONE) {
+        continue;
+      }
+
       switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
@@ -258,7 +262,7 @@ public class FloatingActionsMenu extends ViewGroup {
       for (int i = mButtonsCount - 1; i >= 0; i--) {
         final View child = getChildAt(i);
 
-        if (child == mAddButton) continue;
+        if (child == mAddButton || child.getVisibility() == GONE) continue;
 
         int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
         int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
@@ -311,7 +315,7 @@ public class FloatingActionsMenu extends ViewGroup {
       for (int i = mButtonsCount - 1; i >= 0; i--) {
         final View child = getChildAt(i);
 
-        if (child == mAddButton) continue;
+        if (child == mAddButton || child.getVisibility() == GONE) continue;
 
         int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
         int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
