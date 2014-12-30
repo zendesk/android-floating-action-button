@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     button.setColorNormalResId(R.color.pink);
     button.setColorPressedResId(R.color.pink_pressed);
     button.setIcon(R.drawable.ic_fab_star);
+    button.setStrokeVisible(false);
 
     FloatingActionButton actionC = new FloatingActionButton(getBaseContext());
     ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);

@@ -142,6 +142,7 @@
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_addButtonStrokeVisible="false"
         fab:fab_expandDirection="left"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
