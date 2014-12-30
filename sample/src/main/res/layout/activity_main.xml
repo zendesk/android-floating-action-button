@@ -162,4 +162,11 @@
             fab:fab_size="mini"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setter_drawable"
+        android:layout_above="@id/setter"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
