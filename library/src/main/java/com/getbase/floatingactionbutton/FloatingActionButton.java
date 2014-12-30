@@ -117,20 +117,17 @@ public class FloatingActionButton extends ImageButton {
   public void setIcon(@DrawableRes int icon) {
     if (mIcon != icon) {
       mIcon = icon;
-      updateIconDrawable(getResources().getDrawable(mIcon));
+      mIconDrawable = null;
+      updateBackground();
     }
   }
 
   public void setIconDrawable(@NonNull Drawable iconDrawable) {
     if (mIconDrawable != iconDrawable) {
       mIcon = 0;
-      updateIconDrawable(iconDrawable);
+      mIconDrawable = iconDrawable;
+      updateBackground();
     }
-  }
-
-  private void updateIconDrawable(Drawable drawable) {
-    mIconDrawable = drawable;
-    updateBackground();
   }
 
   /**
@@ -250,9 +247,13 @@ public class FloatingActionButton extends ImageButton {
   }
 
   Drawable getIconDrawable() {
-    return mIconDrawable != null
-        ? mIconDrawable
-        : new ColorDrawable(Color.TRANSPARENT);
+    if (mIconDrawable != null) {
+      return mIconDrawable;
+    } else if (mIcon != 0) {
+      return getResources().getDrawable(mIcon);
+    } else {
+      return new ColorDrawable(Color.TRANSPARENT);
+    }
   }
 
   private StateListDrawable createFillDrawable(float strokeWidth) {
