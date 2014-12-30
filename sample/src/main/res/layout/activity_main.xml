@@ -86,6 +86,7 @@
         android:layout_marginEnd="16dp">
 
         <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"

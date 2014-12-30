@@ -5,7 +5,6 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        applicationId "net.i2p.android.ext.floatingactionbutton"
         minSdkVersion 4
         targetSdkVersion 19
         versionName project.VERSION_NAME

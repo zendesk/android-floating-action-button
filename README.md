@@ -25,7 +25,7 @@ Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'net.i2p.android.ext:floatingactionbutton:1.3.0'
+    compile 'net.i2p.android.ext:floatingactionbutton:1.4.0'
 }
 ```
 
