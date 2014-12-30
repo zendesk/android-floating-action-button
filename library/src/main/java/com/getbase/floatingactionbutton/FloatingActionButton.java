@@ -24,6 +24,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class FloatingActionButton extends ImageButton {
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
 
-  @Retention(RetentionPolicy.SOURCE)
+	@Retention(RetentionPolicy.SOURCE)
   @IntDef({ SIZE_NORMAL, SIZE_MINI })
   public @interface FAB_SIZE {
   }
@@ -46,6 +47,7 @@ public class FloatingActionButton extends ImageButton {
   String mTitle;
   @DrawableRes
   private int mIcon;
+  private Drawable mDrawable;
   private int mSize;
 
   private float mCircleSize;
@@ -117,6 +119,13 @@ public class FloatingActionButton extends ImageButton {
       mIcon = icon;
       updateBackground();
     }
+  }
+
+  public void setDrawable(@NonNull Drawable drawable) {
+    if (mDrawable != drawable) {
+      mDrawable = drawable;
+      updateBackground();
+	}
   }
 
   /**
@@ -231,7 +240,9 @@ public class FloatingActionButton extends ImageButton {
   }
 
   Drawable getIconDrawable() {
-    if (mIcon != 0) {
+	if (mDrawable != null) {
+		return mDrawable;
+	} else if (mIcon != 0) {
       return getResources().getDrawable(mIcon);
     } else {
       return new ColorDrawable(Color.TRANSPARENT);

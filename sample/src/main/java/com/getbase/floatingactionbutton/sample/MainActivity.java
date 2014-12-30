@@ -39,5 +39,8 @@ public class MainActivity extends Activity {
         actionA.setTitle("Action A clicked");
       }
     });
+
+    FloatingActionButton setDrawableButton = (FloatingActionButton) findViewById(R.id.setter_drawable);
+	setDrawableButton.setDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
   }
 }
