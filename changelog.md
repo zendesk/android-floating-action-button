@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.5.0 *(2014-12-30)*
+----------------------------
+
+ * Added icon drawable setter for FloatingActionButton
+ * Better looking strokes of FloatingActionButtons
+ * Option to disable strokes of FloatingActionButton
+
 Version 1.4.0 *(2014-12-21)*
 ----------------------------
 
