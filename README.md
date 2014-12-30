@@ -17,6 +17,10 @@ Features
 
   ![Demo](screenshots/menu.gif)
 
+* Optional labels for buttons in `FloatingActionsMenu`.
+
+  ![Demo](screenshots/labels.png)
+
 Usage
 =====
 Just add the dependency to your `build.gradle`:
