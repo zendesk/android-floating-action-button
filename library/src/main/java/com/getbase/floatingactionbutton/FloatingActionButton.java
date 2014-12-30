@@ -190,10 +190,14 @@ public class FloatingActionButton extends ImageButton {
 
   public void setTitle(String title) {
     mTitle = title;
-    TextView label = (TextView) getTag(R.id.fab_label);
+    TextView label = getLabelView();
     if (label != null) {
       label.setText(title);
     }
+  }
+
+  private TextView getLabelView() {
+    return (TextView) getTag(R.id.fab_label);
   }
 
   public String getTitle() {
