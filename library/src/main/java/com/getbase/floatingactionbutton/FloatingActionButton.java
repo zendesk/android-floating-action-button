@@ -394,4 +394,14 @@ public class FloatingActionButton extends ImageButton {
       setBackgroundDrawable(drawable);
     }
   }
+
+  @Override
+  public void setVisibility(int visibility) {
+    TextView label = getLabelView();
+    if (label != null) {
+      label.setVisibility(visibility);
+    }
+
+    super.setVisibility(visibility);
+  }
 }
