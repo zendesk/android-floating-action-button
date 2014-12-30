@@ -155,6 +155,17 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
+  public void setStrokeVisible(boolean visible) {
+    if (mStrokeVisible != visible) {
+      mStrokeVisible = visible;
+      updateBackground();
+    }
+  }
+
+  public boolean isStrokeVisible() {
+    return mStrokeVisible;
+  }
+
   int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
