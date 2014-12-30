@@ -27,7 +27,7 @@ Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'com.getbase:floatingactionbutton:1.5.0'
+    compile 'com.getbase:floatingactionbutton:1.5.1'
 }
 ```
 
