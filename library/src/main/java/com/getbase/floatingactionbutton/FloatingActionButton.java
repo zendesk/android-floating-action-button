@@ -52,6 +52,7 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
+  boolean mStrokeVisible;
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -74,6 +75,7 @@ public class FloatingActionButton extends ImageButton {
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
+    mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
     attr.recycle();
 
     updateCircleSize();
@@ -151,6 +153,17 @@ public class FloatingActionButton extends ImageButton {
       mColorPressed = color;
       updateBackground();
     }
+  }
+
+  public void setStrokeVisible(boolean visible) {
+    if (mStrokeVisible != visible) {
+      mStrokeVisible = visible;
+      updateBackground();
+    }
+  }
+
+  public boolean isStrokeVisible() {
+    return mStrokeVisible;
   }
 
   int getColor(@ColorRes int id) {
@@ -247,7 +260,7 @@ public class FloatingActionButton extends ImageButton {
         createInnerStrokesDrawable(opaqueColor, strokeWidth)
     };
 
-    LayerDrawable drawable = alpha == 255
+    LayerDrawable drawable = alpha == 255 || !mStrokeVisible
         ? new LayerDrawable(layers)
         : new TranslucentLayerDrawable(alpha, layers);
 
@@ -326,6 +339,10 @@ public class FloatingActionButton extends ImageButton {
   }
 
   private Drawable createInnerStrokesDrawable(final int color, float strokeWidth) {
+    if (!mStrokeVisible) {
+      return new ColorDrawable(Color.TRANSPARENT);
+    }
+
     ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
 
     final int bottomStrokeColor = darkenColor(color);
