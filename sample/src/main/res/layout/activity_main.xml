@@ -94,6 +94,7 @@
             fab:fab_colorPressed="@color/white_pressed"/>
 
         <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
@@ -142,6 +143,7 @@
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_addButtonStrokeVisible="false"
         fab:fab_expandDirection="left"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
@@ -161,4 +163,11 @@
             fab:fab_size="mini"/>
 
     </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
+
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setter_drawable"
+        android:layout_above="@id/setter"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
