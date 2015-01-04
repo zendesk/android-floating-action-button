@@ -60,9 +60,9 @@ public class FloatingActionsMenu extends ViewGroup {
     this(context, null);
   }
   
-  public FloatingActionsMenu(Context context, int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle){
+  public FloatingActionsMenu(Context context, int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle, boolean strokeVisible){
    super(context);
-   initProg(plusColor, normalColor, pressedColor, expandDirection, labelStyle);
+   initProg(plusColor, normalColor, pressedColor, expandDirection, labelStyle, strokeVisible);
   }
 
   public FloatingActionsMenu(Context context, AttributeSet attrs) {
@@ -75,7 +75,7 @@ public class FloatingActionsMenu extends ViewGroup {
     init(context, attrs);
   }
   
-  private void initProg(int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle){
+  private void initProg(int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle, boolean strokeVisible){
     mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
     mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
     mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
@@ -83,7 +83,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonPlusColor = plusColor;
     mAddButtonColorNormal = normalColor;
     mAddButtonColorPressed = pressedColor;
-    mAddButtonStrokeVisible = true;
+    mAddButtonStrokeVisible = strokeVisible;
     mExpandDirection = expandDirection;
     mLabelsStyle = labelStyle;
     
