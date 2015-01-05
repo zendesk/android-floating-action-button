@@ -4,6 +4,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -57,5 +58,13 @@ public class MainActivity extends Activity {
 
     FloatingActionButton setDrawableButton = (FloatingActionButton) findViewById(R.id.setter_drawable);
 	setDrawableButton.setIconDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
+	  
+	findViewById(R.id.layout).setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(MainActivity.this, SecondaryActivity.class);
+			startActivity(intent);
+		}
+	});
   }
 }

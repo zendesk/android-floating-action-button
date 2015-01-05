@@ -27,4 +27,10 @@
             <enum name="right" value="3"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="FloatingActionButtonLayout">
+        <attr name="fab_ly_top_id" format="reference"/>
+        <attr name="fab_ly_scrollable_id" format="reference"/>
+        <attr name="fab_ly_folded_size" format="dimension"/>
+        <attr name="fab_ly_unfolded_size" format="dimension"/>
+    </declare-styleable>
 </resources>
