@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+Version 1.5.1 *(2014-12-30)*
+----------------------------
+
+ * Fixed setting FloatingActionButton icon with `fab_icon` XML attribute
+ * Fixed issues with changing visibility of FloatingActionButtons inside FloatingActionsMenu
+
+
+Version 1.5.0 *(2014-12-30)*
+----------------------------
+
+ * Added icon drawable setter for FloatingActionButton
+ * Better looking strokes of FloatingActionButtons
+ * Option to disable strokes of FloatingActionButton
+
 Version 1.4.0 *(2014-12-21)*
 ----------------------------
 

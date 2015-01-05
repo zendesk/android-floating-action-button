@@ -17,13 +17,17 @@ Features
 
   ![Demo](screenshots/menu.gif)
 
+* Optional labels for buttons in `FloatingActionsMenu`.
+
+  ![Demo](screenshots/labels.png)
+
 Usage
 =====
 Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'com.getbase:floatingactionbutton:1.4.0'
+    compile 'com.getbase:floatingactionbutton:1.5.1'
 }
 ```
 

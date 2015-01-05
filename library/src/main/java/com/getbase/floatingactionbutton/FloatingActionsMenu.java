@@ -33,6 +33,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
+  private boolean mAddButtonStrokeVisible;
   private int mExpandDirection;
 
   private int mButtonSpacing;
@@ -78,6 +79,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
     mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
     mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+    mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     attr.recycle();
@@ -131,6 +133,7 @@ public class FloatingActionsMenu extends ViewGroup {
         mPlusColor = mAddButtonPlusColor;
         mColorNormal = mAddButtonColorNormal;
         mColorPressed = mAddButtonColorPressed;
+        mStrokeVisible = mAddButtonStrokeVisible;
         super.updateBackground();
       }
 
@@ -189,6 +192,10 @@ public class FloatingActionsMenu extends ViewGroup {
 
     for (int i = 0; i < mButtonsCount; i++) {
       View child = getChildAt(i);
+
+      if (child.getVisibility() == GONE) {
+        continue;
+      }
 
       switch (mExpandDirection) {
       case EXPAND_UP:
@@ -255,7 +262,7 @@ public class FloatingActionsMenu extends ViewGroup {
       for (int i = mButtonsCount - 1; i >= 0; i--) {
         final View child = getChildAt(i);
 
-        if (child == mAddButton) continue;
+        if (child == mAddButton || child.getVisibility() == GONE) continue;
 
         int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
         int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
@@ -308,7 +315,7 @@ public class FloatingActionsMenu extends ViewGroup {
       for (int i = mButtonsCount - 1; i >= 0; i--) {
         final View child = getChildAt(i);
 
-        if (child == mAddButton) continue;
+        if (child == mAddButton || child.getVisibility() == GONE) continue;
 
         int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
         int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;

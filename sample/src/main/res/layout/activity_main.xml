@@ -94,6 +94,7 @@
             fab:fab_colorPressed="@color/white_pressed"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
@@ -142,6 +143,7 @@
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_addButtonStrokeVisible="false"
         fab:fab_expandDirection="left"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
@@ -162,12 +164,10 @@
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-    <view
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="com.getbase.floatingactionbutton.FloatingActionButton"
         android:id="@+id/setter_drawable"
-        android:layout_above="@+id/setter"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_above="@id/setter"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
