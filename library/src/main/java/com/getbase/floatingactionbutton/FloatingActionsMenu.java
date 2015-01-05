@@ -556,7 +556,6 @@ public class FloatingActionsMenu extends ViewGroup {
 				final MenuItem item = menu.getItem(i);
 				button.setTitle(item.getTitle().toString());
 				button.setIconDrawable(item.getIcon());
-				button.setColorNormal(Color.MAGENTA);
 				addButton(button);
 				button.setOnClickListener(new OnClickListener() {
 					@Override
