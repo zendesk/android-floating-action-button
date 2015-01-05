@@ -57,8 +57,9 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mButtonsCount;
 
   private OnFloatingActionsMenuUpdateListener mListener;
+  private MenuItem.OnMenuItemClickListener onMenuItemClickListener;
 
-  public interface OnFloatingActionsMenuUpdateListener {
+	public interface OnFloatingActionsMenuUpdateListener {
     void onMenuExpanded();
     void onMenuCollapsed();
   }
@@ -552,11 +553,19 @@ public class FloatingActionsMenu extends ViewGroup {
 
 			for (int i = 0; i < menu.size(); i++) {
 				FloatingActionButton button = new FloatingActionButton(getContext());
-				MenuItem item = menu.getItem(i);
+				final MenuItem item = menu.getItem(i);
 				button.setTitle(item.getTitle().toString());
 				button.setIconDrawable(item.getIcon());
 				button.setColorNormal(Color.MAGENTA);
 				addButton(button);
+				button.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (onMenuItemClickListener != null) {
+							onMenuItemClickListener.onMenuItemClick(item);
+						}
+					}
+				});
 			}
 		}
 	}
@@ -572,5 +581,9 @@ public class FloatingActionsMenu extends ViewGroup {
 		} catch (Exception e) {e.printStackTrace();}
 
 		return null;
+	}
+
+	public void setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
+		this.onMenuItemClickListener = onMenuItemClickListener;
 	}
 }

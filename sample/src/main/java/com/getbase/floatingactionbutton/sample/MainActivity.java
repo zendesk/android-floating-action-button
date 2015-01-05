@@ -7,11 +7,12 @@ import android.app.Activity;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements MenuItem.OnMenuItemClickListener {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -59,6 +60,20 @@ public class MainActivity extends Activity {
 	setDrawableButton.setIconDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
 	  
 	FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
-	floatingActionsMenu.inflate(R.menu.app_menu);
+	  floatingActionsMenu.setOnMenuItemClickListener(this);
+	  floatingActionsMenu.inflate(R.menu.app_menu);
   }
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu1:
+				Toast.makeText(this, "Menu 1",Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.menu2:
+				Toast.makeText(this, "Menu 2",Toast.LENGTH_SHORT).show();
+				break;
+		}
+		return false;
+	}
 }
