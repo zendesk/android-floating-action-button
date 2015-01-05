@@ -177,9 +177,9 @@
         android:id="@+id/inflate"
         fab:fab_addButtonColorNormal="@color/pink"
         fab:fab_addButtonColorPressed="@color/pink_pressed"
-
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        fab:fab_expandDirection="down"/>
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_expandDirection="down"
+        android:layout_below="@+id/multiple_actions_left"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
