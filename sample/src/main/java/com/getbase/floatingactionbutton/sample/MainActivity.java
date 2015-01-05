@@ -57,5 +57,8 @@ public class MainActivity extends Activity {
 
     FloatingActionButton setDrawableButton = (FloatingActionButton) findViewById(R.id.setter_drawable);
 	setDrawableButton.setIconDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
+	  
+	FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
+	floatingActionsMenu.inflate(R.menu.app_menu);
   }
 }

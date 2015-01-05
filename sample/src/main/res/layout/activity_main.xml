@@ -170,4 +170,16 @@
         android:id="@+id/setter_drawable"
         android:layout_above="@id/setter"
         android:layout_centerHorizontal="true"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/inflate"
+        fab:fab_addButtonColorNormal="@color/pink"
+        fab:fab_addButtonColorPressed="@color/pink_pressed"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        fab:fab_expandDirection="down"/>
 </RelativeLayout>

@@ -5,20 +5,27 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
+
+import java.lang.reflect.Constructor;
 
 public class FloatingActionsMenu extends ViewGroup {
   public static final int EXPAND_UP = 0;
@@ -536,4 +543,34 @@ public class FloatingActionsMenu extends ViewGroup {
       }
     };
   }
+	
+	public void inflate(@MenuRes int menuRes) {
+		MenuInflater menuInflater = new MenuInflater(getContext());
+		Menu menu = newMenuInstance(getContext());
+		if (menu != null) {
+			menuInflater.inflate(menuRes, menu);
+
+			for (int i = 0; i < menu.size(); i++) {
+				FloatingActionButton button = new FloatingActionButton(getContext());
+				MenuItem item = menu.getItem(i);
+				button.setTitle(item.getTitle().toString());
+				button.setIconDrawable(item.getIcon());
+				button.setColorNormal(Color.MAGENTA);
+				addButton(button);
+			}
+		}
+	}
+
+	private Menu newMenuInstance(Context context) {
+		try {
+			Class<?> menuBuilderClass = Class.forName("com.android.internal.view.menu.MenuBuilder");
+
+			Constructor<?> constructor = menuBuilderClass.getDeclaredConstructor(Context.class);
+
+			return (Menu) constructor.newInstance(context);
+
+		} catch (Exception e) {e.printStackTrace();}
+
+		return null;
+	}
 }
