@@ -398,12 +398,6 @@ public class FloatingActionsMenu extends ViewGroup {
         mExpandDir.setProperty(View.TRANSLATION_X);
         break;
       }
-
-      mExpandAnimation.play(mExpandAlpha);
-      mExpandAnimation.play(mExpandDir);
-
-      mCollapseAnimation.play(mCollapseAlpha);
-      mCollapseAnimation.play(mCollapseDir);
     }
 
     public void setAnimationsTarget(View view) {
@@ -411,6 +405,12 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseDir.setTarget(view);
       mExpandAlpha.setTarget(view);
       mExpandDir.setTarget(view);
+
+      // Now that the animations have targets, set them to be played
+      mCollapseAnimation.play(mCollapseAlpha);
+      mCollapseAnimation.play(mCollapseDir);
+      mExpandAnimation.play(mExpandAlpha);
+      mExpandAnimation.play(mExpandDir);
     }
   }
 
