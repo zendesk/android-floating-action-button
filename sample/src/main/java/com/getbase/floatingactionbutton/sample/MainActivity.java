@@ -1,8 +1,5 @@
 package com.getbase.floatingactionbutton.sample;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
 import android.app.Activity;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -10,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 public class MainActivity extends Activity {
   @Override
@@ -54,5 +54,8 @@ public class MainActivity extends Activity {
         actionA.setTitle("Action A clicked");
       }
     });
+
+    // Test that FAMs containing FABs with visibility GONE do not cause crashes
+    findViewById(R.id.button_gone).setVisibility(View.GONE);
   }
 }
