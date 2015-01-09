@@ -208,27 +208,29 @@ public class FloatingActionsMenu extends ViewGroup {
 		for (int i = 0; i < mButtonsCount; i++) {
 			View child = getChildAt(i);
 
-			if (child.getVisibility() == GONE) {
-				continue;
-			}
+			if (child != null) {
+				if (child.getVisibility() == GONE) {
+					continue;
+				}
 
-			switch (mExpandDirection) {
-				case EXPAND_UP:
-				case EXPAND_DOWN:
-					width = Math.max(width, child.getMeasuredWidth());
-					height += child.getMeasuredHeight();
-					break;
-				case EXPAND_LEFT:
-				case EXPAND_RIGHT:
-					width += child.getMeasuredWidth();
-					height = Math.max(height, child.getMeasuredHeight());
-					break;
-			}
+				switch (mExpandDirection) {
+					case EXPAND_UP:
+					case EXPAND_DOWN:
+						width = Math.max(width, child.getMeasuredWidth());
+						height += child.getMeasuredHeight();
+						break;
+					case EXPAND_LEFT:
+					case EXPAND_RIGHT:
+						width += child.getMeasuredWidth();
+						height = Math.max(height, child.getMeasuredHeight());
+						break;
+				}
 
-			if (!expandsHorizontally()) {
-				TextView label = (TextView) child.getTag(R.id.fab_label);
-				if (label != null) {
-					maxLabelWidth = Math.max(maxLabelWidth, label.getMeasuredWidth());
+				if (!expandsHorizontally()) {
+					TextView label = (TextView) child.getTag(R.id.fab_label);
+					if (label != null) {
+						maxLabelWidth = Math.max(maxLabelWidth, label.getMeasuredWidth());
+					}
 				}
 			}
 		}
@@ -277,42 +279,44 @@ public class FloatingActionsMenu extends ViewGroup {
 				for (int i = mButtonsCount - 1; i >= 0; i--) {
 					final View child = getChildAt(i);
 
-					if (child == mAddButton || child.getVisibility() == GONE) continue;
+					if (child != null) {
+						if (child == mAddButton || child.getVisibility() == GONE) continue;
 
-					int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
-					int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
-					child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+						int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+						int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
+						child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-					float collapsedTranslation = addButtonY - childY;
-					float expandedTranslation = 0f;
+						float collapsedTranslation = addButtonY - childY;
+						float expandedTranslation = 0f;
 
-					child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
-					child.setAlpha(mExpanded ? 1f : 0f);
+						child.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
+						child.setAlpha(mExpanded ? 1f : 0f);
 
-					LayoutParams params = (LayoutParams) child.getLayoutParams();
-					params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-					params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-					params.setAnimationsTarget(child);
+						LayoutParams params = (LayoutParams) child.getLayoutParams();
+						params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+						params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+						params.setAnimationsTarget(child);
 
-					View label = (View) child.getTag(R.id.fab_label);
-					if (label != null) {
-						int labelLeft = labelsRight - label.getMeasuredWidth();
-						int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
+						View label = (View) child.getTag(R.id.fab_label);
+						if (label != null) {
+							int labelLeft = labelsRight - label.getMeasuredWidth();
+							int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
 
-						label.layout(labelLeft, labelTop, labelsRight, labelTop + label.getMeasuredHeight());
+							label.layout(labelLeft, labelTop, labelsRight, labelTop + label.getMeasuredHeight());
 
-						label.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
-						label.setAlpha(mExpanded ? 1f : 0f);
+							label.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
+							label.setAlpha(mExpanded ? 1f : 0f);
 
-						LayoutParams labelParams = (LayoutParams) label.getLayoutParams();
-						labelParams.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-						labelParams.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-						labelParams.setAnimationsTarget(label);
+							LayoutParams labelParams = (LayoutParams) label.getLayoutParams();
+							labelParams.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+							labelParams.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+							labelParams.setAnimationsTarget(label);
+						}
+
+						nextY = expandUp ?
+								childY - mButtonSpacing :
+								childY + child.getMeasuredHeight() + mButtonSpacing;
 					}
-
-					nextY = expandUp ?
-							childY - mButtonSpacing :
-							childY + child.getMeasuredHeight() + mButtonSpacing;
 				}
 				break;
 
@@ -330,26 +334,28 @@ public class FloatingActionsMenu extends ViewGroup {
 				for (int i = mButtonsCount - 1; i >= 0; i--) {
 					final View child = getChildAt(i);
 
-					if (child == mAddButton || child.getVisibility() == GONE) continue;
+					if (child != null) {
+						if (child == mAddButton || child.getVisibility() == GONE) continue;
 
-					int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-					int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
-					child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
+						int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
+						int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+						child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
-					float collapsedTranslation = addButtonX - childX;
-					float expandedTranslation = 0f;
+						float collapsedTranslation = addButtonX - childX;
+						float expandedTranslation = 0f;
 
-					child.setTranslationX(mExpanded ? expandedTranslation : collapsedTranslation);
-					child.setAlpha(mExpanded ? 1f : 0f);
+						child.setTranslationX(mExpanded ? expandedTranslation : collapsedTranslation);
+						child.setAlpha(mExpanded ? 1f : 0f);
 
-					LayoutParams params = (LayoutParams) child.getLayoutParams();
-					params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
-					params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
-					params.setAnimationsTarget(child);
+						LayoutParams params = (LayoutParams) child.getLayoutParams();
+						params.mCollapseDir.setFloatValues(expandedTranslation, collapsedTranslation);
+						params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation);
+						params.setAnimationsTarget(child);
 
-					nextX = expandLeft ?
-							childX - mButtonSpacing :
-							childX + child.getMeasuredWidth() + mButtonSpacing;
+						nextX = expandLeft ?
+								childX - mButtonSpacing :
+								childX + child.getMeasuredWidth() + mButtonSpacing;
+					}
 				}
 
 				break;
@@ -599,10 +605,10 @@ public class FloatingActionsMenu extends ViewGroup {
 		for (int i = 0; i < mButtonsMap.size(); i++) {
 			keys.add(mButtonsMap.keyAt(i));
 		}
-		
+
 		Collections.sort(keys);
 		Collections.reverse(keys);
-		
+
 		mButtonsCount = 1;
 		for (int i : keys) {
 			List<FloatingActionButton> floatingActionButtons = mButtonsMap.get(i);
@@ -622,6 +628,36 @@ public class FloatingActionsMenu extends ViewGroup {
 				addButton(actionButton);
 			}
 		}
+	}
+
+	public void clear() {
+		List<Integer> keys = new ArrayList<Integer>(mButtonsMap.size());
+
+		for (int i = 0; i < mButtonsMap.size(); i++) {
+			keys.add(mButtonsMap.keyAt(i));
+		}
+
+		Collections.sort(keys);
+		Collections.reverse(keys);
+
+		for (int i : keys) {
+			List<FloatingActionButton> floatingActionButtons = mButtonsMap.get(i);
+			if (floatingActionButtons == null) {
+				continue;
+			}
+
+			for (int y = floatingActionButtons.size() - 1; y >= 0; y--) {
+				FloatingActionButton actionButton = floatingActionButtons.get(y);
+				if (actionButton.getParent() != null) {
+					if (actionButton.getTag(R.id.fab_label) != null && actionButton.getTag(R.id.fab_label) instanceof TextView) {
+						removeView((View) actionButton.getTag(R.id.fab_label));
+					}
+					removeView(actionButton);
+				}
+			}
+		}
+		mButtonsMap.clear();
+		collapse();
 	}
 
 	public void setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
