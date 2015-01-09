@@ -3,11 +3,9 @@ package com.getbase.floatingactionbutton;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
@@ -25,9 +23,11 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FloatingActionsMenu extends ViewGroup {
 	public static final int EXPAND_UP = 0;
@@ -138,6 +138,7 @@ public class FloatingActionsMenu extends ViewGroup {
 	}
 
 	private void createAddButton(Context context) {
+
 		mAddButton = new AddFloatingActionButton(context) {
 			@Override
 			void updateBackground() {
@@ -167,7 +168,6 @@ public class FloatingActionsMenu extends ViewGroup {
 				return rotatingDrawable;
 			}
 		};
-
 		mAddButton.setId(R.id.fab_expand_menu_button);
 		mAddButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -441,17 +441,19 @@ public class FloatingActionsMenu extends ViewGroup {
 		Context context = new ContextThemeWrapper(getContext(), mLabelsStyle);
 
 		for (int i = 0; i < mButtonsCount; i++) {
-			FloatingActionButton button = (FloatingActionButton) getChildAt(i);
-			String title = button.getTitle();
+			if (getChildAt(i) instanceof FloatingActionButton) {
+				FloatingActionButton button = (FloatingActionButton) getChildAt(i);
+				String title = button.getTitle();
 
-			if (button == mAddButton || title == null ||
-					button.getTag(R.id.fab_label) != null) continue;
+				if (button == mAddButton || title == null ||
+						button.getTag(R.id.fab_label) != null) continue;
 
-			TextView label = new TextView(context);
-			label.setText(button.getTitle());
-			addView(label);
+				TextView label = new TextView(context);
+				label.setText(button.getTitle());
+				addView(label);
 
-			button.setTag(R.id.fab_label, label);
+				button.setTag(R.id.fab_label, label);
+			}
 		}
 	}
 
@@ -548,12 +550,17 @@ public class FloatingActionsMenu extends ViewGroup {
 		};
 	}
 
-	public void inflate(@NonNull Menu menu, @MenuRes int menuRes) {
+	public void inflate(@MenuRes int menuRes) {
 		MenuInflater menuInflater = new MenuInflater(getContext());
+		Menu menu = new PopupMenu(getContext(), null).getMenu();
 		menuInflater.inflate(menuRes, menu);
 
 		for (int i = 0; i < menu.size(); i++) {
 			FloatingActionButton button = new FloatingActionButton(getContext());
+			button.setColorNormal(mAddButtonColorNormal);
+			button.setColorPressed(mAddButtonColorPressed);
+			button.setStrokeVisible(mAddButtonStrokeVisible);
+			button.setSize(mAddButton.getSize());
 			final MenuItem item = menu.getItem(i);
 			button.setTitle(item.getTitle().toString());
 			button.setIconDrawable(item.getIcon());
@@ -571,7 +578,9 @@ public class FloatingActionsMenu extends ViewGroup {
 				}
 			});
 		}
+		
 	}
+
 
 	public void setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
 		this.onMenuItemClickListener = onMenuItemClickListener;

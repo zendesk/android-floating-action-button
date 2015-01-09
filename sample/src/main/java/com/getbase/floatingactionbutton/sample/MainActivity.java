@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
 	private FloatingActionsMenu floatingActionsMenu;
+	private int menuCheck = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,16 @@ public class MainActivity extends Activity {
 		setDrawableButton.setIconDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
 
 		floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
+		floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		floatingActionsMenu.inflate(menu, R.menu.app_menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menuCheck % 2 == 0) {
+			floatingActionsMenu.inflate(R.menu.app_menu);
+		} else {
+			floatingActionsMenu.inflate(R.menu.app_menu_second);
+		}
 		return true;
 	}
 
@@ -80,7 +86,23 @@ public class MainActivity extends Activity {
 			case R.id.menu2:
 				Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
 				break;
+			case R.id.menu_secondary_1:
+				Toast.makeText(this, "Menu secondary 1", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.menu_secondary_2:
+				Toast.makeText(this, "Menu secondary 2", Toast.LENGTH_SHORT).show();
+				break;
 		}
 		return false;
+	}
+
+	@Override
+	public void onMenuExpanded() {
+	}
+
+	@Override
+	public void onMenuCollapsed() {
+		menuCheck++;
+		invalidateOptionsMenu();
 	}
 }
