@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-public class TestActivity extends Activity {
+public class FaMMenuActivity extends Activity {
 
 	private FloatingActionsMenu floatingActionsMenu;
 
