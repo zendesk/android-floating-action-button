@@ -4,10 +4,10 @@
     <item android:title="Label 1"
         android:id="@+id/menu1"
         android:icon="@drawable/ic_fab_star"
-        android:orderInCategory="1"/>
+        android:orderInCategory="9"/>
     <item android:title="Label 2"
         android:id="@+id/menu2"
         android:icon="@drawable/ic_fab_star"
-        android:orderInCategory="2"/>
+        android:orderInCategory="10"/>
     
 </menu>

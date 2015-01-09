@@ -8,26 +8,23 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-public class TestActivity extends Activity implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
-	private FloatingActionsMenu floatingActionsMenu;
-	private int menuCheck = 0;
+public class TestActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
 
-		floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
-		floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
+		FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
+
+		floatingActionsMenu.inflate(R.menu.app_menu_second);
+		floatingActionsMenu.inflate(R.menu.app_menu);
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (menuCheck % 2 == 0) {
-			floatingActionsMenu.inflate(R.menu.app_menu);
-		} else {
-			floatingActionsMenu.inflate(R.menu.app_menu_second);
-		}
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.app_menu, menu);
+		getMenuInflater().inflate(R.menu.app_menu_second, menu);
 		return true;
 	}
 
@@ -48,15 +45,5 @@ public class TestActivity extends Activity implements FloatingActionsMenu.OnFloa
 				break;
 		}
 		return false;
-	}
-
-	@Override
-	public void onMenuExpanded() {
-	}
-
-	@Override
-	public void onMenuCollapsed() {
-		menuCheck++;
-		invalidateOptionsMenu();
 	}
 }

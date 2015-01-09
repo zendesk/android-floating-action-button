@@ -28,9 +28,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Stack;
 
 public class FloatingActionsMenu extends ViewGroup {
 	public static final int EXPAND_UP = 0;
@@ -63,6 +63,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
 	private OnFloatingActionsMenuUpdateListener mListener;
 	private MenuItem.OnMenuItemClickListener onMenuItemClickListener;
+	private SparseArray<List<FloatingActionButton>> mButtonsMap;
 
 	public interface OnFloatingActionsMenuUpdateListener {
 		void onMenuExpanded();
@@ -558,13 +559,16 @@ public class FloatingActionsMenu extends ViewGroup {
 		Menu menu = new PopupMenu(getContext(), null).getMenu();
 		menuInflater.inflate(menuRes, menu);
 
-		SparseArray<List<FloatingActionButton>> buttons = new SparseArray<List<FloatingActionButton>>();
+		if (mButtonsMap == null) {
+			mButtonsMap = new SparseArray<List<FloatingActionButton>>();
+		}
+
 		for (int i = 0; i < menu.size(); i++) {
 			FloatingActionButton button = new FloatingActionButton(getContext());
 			button.setColorNormal(mAddButtonColorNormal);
 			button.setColorPressed(mAddButtonColorPressed);
 			button.setStrokeVisible(mAddButtonStrokeVisible);
-			button.setSize(mAddButton.getSize());
+			button.setSize(FloatingActionButton.SIZE_MINI);
 			final MenuItem item = menu.getItem(i);
 			button.setTitle(item.getTitle().toString());
 			button.setIconDrawable(item.getIcon());
@@ -581,27 +585,44 @@ public class FloatingActionsMenu extends ViewGroup {
 				}
 			});
 
-			List<FloatingActionButton> menus = buttons.get(item.getOrder());
+			List<FloatingActionButton> menus = mButtonsMap.get(item.getOrder());
 			if (menus == null) {
-				menus = new ArrayList<FloatingActionButton>();
-				buttons.put(item.getOrder(), menus);
+				menus = new Stack<FloatingActionButton>();
+				mButtonsMap.put(item.getOrder(), menus);
 			}
-			
-			menus.add(button);
+
+			menus.add(0, button);
 		}
 
-		for (int i = 0; i < buttons.size(); i++) {
-			List<FloatingActionButton> floatingActionButtons = buttons.get(buttons.keyAt(i));
+		List<Integer> keys = new ArrayList<Integer>(mButtonsMap.size());
+
+		for (int i = 0; i < mButtonsMap.size(); i++) {
+			keys.add(mButtonsMap.keyAt(i));
+		}
+		
+		Collections.sort(keys);
+		Collections.reverse(keys);
+		
+		mButtonsCount = 1;
+		for (int i : keys) {
+			List<FloatingActionButton> floatingActionButtons = mButtonsMap.get(i);
 			if (floatingActionButtons == null) {
 				continue;
 			}
 
-			for (FloatingActionButton actionButton : floatingActionButtons) {
+			for (int y = floatingActionButtons.size() - 1; y >= 0; y--) {
+				FloatingActionButton actionButton = floatingActionButtons.get(y);
+				if (actionButton.getParent() != null) {
+					if (actionButton.getTag() != null && actionButton.getTag() instanceof TextView) {
+						removeView((View) actionButton.getTag());
+					}
+					removeView(actionButton);
+				}
+
 				addButton(actionButton);
 			}
 		}
 	}
-
 
 	public void setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
 		this.onMenuItemClickListener = onMenuItemClickListener;
