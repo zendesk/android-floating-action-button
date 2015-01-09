@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Label 1"
+        android:id="@+id/menu1"
+        android:icon="@drawable/ic_fab_star"
+        android:orderInCategory="9"/>
+    <item android:title="Label 2"
+        android:id="@+id/menu2"
+        android:icon="@drawable/ic_fab_star"
+        android:orderInCategory="10"/>
+    
+</menu>

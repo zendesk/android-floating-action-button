@@ -170,4 +170,13 @@
         android:id="@+id/setter_drawable"
         android:layout_above="@id/setter"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/inflate"
+        android:text="Menu inflate"
+        android:layout_below="@+id/multiple_actions_left"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
