@@ -14,6 +14,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +27,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FloatingActionsMenu extends ViewGroup {
@@ -555,6 +558,7 @@ public class FloatingActionsMenu extends ViewGroup {
 		Menu menu = new PopupMenu(getContext(), null).getMenu();
 		menuInflater.inflate(menuRes, menu);
 
+		SparseArray<List<FloatingActionButton>> buttons = new SparseArray<List<FloatingActionButton>>();
 		for (int i = 0; i < menu.size(); i++) {
 			FloatingActionButton button = new FloatingActionButton(getContext());
 			button.setColorNormal(mAddButtonColorNormal);
@@ -564,7 +568,6 @@ public class FloatingActionsMenu extends ViewGroup {
 			final MenuItem item = menu.getItem(i);
 			button.setTitle(item.getTitle().toString());
 			button.setIconDrawable(item.getIcon());
-			addButton(button);
 			button.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -577,8 +580,26 @@ public class FloatingActionsMenu extends ViewGroup {
 					}
 				}
 			});
+
+			List<FloatingActionButton> menus = buttons.get(item.getOrder());
+			if (menus == null) {
+				menus = new ArrayList<FloatingActionButton>();
+				buttons.put(item.getOrder(), menus);
+			}
+			
+			menus.add(button);
 		}
-		
+
+		for (int i = 0; i < buttons.size(); i++) {
+			List<FloatingActionButton> floatingActionButtons = buttons.get(buttons.keyAt(i));
+			if (floatingActionButtons == null) {
+				continue;
+			}
+
+			for (FloatingActionButton actionButton : floatingActionButtons) {
+				addButton(actionButton);
+			}
+		}
 	}
 
 
