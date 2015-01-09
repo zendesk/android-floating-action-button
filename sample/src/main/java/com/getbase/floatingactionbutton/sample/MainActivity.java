@@ -4,17 +4,15 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
-	private FloatingActionsMenu floatingActionsMenu;
+public class MainActivity extends Activity {
 	private int menuCheck = 0;
 
 	@Override
@@ -63,46 +61,12 @@ public class MainActivity extends Activity implements FloatingActionsMenu.OnFloa
 		FloatingActionButton setDrawableButton = (FloatingActionButton) findViewById(R.id.setter_drawable);
 		setDrawableButton.setIconDrawable(getResources().getDrawable(R.drawable.ic_fab_star));
 
-		floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
-		floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (menuCheck % 2 == 0) {
-			floatingActionsMenu.inflate(R.menu.app_menu);
-		} else {
-			floatingActionsMenu.inflate(R.menu.app_menu_second);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu1:
-				Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
-				break;
-			case R.id.menu2:
-				Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
-				break;
-			case R.id.menu_secondary_1:
-				Toast.makeText(this, "Menu secondary 1", Toast.LENGTH_SHORT).show();
-				break;
-			case R.id.menu_secondary_2:
-				Toast.makeText(this, "Menu secondary 2", Toast.LENGTH_SHORT).show();
-				break;
-		}
-		return false;
-	}
-
-	@Override
-	public void onMenuExpanded() {
-	}
-
-	@Override
-	public void onMenuCollapsed() {
-		menuCheck++;
-		invalidateOptionsMenu();
+		findViewById(R.id.inflate).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, FaMMenuActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 }

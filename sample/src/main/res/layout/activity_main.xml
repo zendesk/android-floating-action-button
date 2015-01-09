@@ -171,14 +171,11 @@
         android:layout_above="@id/setter"
         android:layout_centerHorizontal="true"/>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/inflate"
-        fab:fab_addButtonColorNormal="@color/yellow"
-        fab:fab_addButtonColorPressed="@color/yellow_pressed"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_expandDirection="down"
+        android:text="Menu inflate"
         android:layout_below="@+id/multiple_actions_left"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>

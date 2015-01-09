@@ -2,21 +2,20 @@ package com.getbase.floatingactionbutton.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-public class TestActivity extends Activity {
+public class FaMMenuActivity extends Activity {
 
 	private FloatingActionsMenu floatingActionsMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_test);
+		setContentView(R.layout.activity_fam);
 
 		floatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.inflate);
 
