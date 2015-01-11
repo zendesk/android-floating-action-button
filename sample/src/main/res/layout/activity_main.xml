@@ -109,14 +109,6 @@
             fab:fab_title="Remove Me"
             fab:fab_colorPressed="@color/white_pressed"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_remove_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_title="Remove ALL"
-            fab:fab_colorPressed="@color/white_pressed"/>
-
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
