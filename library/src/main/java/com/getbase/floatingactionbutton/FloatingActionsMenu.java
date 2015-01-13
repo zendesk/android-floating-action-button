@@ -33,6 +33,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
+  private int mAddButtonSize;
   private boolean mAddButtonStrokeVisible;
   private int mExpandDirection;
 
@@ -46,6 +47,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AddFloatingActionButton mAddButton;
   private RotatingDrawable mRotatingDrawable;
+  private int mMaxButtonWidth;
+  private int mMaxButtonHeight;
   private int mLabelsStyle;
   private int mButtonsCount;
 
@@ -79,6 +82,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
     mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
     mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+    mAddButtonSize = attr.getInt(R.styleable.FloatingActionsMenu_fab_addButtonSize, FloatingActionButton.SIZE_NORMAL);
     mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
@@ -158,6 +162,7 @@ public class FloatingActionsMenu extends ViewGroup {
     };
 
     mAddButton.setId(R.id.fab_expand_menu_button);
+    mAddButton.setSize(mAddButtonSize);
     mAddButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -188,6 +193,8 @@ public class FloatingActionsMenu extends ViewGroup {
     int width = 0;
     int height = 0;
 
+    mMaxButtonWidth = 0;
+    mMaxButtonHeight = 0;
     int maxLabelWidth = 0;
 
     for (int i = 0; i < mButtonsCount; i++) {
@@ -200,13 +207,13 @@ public class FloatingActionsMenu extends ViewGroup {
       switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
-        width = Math.max(width, child.getMeasuredWidth());
+        mMaxButtonWidth = Math.max(mMaxButtonWidth, child.getMeasuredWidth());
         height += child.getMeasuredHeight();
         break;
       case EXPAND_LEFT:
       case EXPAND_RIGHT:
         width += child.getMeasuredWidth();
-        height = Math.max(height, child.getMeasuredHeight());
+        mMaxButtonHeight = Math.max(mMaxButtonHeight, child.getMeasuredHeight());
         break;
       }
 
@@ -219,7 +226,9 @@ public class FloatingActionsMenu extends ViewGroup {
     }
 
     if (!expandsHorizontally()) {
-      width += maxLabelWidth + mLabelsMargin;
+      width = mMaxButtonWidth + (maxLabelWidth > 0 ? maxLabelWidth + mLabelsMargin : 0);
+    } else {
+      height = mMaxButtonHeight;
     }
 
     switch (mExpandDirection) {
@@ -250,7 +259,8 @@ public class FloatingActionsMenu extends ViewGroup {
       boolean expandUp = mExpandDirection == EXPAND_UP;
 
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
-      int addButtonLeft = r - l - mAddButton.getMeasuredWidth();
+      // Ensure mAddButton is centered on the line where the buttons should be
+      int addButtonLeft = r - l - mMaxButtonWidth + (mMaxButtonWidth - mAddButton.getMeasuredWidth()) / 2;
       mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
       int labelsRight = addButtonLeft - mLabelsMargin;
@@ -306,7 +316,9 @@ public class FloatingActionsMenu extends ViewGroup {
       boolean expandLeft = mExpandDirection == EXPAND_LEFT;
 
       int addButtonX = expandLeft ? r - l - mAddButton.getMeasuredWidth() : 0;
-      mAddButton.layout(addButtonX, 0, addButtonX + mAddButton.getMeasuredWidth(), mAddButton.getMeasuredHeight());
+      // Ensure mAddButton is centered on the line where the buttons should be
+      int addButtonTop = b - t - mMaxButtonHeight + (mMaxButtonHeight - mAddButton.getMeasuredHeight()) / 2;
+      mAddButton.layout(addButtonX, addButtonTop, addButtonX + mAddButton.getMeasuredWidth(), addButtonTop + mAddButton.getMeasuredHeight());
 
       int nextX = expandLeft ?
           addButtonX - mButtonSpacing :
@@ -318,7 +330,7 @@ public class FloatingActionsMenu extends ViewGroup {
         if (child == mAddButton || child.getVisibility() == GONE) continue;
 
         int childX = expandLeft ? nextX - child.getMeasuredWidth() : nextX;
-        int childY = (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
+        int childY = addButtonTop + (mAddButton.getMeasuredHeight() - child.getMeasuredHeight()) / 2;
         child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
         float collapsedTranslation = addButtonX - childX;
