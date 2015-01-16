@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                android:background="@color/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/pink_icon"
@@ -57,6 +57,7 @@
         android:layout_marginStart="16dp"/>
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/miniNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/normal_plus"
@@ -69,6 +70,36 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/withIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_addButtonColorNormal="@color/blue_semi_transparent"
+        fab:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
+        fab:fab_menu_icon="@drawable/ic_fab_star"
+        fab:fab_rotate_icon="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_above="@+id/miniNormal">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/blue_semi_transparent"
+            fab:fab_colorPressed="@color/pink"
+            fab:fab_icon="@drawable/ic_fab_star"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/blue_semi_transparent"
+            fab:fab_colorPressed="@color/pink"
+            fab:fab_icon="@drawable/ic_fab_star"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"

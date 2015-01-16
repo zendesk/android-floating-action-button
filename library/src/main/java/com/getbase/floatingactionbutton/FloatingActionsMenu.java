@@ -10,6 +10,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
@@ -21,62 +22,176 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 public class FloatingActionsMenu extends ViewGroup {
-   public static final int EXPAND_UP = 0;
+    /**
+     * The constant EXPAND_UP.
+     */
+    public static final int EXPAND_UP = 0;
+    /**
+     * The constant EXPAND_DOWN.
+     */
     public static final int EXPAND_DOWN = 1;
+    /**
+     * The constant EXPAND_LEFT.
+     */
     public static final int EXPAND_LEFT = 2;
+    /**
+     * The constant EXPAND_RIGHT.
+     */
     public static final int EXPAND_RIGHT = 3;
-
+    /**
+     * The constant ANIMATION_DURATION.
+     */
     private static final int ANIMATION_DURATION = 300;
+    /**
+     * The constant COLLAPSED_PLUS_ROTATION.
+     */
     private static final float COLLAPSED_PLUS_ROTATION = 0f;
+    /**
+     * The constant EXPANDED_PLUS_ROTATION.
+     */
     private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;
-
+    /**
+     * M add button color normal.
+     */
     private int mAddButtonColorNormal;
+    /**
+     * M add button color pressed.
+     */
     private int mAddButtonColorPressed;
+    /**
+     * M add button size.
+     */
     private int mAddButtonSize;
+    /**
+     * M add button stroke visible.
+     */
     private boolean mAddButtonStrokeVisible;
+    /**
+     * M expand direction.
+     */
     private int mExpandDirection;
-
+    /**
+     * M button spacing.
+     */
     private int mButtonSpacing;
+    /**
+     * M labels margin.
+     */
     private int mLabelsMargin;
+    /**
+     * M labels vertical offset.
+     */
     private int mLabelsVerticalOffset;
-
+    /**
+     * M expanded.
+     */
     private boolean mExpanded;
 
+    /**
+     * M expand animation.
+     */
     private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
+    /**
+     * M collapse animation.
+     */
     private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
+    /**
+     * M add button.
+     */
     private FloatingActionButton mAddButton;
-    private RotatingDrawable mRotatingDrawable;
+    /**
+     * M rotating drawable.
+     */
+    private Drawable mRotatingDrawable;
+    /**
+     * M max button width.
+     */
     private int mMaxButtonWidth;
+    /**
+     * M max button height.
+     */
     private int mMaxButtonHeight;
+    /**
+     * M labels style.
+     */
     private int mLabelsStyle;
+    /**
+     * M buttons count.
+     */
     private int mButtonsCount;
+    /**
+     * M menu icon.
+     */
     @DrawableRes
     private int mMenuIcon;
+    /**
+     * M icon drawable.
+     */
     private Drawable mIconDrawable;
-
-
+    /**
+     * M rotate icon.
+     */
+    private boolean mRotateIcon;
+    /**
+     * M listener.
+     */
     private OnFloatingActionsMenuUpdateListener mListener;
 
+    /**
+     * The interface On floating actions menu update listener.
+     */
     public interface OnFloatingActionsMenuUpdateListener {
         void onMenuExpanded();
 
         void onMenuCollapsed();
     }
 
+    /**
+     * Instantiates a new Floating actions menu.
+     *
+     * @param context
+     *         the context
+     */
     public FloatingActionsMenu(Context context) {
         this(context, null);
     }
 
+    /**
+     * Instantiates a new Floating actions menu.
+     *
+     * @param context
+     *         the context
+     * @param attrs
+     *         the attrs
+     */
     public FloatingActionsMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
+    /**
+     * Instantiates a new Floating actions menu.
+     *
+     * @param context
+     *         the context
+     * @param attrs
+     *         the attrs
+     * @param defStyle
+     *         the def style
+     */
     public FloatingActionsMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
 
+    /**
+     * Init void.
+     *
+     * @param context
+     *         context
+     * @param attributeSet
+     *         attribute set
+     */
     private void init(Context context, AttributeSet attributeSet) {
         mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
         mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
@@ -91,6 +206,7 @@ public class FloatingActionsMenu extends ViewGroup {
         mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
         mMenuIcon = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_menu_icon, 0);
+        mRotateIcon = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_rotate_icon, true);
         attr.recycle();
 
         if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -100,14 +216,28 @@ public class FloatingActionsMenu extends ViewGroup {
         createAddButton(context);
     }
 
+    /**
+     * Sets on floating actions menu update listener.
+     *
+     * @param listener
+     *         listener
+     */
     public void setOnFloatingActionsMenuUpdateListener(OnFloatingActionsMenuUpdateListener listener) {
         mListener = listener;
     }
 
+    /**
+     * Expands horizontally.
+     *
+     * @return the boolean
+     */
     private boolean expandsHorizontally() {
         return mExpandDirection == EXPAND_LEFT || mExpandDirection == EXPAND_RIGHT;
     }
 
+    /**
+     * The type Rotating drawable.
+     */
     private static class RotatingDrawable extends LayerDrawable {
         public RotatingDrawable(Drawable drawable) {
             super(new Drawable[]{drawable});
@@ -135,6 +265,12 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Create add button.
+     *
+     * @param context
+     *         context
+     */
     private void createAddButton(Context context) {
         mAddButton = new FloatingActionButton(context) {
             @Override
@@ -149,11 +285,14 @@ public class FloatingActionsMenu extends ViewGroup {
 
             @Override
             Drawable getIconDrawable() {
-                final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
-                mRotatingDrawable = rotatingDrawable;
-
+                Drawable rotatingDrawable;
+                if (mRotateIcon) {
+                    rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
+                    mRotatingDrawable = rotatingDrawable;
+                } else {
+                    rotatingDrawable = super.getIconDrawable();
+                }
                 final OvershootInterpolator interpolator = new OvershootInterpolator();
-
                 final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
                 final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
 
@@ -178,6 +317,12 @@ public class FloatingActionsMenu extends ViewGroup {
         addView(mAddButton, super.generateDefaultLayoutParams());
     }
 
+    /**
+     * Add button.
+     *
+     * @param button
+     *         button
+     */
     public void addButton(FloatingActionButton button) {
         addView(button, mButtonsCount - 1);
         mButtonsCount++;
@@ -187,6 +332,13 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Gets color.
+     *
+     * @param id
+     *         id
+     * @return color
+     */
     private int getColor(@ColorRes int id) {
         return getResources().getColor(id);
     }
@@ -252,6 +404,13 @@ public class FloatingActionsMenu extends ViewGroup {
         setMeasuredDimension(width, height);
     }
 
+    /**
+     * Adjust for overshoot.
+     *
+     * @param dimension
+     *         dimension
+     * @return the int
+     */
     private int adjustForOvershoot(int dimension) {
         return dimension * 12 / 10;
     }
@@ -378,10 +537,22 @@ public class FloatingActionsMenu extends ViewGroup {
         return super.checkLayoutParams(p);
     }
 
+    /**
+     * The constant sExpandInterpolator.
+     */
     private static Interpolator sExpandInterpolator = new OvershootInterpolator();
+    /**
+     * The constant sCollapseInterpolator.
+     */
     private static Interpolator sCollapseInterpolator = new DecelerateInterpolator(3f);
+    /**
+     * The constant sAlphaExpandInterpolator.
+     */
     private static Interpolator sAlphaExpandInterpolator = new DecelerateInterpolator();
 
+    /**
+     * The type Layout params.
+     */
     private class LayoutParams extends ViewGroup.LayoutParams {
 
         private ObjectAnimator mExpandDir = new ObjectAnimator();
@@ -443,6 +614,9 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Create labels.
+     */
     private void createLabels() {
         Context context = new ContextThemeWrapper(getContext(), mLabelsStyle);
 
@@ -461,6 +635,9 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Collapse void.
+     */
     public void collapse() {
         if (mExpanded) {
             mExpanded = false;
@@ -472,6 +649,9 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Toggle void.
+     */
     public void toggle() {
         if (mExpanded) {
             collapse();
@@ -480,6 +660,9 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Expand void.
+     */
     public void expand() {
         if (!mExpanded) {
             mExpanded = true;
@@ -491,6 +674,11 @@ public class FloatingActionsMenu extends ViewGroup {
         }
     }
 
+    /**
+     * Is expanded.
+     *
+     * @return the boolean
+     */
     public boolean isExpanded() {
         return mExpanded;
     }
@@ -510,8 +698,8 @@ public class FloatingActionsMenu extends ViewGroup {
             SavedState savedState = (SavedState) state;
             mExpanded = savedState.mExpanded;
 
-            if (mRotatingDrawable != null) {
-                mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+            if (mRotatingDrawable != null && mRotatingDrawable instanceof RotatingDrawable) {
+                ((RotatingDrawable) mRotatingDrawable).setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
             }
 
             super.onRestoreInstanceState(savedState.getSuperState());
