@@ -21,6 +21,10 @@ Features
 
   ![Demo](screenshots/labels.png)
 
+* Optional Menu Icon in `FloatingActionsMenu`
+
+  ![Demo](screenshots/menuIcon)
+  
 Usage
 =====
 Just add the dependency to your `build.gradle`:
