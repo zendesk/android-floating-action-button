@@ -115,6 +115,7 @@
         fab:fab_addButtonSize="mini"
         fab:fab_addButtonPlusIconColor="@color/half_black"
         fab:fab_expandDirection="down"
+        fab:fab_labelStyle="@style/menu_labels_style"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
@@ -127,10 +128,12 @@
             fab:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
-            fab:fab_colorPressed="@color/white_pressed"/>
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_title="Click to remove"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_gone"

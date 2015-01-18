@@ -43,6 +43,14 @@ public class MainActivity extends Activity {
     });
     ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
 
+    final FloatingActionButton removeAction = (FloatingActionButton) findViewById(R.id.button_remove);
+    removeAction.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ((FloatingActionsMenu) findViewById(R.id.multiple_actions_down)).removeButton(removeAction);
+      }
+    });
+
     ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
     drawable.getPaint().setColor(getResources().getColor(R.color.white));
     ((FloatingActionButton) findViewById(R.id.setter_drawable)).setIconDrawable(drawable);

@@ -213,7 +213,7 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
-  private TextView getLabelView() {
+  TextView getLabelView() {
     return (TextView) getTag(R.id.fab_label);
   }
 
