@@ -41,6 +41,15 @@ public class MainActivity extends Activity {
         actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
       }
     });
+
+    final FloatingActionButton actionRemove = (FloatingActionButton) findViewById(R.id.action_remove);
+    actionRemove.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).removeButton(actionRemove);
+          }
+     });
+
     ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
 
     ShapeDrawable drawable = new ShapeDrawable(new OvalShape());

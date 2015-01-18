@@ -182,6 +182,15 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  public void removeButton(FloatingActionButton button) {
+        removeView(button.getLabelView());
+        removeView(button);
+        mButtonsCount--;
+        if (mLabelsStyle != 0) {
+            createLabels();
+        }
+  }
+
   private int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
