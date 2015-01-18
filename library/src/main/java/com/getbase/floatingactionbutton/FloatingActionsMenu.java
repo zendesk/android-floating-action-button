@@ -269,7 +269,7 @@ public class FloatingActionsMenu extends ViewGroup {
       int addButtonLeft = r - l - mMaxButtonWidth + (mMaxButtonWidth - mAddButton.getMeasuredWidth()) / 2;
       mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
-      int labelsRight = addButtonLeft - mLabelsMargin;
+      int labelsRight = r - l - mMaxButtonWidth - mLabelsMargin;
 
       int nextY = expandUp ?
           addButtonY - mButtonSpacing :
