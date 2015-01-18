@@ -172,4 +172,14 @@
         android:id="@+id/setter_drawable"
         android:layout_above="@id/setter"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Layout"
+        android:id="@+id/layout"
+        android:layout_below="@+id/multiple_actions_left"
+        android:layout_alignLeft="@+id/normal_plus"
+        android:layout_alignStart="@+id/normal_plus"
+        android:layout_marginTop="16dp"/>
 </RelativeLayout>

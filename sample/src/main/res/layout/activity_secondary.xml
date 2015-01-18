@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.getbase.floatingactionbutton.FloatingActionButtonLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                             xmlns:fab="http://schemas.android.com/apk/res-auto"
+                                                             android:orientation="vertical"
+                                                             android:layout_width="match_parent"
+                                                             android:layout_height="match_parent"
+                                                             fab:fab_ly_top_id="@+id/topLayout"
+                                                             fab:fab_ly_scrollable_id="@+id/scrollable">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1000dp"
+        android:id="@+id/scrollable"
+        android:paddingTop="200dp"
+        android:clipToPadding="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="600dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/topLayout"
+        android:orientation="vertical"
+        android:background="@color/pink" />
+
+</com.getbase.floatingactionbutton.FloatingActionButtonLayout>
