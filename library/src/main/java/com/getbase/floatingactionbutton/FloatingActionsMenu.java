@@ -383,6 +383,7 @@ public class FloatingActionsMenu extends ViewGroup {
     private ObjectAnimator mExpandAlpha = new ObjectAnimator();
     private ObjectAnimator mCollapseDir = new ObjectAnimator();
     private ObjectAnimator mCollapseAlpha = new ObjectAnimator();
+    private boolean animationsSetToPlay;
 
     public LayoutParams(ViewGroup.LayoutParams source) {
       super(source);
@@ -410,12 +411,6 @@ public class FloatingActionsMenu extends ViewGroup {
         mExpandDir.setProperty(View.TRANSLATION_X);
         break;
       }
-
-      mExpandAnimation.play(mExpandAlpha);
-      mExpandAnimation.play(mExpandDir);
-
-      mCollapseAnimation.play(mCollapseAlpha);
-      mCollapseAnimation.play(mCollapseDir);
     }
 
     public void setAnimationsTarget(View view) {
@@ -423,6 +418,15 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseDir.setTarget(view);
       mExpandAlpha.setTarget(view);
       mExpandDir.setTarget(view);
+
+      // Now that the animations have targets, set them to be played
+      if (!animationsSetToPlay) {
+        mCollapseAnimation.play(mCollapseAlpha);
+        mCollapseAnimation.play(mCollapseDir);
+        mExpandAnimation.play(mExpandAlpha);
+        mExpandAnimation.play(mExpandDir);
+        animationsSetToPlay = true;
+      }
     }
   }
 

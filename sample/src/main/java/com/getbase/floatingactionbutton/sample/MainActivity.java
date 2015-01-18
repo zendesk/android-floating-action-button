@@ -54,5 +54,8 @@ public class MainActivity extends Activity {
         actionA.setTitle("Action A clicked");
       }
     });
+
+    // Test that FAMs containing FABs with visibility GONE do not cause crashes
+    findViewById(R.id.button_gone).setVisibility(View.GONE);
   }
 }
