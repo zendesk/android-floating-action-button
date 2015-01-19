@@ -399,22 +399,22 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseDir.setInterpolator(sCollapseInterpolator);
       mCollapseAlpha.setInterpolator(sCollapseInterpolator);
 
-      mCollapseAlpha.setProperty(View.ALPHA);
+      mCollapseAlpha.setPropertyName("alpha");
       mCollapseAlpha.setFloatValues(1f, 0f);
 
-      mExpandAlpha.setProperty(View.ALPHA);
+      mExpandAlpha.setPropertyName("alpha");
       mExpandAlpha.setFloatValues(0f, 1f);
 
       switch (mExpandDirection) {
       case EXPAND_UP:
       case EXPAND_DOWN:
-        mCollapseDir.setProperty(View.TRANSLATION_Y);
-        mExpandDir.setProperty(View.TRANSLATION_Y);
+        mCollapseDir.setPropertyName("translationY");
+        mExpandDir.setPropertyName("translationY");
         break;
       case EXPAND_LEFT:
       case EXPAND_RIGHT:
-        mCollapseDir.setProperty(View.TRANSLATION_X);
-        mExpandDir.setProperty(View.TRANSLATION_X);
+        mCollapseDir.setPropertyName("translationX");
+        mExpandDir.setPropertyName("translationX");
         break;
       }
     }
