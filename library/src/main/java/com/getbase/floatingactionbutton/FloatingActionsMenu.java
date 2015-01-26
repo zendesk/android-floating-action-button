@@ -455,14 +455,17 @@ public class FloatingActionsMenu extends ViewGroup {
       FloatingActionButton button = (FloatingActionButton) getChildAt(i);
       String title = button.getTitle();
 
-      if (button == mAddButton || title == null ||
-          button.getTag(R.id.fab_label) != null) continue;
-
-      TextView label = new TextView(context);
-      label.setText(button.getTitle());
-      addView(label);
-
-      button.setTag(R.id.fab_label, label);
+      if (button == mAddButton || title == null) continue;
+    
+      TextView label = button.getLabelView();
+      if (label == null) {
+        label = new TextView(context);
+        label.setText(button.getTitle());
+        button.setTag(R.id.fab_label, label);
+      }
+      if (label.getParent() == null){
+        addView(label);
+      }
     }
   }
 
