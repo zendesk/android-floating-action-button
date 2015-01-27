@@ -130,7 +130,11 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
-
+  /**
+  * Set normal color to the plus button and to all children of this menu.
+  *
+  * @param normalColor The normal color
+  */
   public void setColorNormalToAll(int normalColor) {
     mAddButtonColorNormal = normalColor;
     mAddButton.setColorNormal(normalColor);
@@ -143,6 +147,11 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  /**
+  * Set pressed color to the plus button and to all children of this menu.
+  *
+  * @param pressedColor The pressed color
+  */
   public void setColorPressedToAll(int pressedColor) {
     mAddButtonColorPressed = pressedColor;
     mAddButton.setColorPressed(pressedColor);
@@ -154,7 +163,12 @@ public class FloatingActionsMenu extends ViewGroup {
       }
     }
   }
-
+  
+  /**
+  * Set normal color id to the plus button and to all children of this menu.
+  *
+  * @param normalColor The normal color res id
+  */
   public void setColorNormalResIdToAll(@ColorRes int normalColor) {
     mAddButtonColorNormal = getColor(normalColor);
     mAddButton.setColorNormalResId(normalColor);
@@ -167,6 +181,11 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  /**
+  * Set pressed color id to the plus button and to all children of this menu.
+  *
+  * @param pressedColor The pressed color res id
+  */
   public void setColorPressedResIdToAll(@ColorRes int pressedColor) {
     mAddButtonColorPressed = getColor(pressedColor);
     mAddButton.setColorPressedResId(pressedColor);
