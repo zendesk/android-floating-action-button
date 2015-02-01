@@ -21,6 +21,7 @@
         android:layout_above="@id/pink_icon"
         android:text="Text below button"
         android:layout_centerHorizontal="true"
+        style="@style/menu_labels_style"
         android:layout_marginBottom="48dp"/>
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
