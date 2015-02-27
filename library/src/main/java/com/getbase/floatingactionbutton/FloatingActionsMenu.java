@@ -596,6 +596,9 @@ public class FloatingActionsMenu extends ViewGroup {
 
       if (mRotatingDrawable != null) {
         ((RotatingDrawable) mRotatingDrawable.getDrawable(COLLAPSED_DRAWABLE)).setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+        ((RotatingDrawable) mRotatingDrawable.getDrawable(EXPANDED_DRAWABLE)).setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+        mRotatingDrawable.getDrawable(COLLAPSED_DRAWABLE).setAlpha(mExpanded ? MIN_ALPHA : MAX_ALPHA);
+        mRotatingDrawable.getDrawable(EXPANDED_DRAWABLE).setAlpha(mExpanded ? MAX_ALPHA : MIN_ALPHA);
       }
 
       super.onRestoreInstanceState(savedState.getSuperState());
