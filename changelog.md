@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.6.0 *(2015-01-16)*
+----------------------------
+
+ * Added disabled state for FloatingActionButton background
+ * Added button size attribute for FloatingActionsMenu add button
+
 Version 1.5.1 *(2014-12-30)*
 ----------------------------
 

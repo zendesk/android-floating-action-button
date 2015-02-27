@@ -2,4 +2,5 @@
 <resources>
     <color name="default_normal">#ff0099cc</color><!-- android.R.color.holo_blue_dark -->
     <color name="default_pressed">#ff33b5e5</color><!-- android.R.color.holo_blue_light -->
+    <color name="default_disabled">#aaa</color><!-- android.R.color.darker_gray -->
 </resources>

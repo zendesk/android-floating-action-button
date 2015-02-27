@@ -44,6 +44,7 @@ public class FloatingActionButton extends ImageButton {
 
   int mColorNormal;
   int mColorPressed;
+  int mColorDisabled;
   String mTitle;
   @DrawableRes
   private int mIcon;
@@ -74,6 +75,7 @@ public class FloatingActionButton extends ImageButton {
     TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionButton, 0, 0);
     mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.default_normal));
     mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(R.color.default_pressed));
+    mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, getColor(R.color.default_disabled));
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
@@ -163,6 +165,24 @@ public class FloatingActionButton extends ImageButton {
     if (mColorPressed != color) {
       mColorPressed = color;
       updateBackground();
+    }
+  }
+
+  /**
+  * @return the current color for disabled state.
+  */
+  public int getColorDisabled() {
+    return mColorDisabled;
+  }
+
+  public void setColorDisabledResId(@ColorRes int colorDisabled) {
+    setColorDisabled(getColor(colorDisabled));
+  }
+
+  public void setColorDisabled(int color) {
+    if (mColorDisabled != color) {
+        mColorDisabled = color;
+        updateBackground();
     }
   }
 
@@ -258,6 +278,7 @@ public class FloatingActionButton extends ImageButton {
 
   private StateListDrawable createFillDrawable(float strokeWidth) {
     StateListDrawable drawable = new StateListDrawable();
+    drawable.addState(new int[] { -android.R.attr.state_enabled }, createCircleDrawable(mColorDisabled, strokeWidth));
     drawable.addState(new int[] { android.R.attr.state_pressed }, createCircleDrawable(mColorPressed, strokeWidth));
     drawable.addState(new int[] { }, createCircleDrawable(mColorNormal, strokeWidth));
     return drawable;
