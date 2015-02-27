@@ -25,6 +25,10 @@
         <attr name="fab_addButtonPlusIconColor" format="color"/>
         <attr name="fab_addButtonStrokeVisible" format="boolean"/>
         <attr name="fab_labelStyle" format="reference"/>
+        <attr name="fab_labelsPosition" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
         <attr name="fab_expandDirection" format="enum">
             <enum name="up" value="0"/>
             <enum name="down" value="1"/>

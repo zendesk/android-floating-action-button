@@ -28,6 +28,9 @@ public class FloatingActionsMenu extends ViewGroup {
   public static final int EXPAND_LEFT = 2;
   public static final int EXPAND_RIGHT = 3;
 
+  public static final int LABELS_ON_LEFT_SIDE = 0;
+  public static final int LABELS_ON_RIGHT_SIDE = 1;
+
   private static final int ANIMATION_DURATION = 300;
   private static final float COLLAPSED_PLUS_ROTATION = 0f;
   private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;
@@ -52,6 +55,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mMaxButtonWidth;
   private int mMaxButtonHeight;
   private int mLabelsStyle;
+  private int mLabelsPosition;
   private int mButtonsCount;
 
   private OnFloatingActionsMenuUpdateListener mListener;
@@ -88,6 +92,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
+    mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -268,10 +273,16 @@ public class FloatingActionsMenu extends ViewGroup {
 
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
       // Ensure mAddButton is centered on the line where the buttons should be
-      int addButtonLeft = r - l - mMaxButtonWidth + (mMaxButtonWidth - mAddButton.getMeasuredWidth()) / 2;
+      int buttonsHorizontalCenter = mLabelsPosition == LABELS_ON_LEFT_SIDE
+          ? r - l - mMaxButtonWidth / 2
+          : mMaxButtonWidth / 2;
+      int addButtonLeft = buttonsHorizontalCenter - mAddButton.getMeasuredWidth() / 2;
       mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
-      int labelsRight = r - l - mMaxButtonWidth - mLabelsMargin;
+      int labelsOffset = mMaxButtonWidth / 2 + mLabelsMargin;
+      int labelsXNearButton = mLabelsPosition == LABELS_ON_LEFT_SIDE
+          ? buttonsHorizontalCenter - labelsOffset
+          : buttonsHorizontalCenter + labelsOffset;
 
       int nextY = expandUp ?
           addButtonY - mButtonSpacing :
@@ -282,7 +293,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
         if (child == mAddButton || child.getVisibility() == GONE) continue;
 
-        int childX = addButtonLeft + (mAddButton.getMeasuredWidth() - child.getMeasuredWidth()) / 2;
+        int childX = buttonsHorizontalCenter - child.getMeasuredWidth() / 2;
         int childY = expandUp ? nextY - child.getMeasuredHeight() : nextY;
         child.layout(childX, childY, childX + child.getMeasuredWidth(), childY + child.getMeasuredHeight());
 
@@ -299,10 +310,21 @@ public class FloatingActionsMenu extends ViewGroup {
 
         View label = (View) child.getTag(R.id.fab_label);
         if (label != null) {
-          int labelLeft = labelsRight - label.getMeasuredWidth();
+          int labelXAwayFromButton = mLabelsPosition == LABELS_ON_LEFT_SIDE
+              ? labelsXNearButton - label.getMeasuredWidth()
+              : labelsXNearButton + label.getMeasuredWidth();
+
+          int labelLeft = mLabelsPosition == LABELS_ON_LEFT_SIDE
+              ? labelXAwayFromButton
+              : labelsXNearButton;
+
+          int labelRight = mLabelsPosition == LABELS_ON_LEFT_SIDE
+              ? labelsXNearButton
+              : labelXAwayFromButton;
+
           int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
 
-          label.layout(labelLeft, labelTop, labelsRight, labelTop + label.getMeasuredHeight());
+          label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
 
           ViewHelper.setTranslationY(label, mExpanded ? expandedTranslation : collapsedTranslation);
           ViewHelper.setAlpha(label, mExpanded ? 1f : 0f);
@@ -461,6 +483,7 @@ public class FloatingActionsMenu extends ViewGroup {
           button.getTag(R.id.fab_label) != null) continue;
 
       TextView label = new TextView(context);
+      label.setTextAppearance(getContext(), mLabelsStyle);
       label.setText(button.getTitle());
       addView(label);
 

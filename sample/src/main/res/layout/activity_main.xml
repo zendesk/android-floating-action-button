@@ -21,6 +21,7 @@
         android:layout_above="@id/pink_icon"
         android:text="Text below button"
         android:layout_centerHorizontal="true"
+        style="@style/menu_labels_style"
         android:layout_marginBottom="48dp"/>
 
     <net.i2p.android.ext.floatingactionbutton.AddFloatingActionButton
@@ -56,19 +57,37 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"/>
 
-    <net.i2p.android.ext.floatingactionbutton.AddFloatingActionButton
+    <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/normal_plus"
-        fab:fab_plusIconColor="@color/half_black"
-        fab:fab_colorNormal="@color/white"
-        fab:fab_colorPressed="@color/white_pressed"
-        fab:fab_size="mini"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"/>
+        android:layout_above="@id/normal_plus"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        fab:fab_addButtonColorNormal="@color/white"
+        fab:fab_addButtonColorPressed="@color/white_pressed"
+        fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_addButtonSize="mini"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="right">
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Label on the right"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_size="mini"
+            fab:fab_title="Another one on the right"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+    </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
 
     <net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
@@ -98,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
-            fab:fab_title="Action B"
+            fab:fab_title="Action with a very long name that won\'t fit on the screen"
             fab:fab_colorPressed="@color/white_pressed"/>
 
     </net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu>
