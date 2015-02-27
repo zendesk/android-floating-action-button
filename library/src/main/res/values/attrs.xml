@@ -35,5 +35,6 @@
             <enum name="left" value="2"/>
             <enum name="right" value="3"/>
         </attr>
+        <attr name="fab_collapsedIcon" format="reference"/>>
     </declare-styleable>
 </resources>

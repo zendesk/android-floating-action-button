@@ -70,7 +70,8 @@
         fab:fab_addButtonPlusIconColor="@color/half_black"
         fab:fab_addButtonSize="mini"
         fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="right">
+        fab:fab_labelsPosition="right"
+        fab:fab_collapsedIcon="@android:drawable/ic_menu_edit">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"

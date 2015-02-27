@@ -10,6 +10,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
@@ -33,12 +35,19 @@ public class FloatingActionsMenu extends ViewGroup {
   private static final float COLLAPSED_PLUS_ROTATION = 0f;
   private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;
 
+  private static final int COLLAPSED_DRAWABLE = 0;
+  private static final int EXPANDED_DRAWABLE = 1;
+  private static final int MAX_ALPHA = 255;
+  private static final int MIN_ALPHA = 0;
+
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
   private int mAddButtonSize;
   private boolean mAddButtonStrokeVisible;
   private int mExpandDirection;
+  @DrawableRes
+  private int mCollapsedIcon;
 
   private int mButtonSpacing;
   private int mLabelsMargin;
@@ -49,7 +58,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AddFloatingActionButton mAddButton;
-  private RotatingDrawable mRotatingDrawable;
+  private LayerDrawable mRotatingDrawable;
   private int mMaxButtonWidth;
   private int mMaxButtonHeight;
   private int mLabelsStyle;
@@ -91,6 +100,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
+    mCollapsedIcon = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_collapsedIcon, 0);
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -102,6 +112,11 @@ public class FloatingActionsMenu extends ViewGroup {
 
   public void setOnFloatingActionsMenuUpdateListener(OnFloatingActionsMenuUpdateListener listener) {
     mListener = listener;
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public void setCollapsedIcon(@DrawableRes int icon){
+    this.mCollapsedIcon = icon;
   }
 
   private boolean expandsHorizontally() {
@@ -148,21 +163,60 @@ public class FloatingActionsMenu extends ViewGroup {
 
       @Override
       Drawable getIconDrawable() {
-        final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
-        mRotatingDrawable = rotatingDrawable;
+        final RotatingDrawable expandDrawable = new RotatingDrawable(super.getIconDrawable());
+        Drawable[] layers;
 
-        final OvershootInterpolator interpolator = new OvershootInterpolator();
+        if (mCollapsedIcon != 0) {
+          final RotatingDrawable collapsedDrawable = new RotatingDrawable(getResources().getDrawable(mCollapsedIcon));
+          layers = new Drawable[]{collapsedDrawable, expandDrawable};
+        } else {
+          layers = new Drawable[]{expandDrawable};
+        }
 
-        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
-        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
+        final LayerDrawable layeredDrawable = new LayerDrawable(layers);
+        mRotatingDrawable = layeredDrawable;
 
-        collapseAnimator.setInterpolator(interpolator);
-        expandAnimator.setInterpolator(interpolator);
+        final OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 
-        mExpandAnimation.play(expandAnimator);
-        mCollapseAnimation.play(collapseAnimator);
+        final ObjectAnimator collapseCollapsedDrawableAnimator = ObjectAnimator.ofFloat(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
+        final ObjectAnimator expandCollapsedDrawableAnimator = ObjectAnimator.ofFloat(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
 
-        return rotatingDrawable;
+        collapseCollapsedDrawableAnimator.setInterpolator(overshootInterpolator);
+        expandCollapsedDrawableAnimator.setInterpolator(overshootInterpolator);
+
+        mExpandAnimation.play(expandCollapsedDrawableAnimator);
+        mCollapseAnimation.play(collapseCollapsedDrawableAnimator);
+
+        if (layeredDrawable.getNumberOfLayers() > 1) {
+          final ObjectAnimator collapseExpandedDrawableAnimator = ObjectAnimator.ofFloat(layeredDrawable.getDrawable(EXPANDED_DRAWABLE), "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
+          final ObjectAnimator expandExpandedDrawableAnimator = ObjectAnimator.ofFloat(layeredDrawable.getDrawable(EXPANDED_DRAWABLE), "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
+
+          collapseExpandedDrawableAnimator.setInterpolator(overshootInterpolator);
+          expandExpandedDrawableAnimator.setInterpolator(overshootInterpolator);
+
+          mExpandAnimation.play(expandExpandedDrawableAnimator);
+          mCollapseAnimation.play(collapseExpandedDrawableAnimator);
+
+          layeredDrawable.getDrawable(EXPANDED_DRAWABLE).setAlpha(MIN_ALPHA);
+
+          final ObjectAnimator fadeInCollapsedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), View.ALPHA.getName(), MIN_ALPHA, MAX_ALPHA, MAX_ALPHA, MAX_ALPHA);
+          final ObjectAnimator fadeOutCollapsedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), View.ALPHA.getName(), MAX_ALPHA, MIN_ALPHA, MIN_ALPHA, MIN_ALPHA);
+          final ObjectAnimator fadeInExpandedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(EXPANDED_DRAWABLE), View.ALPHA.getName(), MIN_ALPHA, MAX_ALPHA, MAX_ALPHA, MAX_ALPHA);
+          final ObjectAnimator fadeOutExpandedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(EXPANDED_DRAWABLE), View.ALPHA.getName(), MAX_ALPHA, MIN_ALPHA, MIN_ALPHA, MIN_ALPHA);
+
+          final Interpolator accelerateInterpolator = new LinearInterpolator();
+
+          fadeInCollapsedDrawableAnimator.setInterpolator(accelerateInterpolator);
+          fadeOutCollapsedDrawableAnimator.setInterpolator(accelerateInterpolator);
+          fadeInExpandedDrawableAnimator.setInterpolator(accelerateInterpolator);
+          fadeOutExpandedDrawableAnimator.setInterpolator(accelerateInterpolator);
+
+          mExpandAnimation.play(fadeOutCollapsedDrawableAnimator).with(fadeInExpandedDrawableAnimator);
+
+          mCollapseAnimation.play(fadeInCollapsedDrawableAnimator).with(fadeOutExpandedDrawableAnimator);
+        }
+
+        return layeredDrawable;
       }
     };
 
@@ -541,7 +595,7 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpanded = savedState.mExpanded;
 
       if (mRotatingDrawable != null) {
-        mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+        ((RotatingDrawable) mRotatingDrawable.getDrawable(COLLAPSED_DRAWABLE)).setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
       }
 
       super.onRestoreInstanceState(savedState.getSuperState());
