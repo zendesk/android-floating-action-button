@@ -17,13 +17,17 @@ Features
 
   ![Demo](screenshots/menu.gif)
 
+* Optional labels for buttons in `FloatingActionsMenu`.
+
+  ![Demo](screenshots/labels.png)
+
 Usage
 =====
 Just add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    compile 'com.getbase:floatingactionbutton:1.3.0'
+    compile 'com.getbase:floatingactionbutton:1.8.0'
 }
 ```
 
@@ -34,6 +38,8 @@ Caveats
 The API is **extremely** limited at the moment. It solves few select use cases in the app I'm working on.
 
 Unlike some other FloatingActionButton libraries this library doesn't implement "quick return" pattern, i.e. hiding the button on scrolling down and showing it on scrolling up. That's intentional, I think that should be responsibility of another component, not the button itself.
+
+This library is `minSdkVersion=14` and if that changes, the version number will be increased, not decreased. It means that Honeycomb, Gingerbread or - gods forbid - Froyo, won't ever be supported. I won't even consider merging pull requests fully implementing support for older versions. We need to move on as Android community and focus on delivering value for 95% of users of modern Android OS instead of jumping through burning hoops to support ancient devices with ancient OS.
 
 Credits
 =======

@@ -1,6 +1,45 @@
 Change Log
 ==========
 
+Version 1.8.0 *(2015-02-18)*
+----------------------------
+
+ * Added `fab_labelsPosition` attribute
+ * Fixed issue with labels style being overridden by theme style
+
+Version 1.7.0 *(2015-02-01)*
+----------------------------
+
+ * Added removeButton API to FloatingActionsMenu
+ * Fixed NPEs related to incorrect animators initialization
+ * Fixed labels positions for FloatingActionsMenu with mini add button
+
+Version 1.6.0 *(2015-01-16)*
+----------------------------
+
+ * Added disabled state for FloatingActionButton background
+ * Added button size attribute for FloatingActionsMenu add button
+
+Version 1.5.1 *(2014-12-30)*
+----------------------------
+
+ * Fixed setting FloatingActionButton icon with `fab_icon` XML attribute
+ * Fixed issues with changing visibility of FloatingActionButtons inside FloatingActionsMenu
+
+
+Version 1.5.0 *(2014-12-30)*
+----------------------------
+
+ * Added icon drawable setter for FloatingActionButton
+ * Better looking strokes of FloatingActionButtons
+ * Option to disable strokes of FloatingActionButton
+
+Version 1.4.0 *(2014-12-21)*
+----------------------------
+
+ * Added labels setter for FloatingActionButton
+ * Reduce memory footprint of FloatingActionButton and fix OOM issues.
+
 Version 1.3.0 *(2014-12-08)*
 ----------------------------
 
