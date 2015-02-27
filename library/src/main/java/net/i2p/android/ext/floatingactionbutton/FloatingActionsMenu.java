@@ -184,6 +184,12 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  public void removeButton(FloatingActionButton button) {
+    removeView(button.getLabelView());
+    removeView(button);
+    mButtonsCount--;
+  }
+
   private int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
@@ -265,7 +271,7 @@ public class FloatingActionsMenu extends ViewGroup {
       int addButtonLeft = r - l - mMaxButtonWidth + (mMaxButtonWidth - mAddButton.getMeasuredWidth()) / 2;
       mAddButton.layout(addButtonLeft, addButtonY, addButtonLeft + mAddButton.getMeasuredWidth(), addButtonY + mAddButton.getMeasuredHeight());
 
-      int labelsRight = addButtonLeft - mLabelsMargin;
+      int labelsRight = r - l - mMaxButtonWidth - mLabelsMargin;
 
       int nextY = expandUp ?
           addButtonY - mButtonSpacing :
@@ -385,6 +391,7 @@ public class FloatingActionsMenu extends ViewGroup {
     private ObjectAnimator mExpandAlpha = new ObjectAnimator();
     private ObjectAnimator mCollapseDir = new ObjectAnimator();
     private ObjectAnimator mCollapseAlpha = new ObjectAnimator();
+    private boolean animationsSetToPlay;
 
     public LayoutParams(ViewGroup.LayoutParams source) {
       super(source);
@@ -412,12 +419,6 @@ public class FloatingActionsMenu extends ViewGroup {
         mExpandDir.setPropertyName("translationX");
         break;
       }
-
-      mExpandAnimation.play(mExpandAlpha);
-      mExpandAnimation.play(mExpandDir);
-
-      mCollapseAnimation.play(mCollapseAlpha);
-      mCollapseAnimation.play(mCollapseDir);
     }
 
     public void setAnimationsTarget(View view) {
@@ -425,6 +426,15 @@ public class FloatingActionsMenu extends ViewGroup {
       mCollapseDir.setTarget(view);
       mExpandAlpha.setTarget(view);
       mExpandDir.setTarget(view);
+
+      // Now that the animations have targets, set them to be played
+      if (!animationsSetToPlay) {
+        mCollapseAnimation.play(mCollapseAlpha);
+        mCollapseAnimation.play(mCollapseDir);
+        mExpandAnimation.play(mExpandAlpha);
+        mExpandAnimation.play(mExpandDir);
+        animationsSetToPlay = true;
+      }
     }
   }
 
