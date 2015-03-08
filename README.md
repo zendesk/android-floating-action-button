@@ -41,6 +41,8 @@ Unlike some other FloatingActionButton libraries this library doesn't implement 
 
 This library is `minSdkVersion=14` and if that changes, the version number will be increased, not decreased. It means that Honeycomb, Gingerbread or - gods forbid - Froyo, won't ever be supported. I won't even consider merging pull requests fully implementing support for older versions. We need to move on as Android community and focus on delivering value for 95% of users of modern Android OS instead of jumping through burning hoops to support ancient devices with ancient OS.
 
+If you **really** require support for older Android versions, [str4d](https://github.com/str4d) maintains [a version of this library with `minSdkVersion=4`](https://github.com/str4d/android-floating-action-button).
+
 Credits
 =======
 I used [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton) library by [Oleksandr Melnykov](https://github.com/makovkastar) as a base for development.
