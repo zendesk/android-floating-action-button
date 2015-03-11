@@ -135,6 +135,36 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+
+  /**
+   * Sets the normal color of the add button
+   *
+   * @param color
+   */
+  public void setAddButtonColorNormal(int color) {
+      mAddButtonColorNormal = color;
+      mAddButton.updateBackground();
+  }
+
+  public void setAddButtonColorNormalResId(@ColorRes int plusColor) {
+      setAddButtonColorNormal(getColor(plusColor));
+  }
+
+  /**
+   * Sets the pressed color of the add button
+   *
+   * @param color
+   */
+  public void setAddButtonColorPressed(int color) {
+      mAddButtonColorPressed = color;
+      mAddButton.updateBackground();
+  }
+
+  public void setAddButtonColorPressedResId(@ColorRes int plusColor) {
+      setAddButtonColorPressed(getColor(plusColor));
+  }
+
+
   private void createAddButton(Context context) {
     mAddButton = new AddFloatingActionButton(context) {
       @Override
