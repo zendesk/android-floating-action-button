@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion "21.1.2"
+  compileSdkVersion 22
+  buildToolsVersion "22.0.0"
 
   defaultConfig {
     minSdkVersion 14
-    targetSdkVersion 19
+    targetSdkVersion 22
     versionName project.VERSION_NAME
     versionCode Integer.parseInt(project.VERSION_CODE)
     consumerProguardFiles 'consumer-proguard-rules.pro'
@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:support-annotations:19.1.0'
+  compile 'com.android.support:support-annotations:21.+'
 }
 
 apply from: './gradle-mvn-push.gradle'
