@@ -65,5 +65,21 @@ public class MainActivity extends Activity {
 
     // Test that FAMs containing FABs with visibility GONE do not cause crashes
     findViewById(R.id.button_gone).setVisibility(View.GONE);
+
+    final FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_left);
+    findViewById(R.id.make_fam_pink).setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        menu.setAddButtonColorNormalResId(R.color.pink);
+        menu.setAddButtonColorPressedResId(R.color.pink_pressed);
+      }
+    });
+    findViewById(R.id.make_fam_white).setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        menu.setAddButtonColorNormalResId(R.color.white);
+        menu.setAddButtonColorPressedResId(R.color.white_pressed);
+      }
+    });
   }
 }
