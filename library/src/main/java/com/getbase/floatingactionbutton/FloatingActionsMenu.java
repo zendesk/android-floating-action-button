@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -58,6 +60,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mLabelsPosition;
   private int mButtonsCount;
 
+  private TouchDelegateGroup mTouchDelegateGroup;
+
   private OnFloatingActionsMenuUpdateListener mListener;
 
   public interface OnFloatingActionsMenuUpdateListener {
@@ -83,6 +87,9 @@ public class FloatingActionsMenu extends ViewGroup {
     mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
     mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
     mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
+
+    mTouchDelegateGroup = new TouchDelegateGroup(this);
+    setTouchDelegate(mTouchDelegateGroup);
 
     TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
     mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
@@ -271,6 +278,10 @@ public class FloatingActionsMenu extends ViewGroup {
     case EXPAND_DOWN:
       boolean expandUp = mExpandDirection == EXPAND_UP;
 
+      if (changed) {
+        mTouchDelegateGroup.clearTouchDelegates();
+      }
+
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
       // Ensure mAddButton is centered on the line where the buttons should be
       int buttonsHorizontalCenter = mLabelsPosition == LABELS_ON_LEFT_SIDE
@@ -325,6 +336,13 @@ public class FloatingActionsMenu extends ViewGroup {
           int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
 
           label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
+
+          Rect touchArea = new Rect(
+              Math.min(childX, labelLeft),
+              childY - mButtonSpacing / 2,
+              Math.max(childX + child.getMeasuredWidth(), labelRight),
+              childY + child.getMeasuredHeight() + mButtonSpacing / 2);
+          mTouchDelegateGroup.addTouchDelegate(new TouchDelegate(touchArea, child));
 
           label.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
           label.setAlpha(mExpanded ? 1f : 0f);
@@ -497,6 +515,7 @@ public class FloatingActionsMenu extends ViewGroup {
   public void collapse() {
     if (mExpanded) {
       mExpanded = false;
+      mTouchDelegateGroup.setEnabled(false);
       mCollapseAnimation.start();
       mExpandAnimation.cancel();
 
@@ -517,6 +536,7 @@ public class FloatingActionsMenu extends ViewGroup {
   public void expand() {
     if (!mExpanded) {
       mExpanded = true;
+      mTouchDelegateGroup.setEnabled(true);
       mCollapseAnimation.cancel();
       mExpandAnimation.start();
 
@@ -544,6 +564,7 @@ public class FloatingActionsMenu extends ViewGroup {
     if (state instanceof SavedState) {
       SavedState savedState = (SavedState) state;
       mExpanded = savedState.mExpanded;
+      mTouchDelegateGroup.setEnabled(mExpanded);
 
       if (mRotatingDrawable != null) {
         mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
