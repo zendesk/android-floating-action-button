@@ -198,6 +198,7 @@ public class FloatingActionsMenu extends ViewGroup {
           mCollapseAnimation.play(collapseExpandedDrawableAnimator);
 
           layeredDrawable.getDrawable(EXPANDED_DRAWABLE).setAlpha(MIN_ALPHA);
+          layeredDrawable.getDrawable(COLLAPSED_DRAWABLE).setAlpha(MAX_ALPHA);
 
           final ObjectAnimator fadeInCollapsedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), View.ALPHA.getName(), MIN_ALPHA, MAX_ALPHA, MAX_ALPHA, MAX_ALPHA);
           final ObjectAnimator fadeOutCollapsedDrawableAnimator = ObjectAnimator.ofInt(layeredDrawable.getDrawable(COLLAPSED_DRAWABLE), View.ALPHA.getName(), MAX_ALPHA, MIN_ALPHA, MIN_ALPHA, MIN_ALPHA);
