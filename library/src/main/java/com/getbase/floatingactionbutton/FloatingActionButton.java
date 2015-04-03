@@ -118,7 +118,10 @@ public class FloatingActionButton extends ImageButton {
   }
   
   public void setIconFillCircle(boolean fillCircle){
-    mIconFillCircle = fillCircle;
+      if(mIconFillCircle != fillCircle) {
+          mIconFillCircle = fillCircle;
+          updateBackground();
+      }
   }
 
   public void setIcon(@DrawableRes int icon) {
