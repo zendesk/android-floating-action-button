@@ -17,6 +17,7 @@
     </declare-styleable>
     <declare-styleable name="FloatingActionsMenu">
         <attr name="fab_bitmap" format="reference"/>
+        <!--update rotation-->
         <attr name="fab_rotation" format="float"/>
         <attr name="fab_addButtonColorPressed" format="color"/>
         <attr name="fab_addButtonColorNormal" format="color"/>
