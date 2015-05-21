@@ -25,6 +25,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class FloatingActionButton extends ImageButton {
   private int mIcon;
   private Drawable mIconDrawable;
   private int mSize;
+    private int mIconTint;
 
   private float mCircleSize;
   private float mShadowRadius;
@@ -78,6 +80,7 @@ public class FloatingActionButton extends ImageButton {
     mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, getColor(android.R.color.darker_gray));
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+    mIconTint = attr.getInt(R.styleable.FloatingActionButton_fab_iconTint, getColor(android.R.color.transparent));
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
     attr.recycle();
@@ -231,12 +234,18 @@ public class FloatingActionButton extends ImageButton {
     final float strokeWidth = getDimension(R.dimen.fab_stroke_width);
     final float halfStrokeWidth = strokeWidth / 2f;
 
+    Drawable wrapDrawable = DrawableCompat.wrap(getIconDrawable());
+
+    if (mIconTint != getColor(android.R.color.transparent)) {
+        DrawableCompat.setTint(wrapDrawable, mIconTint);
+    }
+
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(strokeWidth),
             createOuterStrokeDrawable(strokeWidth),
-            getIconDrawable()
+            wrapDrawable
         });
 
     int iconOffset = (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
