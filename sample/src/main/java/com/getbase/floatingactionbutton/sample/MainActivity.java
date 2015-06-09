@@ -65,5 +65,16 @@ public class MainActivity extends Activity {
 
     // Test that FAMs containing FABs with visibility GONE do not cause crashes
     findViewById(R.id.button_gone).setVisibility(View.GONE);
+
+    FloatingActionsMenu rightLabels = (FloatingActionsMenu) findViewById(R.id.right_labels);
+    FloatingActionButton addedOnce = new FloatingActionButton(this);
+    addedOnce.setTitle("Added once");
+    rightLabels.addButton(addedOnce);
+
+    FloatingActionButton addedTwice = new FloatingActionButton(this);
+    addedTwice.setTitle("Added twice");
+    rightLabels.addButton(addedTwice);
+    rightLabels.removeButton(addedTwice);
+    rightLabels.addButton(addedTwice);
   }
 }

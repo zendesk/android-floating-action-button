@@ -58,6 +58,7 @@
         android:layout_marginStart="16dp"/>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/right_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
