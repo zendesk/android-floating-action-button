@@ -197,6 +197,7 @@ public class FloatingActionsMenu extends ViewGroup {
   public void removeButton(FloatingActionButton button) {
     removeView(button.getLabelView());
     removeView(button);
+    button.setTag(R.id.fab_label, null);
     mButtonsCount--;
   }
 
