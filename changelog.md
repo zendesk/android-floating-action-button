@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.9.1 *(2015-06-09)*
+----------------------------
+
+ * Fixed issue with missing label on FloatingActionButton added, remove and added again
+ * Fixed libpng warings on processing shadow resources. Bonus: new assets are a bit lighter
+
 Version 1.9.0 *(2015-03-14)*
 ----------------------------
 
