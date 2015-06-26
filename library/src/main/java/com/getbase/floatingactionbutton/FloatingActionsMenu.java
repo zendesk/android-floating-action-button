@@ -551,6 +551,7 @@ public class FloatingActionsMenu extends ViewGroup {
     Parcelable superState = super.onSaveInstanceState();
     SavedState savedState = new SavedState(superState);
     savedState.mExpanded = mExpanded;
+    savedState.mButtonsCount = mButtonsCount;
 
     return savedState;
   }
@@ -560,6 +561,7 @@ public class FloatingActionsMenu extends ViewGroup {
     if (state instanceof SavedState) {
       SavedState savedState = (SavedState) state;
       mExpanded = savedState.mExpanded;
+      mButtonsCount = savedState.mButtonsCount;
       mTouchDelegateGroup.setEnabled(mExpanded);
 
       if (mRotatingDrawable != null) {
@@ -574,6 +576,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
   public static class SavedState extends BaseSavedState {
     public boolean mExpanded;
+    public int mButtonsCount;
 
     public SavedState(Parcelable parcel) {
       super(parcel);
@@ -582,12 +585,14 @@ public class FloatingActionsMenu extends ViewGroup {
     private SavedState(Parcel in) {
       super(in);
       mExpanded = in.readInt() == 1;
+      mButtonsCount = in.readInt();
     }
 
     @Override
     public void writeToParcel(@NonNull Parcel out, int flags) {
       super.writeToParcel(out, flags);
       out.writeInt(mExpanded ? 1 : 0);
+      out.writeInt(mButtonsCount);
     }
 
     public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
