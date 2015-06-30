@@ -254,12 +254,12 @@ public class FloatingActionsMenu extends ViewGroup {
     switch (mExpandDirection) {
     case EXPAND_UP:
     case EXPAND_DOWN:
-      height += mButtonSpacing * (getChildCount() - 1);
+      height += mButtonSpacing * (mButtonsCount - 1);
       height = adjustForOvershoot(height);
       break;
     case EXPAND_LEFT:
     case EXPAND_RIGHT:
-      width += mButtonSpacing * (getChildCount() - 1);
+      width += mButtonSpacing * (mButtonsCount - 1);
       width = adjustForOvershoot(width);
       break;
     }
