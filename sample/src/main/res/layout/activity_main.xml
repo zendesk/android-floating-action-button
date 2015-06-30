@@ -156,6 +156,23 @@
             fab:fab_title="Click to remove"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_switch_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_title="Click to Switch to 2"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_switch_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_title="Click to Switch to 1"
+            android:visibility="gone"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
