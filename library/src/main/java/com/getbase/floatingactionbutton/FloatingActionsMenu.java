@@ -548,6 +548,13 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   @Override
+  public void setEnabled(boolean enabled) {
+    super.setEnabled(enabled);
+
+    mAddButton.setEnabled(enabled);
+  }
+
+  @Override
   public Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
     SavedState savedState = new SavedState(superState);
