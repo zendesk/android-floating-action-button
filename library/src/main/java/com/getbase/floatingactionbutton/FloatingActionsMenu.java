@@ -510,11 +510,17 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   public void collapse() {
+    collapse(false);
+  }
+
+  public void collapse(boolean immediately) {
     if (mExpanded) {
       mExpanded = false;
       mTouchDelegateGroup.setEnabled(false);
-      mCollapseAnimation.start();
+
       mExpandAnimation.cancel();
+      mCollapseAnimation.setDuration(immediately ? 0 : ANIMATION_DURATION);
+      mCollapseAnimation.start();
 
       if (mListener != null) {
         mListener.onMenuCollapsed();
@@ -545,6 +551,13 @@ public class FloatingActionsMenu extends ViewGroup {
 
   public boolean isExpanded() {
     return mExpanded;
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    super.setEnabled(enabled);
+
+    mAddButton.setEnabled(enabled);
   }
 
   @Override
