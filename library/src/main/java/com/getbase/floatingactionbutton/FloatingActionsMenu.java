@@ -510,9 +510,18 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   public void collapse() {
+    collapse(false);
+  }
+
+  public void collapseImmediately() {
+    collapse(true);
+  }
+
+  private void collapse(boolean immediately) {
     if (mExpanded) {
       mExpanded = false;
       mTouchDelegateGroup.setEnabled(false);
+      mCollapseAnimation.setDuration(immediately ? 0 : ANIMATION_DURATION);
       mCollapseAnimation.start();
       mExpandAnimation.cancel();
 
