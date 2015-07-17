@@ -41,7 +41,9 @@ public class MainActivity extends Activity {
         actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
       }
     });
-    ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
+
+    final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+    menuMultipleActions.addButton(actionC);
 
     final FloatingActionButton removeAction = (FloatingActionButton) findViewById(R.id.button_remove);
     removeAction.setOnClickListener(new OnClickListener() {
@@ -65,6 +67,14 @@ public class MainActivity extends Activity {
 
     // Test that FAMs containing FABs with visibility GONE do not cause crashes
     findViewById(R.id.button_gone).setVisibility(View.GONE);
+
+    final FloatingActionButton actionEnable = (FloatingActionButton) findViewById(R.id.action_enable);
+    actionEnable.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        menuMultipleActions.setEnabled(!menuMultipleActions.isEnabled());
+      }
+    });
 
     FloatingActionsMenu rightLabels = (FloatingActionsMenu) findViewById(R.id.right_labels);
     FloatingActionButton addedOnce = new FloatingActionButton(this);
