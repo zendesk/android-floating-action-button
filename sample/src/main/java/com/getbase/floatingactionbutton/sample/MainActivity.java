@@ -70,12 +70,9 @@ public class MainActivity extends Activity {
 
     final FloatingActionButton actionEnable = (FloatingActionButton) findViewById(R.id.action_enable);
     actionEnable.setOnClickListener(new OnClickListener() {
-      private boolean mMenuEnabled;
-
       @Override
       public void onClick(View view) {
-        menuMultipleActions.setEnabled(mMenuEnabled);
-        mMenuEnabled = !mMenuEnabled;
+        menuMultipleActions.setEnabled(!menuMultipleActions.isEnabled());
       }
     });
 
