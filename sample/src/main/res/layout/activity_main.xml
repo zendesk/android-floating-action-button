@@ -100,6 +100,9 @@
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
         fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_addButtonRotationEnabled="false"
+        fab:fab_addButtonIcon="@drawable/ic_fab_star"
+        fab:fab_addButtonIconTint="@color/half_black"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">

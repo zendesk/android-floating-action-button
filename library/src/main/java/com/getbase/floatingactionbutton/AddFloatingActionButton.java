@@ -55,12 +55,12 @@ public class AddFloatingActionButton extends FloatingActionButton {
   }
 
   @Override
-  public void setIcon(@DrawableRes int icon) {
-    throw new UnsupportedOperationException("Use FloatingActionButton if you want to use custom icon");
-  }
-
-  @Override
   Drawable getIconDrawable() {
+
+    if (mIcon != 0) {
+      return super.getIconDrawable();
+    }
+
     final float iconSize = getDimension(R.dimen.fab_icon_size);
     final float iconHalfSize = iconSize / 2f;
 

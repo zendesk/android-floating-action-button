@@ -23,8 +23,11 @@
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
         </attr>
+        <attr name="fab_addButtonRotationEnabled" format="boolean"/>
         <attr name="fab_addButtonPlusIconColor" format="color"/>
         <attr name="fab_addButtonStrokeVisible" format="boolean"/>
+        <attr name="fab_addButtonIcon" format="reference"/>
+        <attr name="fab_addButtonIconTint" format="color" />
         <attr name="fab_labelStyle" format="reference"/>
         <attr name="fab_labelsPosition" format="enum">
             <enum name="left" value="0"/>
