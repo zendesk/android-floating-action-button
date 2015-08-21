@@ -5,6 +5,7 @@
         <attr name="fab_colorDisabled" format="color"/>
         <attr name="fab_colorNormal" format="color"/>
         <attr name="fab_icon" format="reference"/>
+        <attr name="fab_iconTint" format="color"/>
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
