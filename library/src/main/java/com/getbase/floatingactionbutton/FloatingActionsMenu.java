@@ -186,6 +186,10 @@ public class FloatingActionsMenu extends ViewGroup {
     mButtonsCount++;
   }
 
+  public AddFloatingActionButton getAddButton() {
+    return mAddButton;
+  }
+
   public void addButton(FloatingActionButton button) {
     addView(button, mButtonsCount - 1);
     mButtonsCount++;
