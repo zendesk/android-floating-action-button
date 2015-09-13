@@ -620,4 +620,36 @@ public class FloatingActionsMenu extends ViewGroup {
       }
     };
   }
+
+  /**
+   * @return the current Color for normal state.
+   */
+  public int getColorNormal() {
+    return mAddButtonColorNormal;
+  }
+
+  public void setColorNormalResId(@ColorRes int colorNormal) {
+    setColorNormal(getColor(colorNormal));
+  }
+
+  public void setColorNormal(int color) {
+    mAddButtonColorNormal = color;
+    mAddButton.setColorNormal(color);
+  }
+
+  /**
+   * @return the current color for pressed state.
+   */
+  public int getColorPressed() {
+    return mAddButtonColorPressed;
+  }
+
+  public void setColorPressedResId(@ColorRes int colorPressed) {
+    setColorPressed(getColor(colorPressed));
+  }
+
+  public void setColorPressed(int color) {
+    mAddButtonColorPressed = color;
+    mAddButton.setColorPressed(color);
+  }
 }
