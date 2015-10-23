@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.10.1 *(2015-10-23)*
+----------------------------
+
+ * Use hardware layers to get smoother animations
+
 Version 1.10.0 *(2015-07-17)*
 ----------------------------
 
