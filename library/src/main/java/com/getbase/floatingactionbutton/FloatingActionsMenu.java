@@ -1,5 +1,7 @@
 package com.getbase.floatingactionbutton;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -469,12 +471,29 @@ public class FloatingActionsMenu extends ViewGroup {
 
       // Now that the animations have targets, set them to be played
       if (!animationsSetToPlay) {
+        addLayerTypeListener(mExpandDir, view);
+        addLayerTypeListener(mCollapseDir, view);
+
         mCollapseAnimation.play(mCollapseAlpha);
         mCollapseAnimation.play(mCollapseDir);
         mExpandAnimation.play(mExpandAlpha);
         mExpandAnimation.play(mExpandDir);
         animationsSetToPlay = true;
       }
+    }
+
+    private void addLayerTypeListener(Animator animator, final View view) {
+      animator.addListener(new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationEnd(Animator animation) {
+          view.setLayerType(LAYER_TYPE_NONE, null);
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+          view.setLayerType(LAYER_TYPE_HARDWARE, null);
+        }
+      });
     }
   }
 
