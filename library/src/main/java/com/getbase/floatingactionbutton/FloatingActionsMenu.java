@@ -502,6 +502,11 @@ public class FloatingActionsMenu extends ViewGroup {
       TextView label = new TextView(context);
       label.setTextAppearance(getContext(), mLabelsStyle);
       label.setText(button.getTitle());
+
+      if (button.getTitleColor() != 0)
+        label.setTextColor(button.getTitleColor());
+      if (button.getTitleBackgroundColor() != 0)
+        label.setBackgroundColor(button.getTitleBackgroundColor());
       addView(label);
 
       button.setTag(R.id.fab_label, label);

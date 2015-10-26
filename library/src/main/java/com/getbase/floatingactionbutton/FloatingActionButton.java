@@ -46,6 +46,8 @@ public class FloatingActionButton extends ImageButton {
   int mColorPressed;
   int mColorDisabled;
   String mTitle;
+  int mTitleColor;
+  int mTitleBackgroundColor;
   @DrawableRes
   private int mIcon;
   private Drawable mIconDrawable;
@@ -79,6 +81,8 @@ public class FloatingActionButton extends ImageButton {
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
+    mTitleColor = attr.getColor(R.styleable.FloatingActionButton_fab_titleColor, 0);
+    mTitleBackgroundColor = attr.getColor(R.styleable.FloatingActionButton_fab_titleBackgroundColor, 0);
     mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
     attr.recycle();
 
@@ -213,12 +217,36 @@ public class FloatingActionButton extends ImageButton {
     }
   }
 
+  public void setTitleColor(int color) {
+    mTitleColor = color;
+    TextView label = getLabelView();
+    if (label != null) {
+      label.setTextColor(color);
+    }
+  }
+
+  public void setTitleBackgroundColor(int color) {
+    mTitleBackgroundColor = color;
+    TextView label = getLabelView();
+    if (label != null) {
+      label.setBackgroundColor(color);
+    }
+  }
+
   TextView getLabelView() {
     return (TextView) getTag(R.id.fab_label);
   }
 
   public String getTitle() {
     return mTitle;
+  }
+
+  public int getTitleColor() {
+    return mTitleColor;
+  }
+
+  public int getTitleBackgroundColor() {
+    return mTitleBackgroundColor;
   }
 
   @Override
