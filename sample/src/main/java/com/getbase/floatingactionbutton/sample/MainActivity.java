@@ -1,19 +1,24 @@
 package com.getbase.floatingactionbutton.sample;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
 import android.app.Activity;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 public class MainActivity extends Activity {
+  public final static String TAG = "MainActivity";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
@@ -86,5 +91,26 @@ public class MainActivity extends Activity {
     rightLabels.addButton(addedTwice);
     rightLabels.removeButton(addedTwice);
     rightLabels.addButton(addedTwice);
+
+    final FloatingActionButton switch1 = (FloatingActionButton) findViewById(R.id.button_switch_1);
+    final FloatingActionButton switch2 = (FloatingActionButton) findViewById(R.id.button_switch_2);
+
+    switch1.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "Switch to 2 Click");
+        switch1.setVisibility(View.GONE);
+        switch2.setVisibility(View.VISIBLE);
+      }
+    });
+
+    switch2.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(TAG, "Switch to 1 Click");
+        switch1.setVisibility(View.VISIBLE);
+        switch2.setVisibility(View.GONE);
+      }
+    });
   }
 }

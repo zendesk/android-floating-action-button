@@ -280,9 +280,7 @@ public class FloatingActionsMenu extends ViewGroup {
     case EXPAND_DOWN:
       boolean expandUp = mExpandDirection == EXPAND_UP;
 
-      if (changed) {
-        mTouchDelegateGroup.clearTouchDelegates();
-      }
+      mTouchDelegateGroup.clearTouchDelegates();
 
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
       // Ensure mAddButton is centered on the line where the buttons should be
