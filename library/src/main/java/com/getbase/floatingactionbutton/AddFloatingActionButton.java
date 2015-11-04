@@ -46,43 +46,4 @@ public class AddFloatingActionButton extends FloatingActionButton {
       updateBackground();
     }
   }
-
- //Not Needed because we check to see if there is a drawable if not we use default (fab_add)
- //    @Override
-//    public void setIcon(@DrawableRes int icon) {
-//        if (mIcon != icon) {
-//            mIcon = icon;
-//            mAddIconDrawable = null;
-//            updateBackground();
-//        }
-//    }
-//
-//    @Override
-//    Drawable getIconDrawable() {
-//
-//        final float iconSize = getDimension(R.dimen.fab_icon_size);
-//        final float iconHalfSize = iconSize / 2f;
-//
-//        final float plusSize = getDimension(R.dimen.fab_plus_icon_size);
-//        final float plusHalfStroke = getDimension(R.dimen.fab_plus_icon_stroke) / 2f;
-//        final float plusOffset = (iconSize - plusSize) / 2f;
-//
-//        final Shape shape = new Shape() {
-//            @Override
-//            public void draw(Canvas canvas, Paint paint) {
-//                canvas.drawRect(plusOffset, iconHalfSize - plusHalfStroke, iconSize - plusOffset, iconHalfSize + plusHalfStroke, paint);
-//                canvas.drawRect(iconHalfSize - plusHalfStroke, plusOffset, iconHalfSize + plusHalfStroke, iconSize - plusOffset, paint);
-//            }
-//        };
-//
-//        ShapeDrawable drawable = new ShapeDrawable(shape);
-//
-//        final Paint paint = drawable.getPaint();
-//        paint.setColor(mPlusColor);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setAntiAlias(true);
-//
-//
-//        return drawable;
-//    }
 }
