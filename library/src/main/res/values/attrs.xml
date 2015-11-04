@@ -12,12 +12,13 @@
         <attr name="fab_title" format="string"/>
         <attr name="fab_stroke_visible" format="boolean"/>
     </declare-styleable>
-    <declare-styleable name="AddFloatingActionButton">
+    <declare-styleable name="AddFloatingActionButton" parent="FloatingActionButton">
         <attr name="fab_plusIconColor" format="color"/>
     </declare-styleable>
-    <declare-styleable name="FloatingActionsMenu">
+    <declare-styleable name="FloatingActionsMenu" parent="FloatingActionButton">
         <attr name="fab_addButtonColorPressed" format="color"/>
         <attr name="fab_addButtonColorNormal" format="color"/>
+		<attr name="menu_icon" format="reference" />
         <attr name="fab_addButtonSize" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>

@@ -48,7 +48,7 @@ public class FloatingActionButton extends ImageButton {
   String mTitle;
   @DrawableRes
   private int mIcon;
-  private Drawable mIconDrawable;
+  Drawable mIconDrawable;
   private int mSize;
 
   private float mCircleSize;
