@@ -188,12 +188,12 @@ public class FloatingActionsMenu extends ViewGroup {
       }
 
       canvas.save();
-      canvas.scale(1 - mProgress, 1 - mProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
+      canvas.scale(1 - mProgress, 1 - mProgress, getBounds().centerX(), getBounds().centerY());
       mStartDrawable.draw(canvas);
       canvas.restore();
 
       canvas.save();
-      canvas.scale(mProgress, mProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
+      canvas.scale(mProgress, mProgress, getBounds().centerX(), getBounds().centerY());
       mEndDrawable.draw(canvas);
       canvas.restore();
     }
