@@ -24,6 +24,8 @@
         </attr>
         <attr name="fab_addButtonPlusIconColor" format="color"/>
         <attr name="fab_addButtonStrokeVisible" format="boolean"/>
+        <attr name="fab_addButtonIcon" format="reference"/>
+        <attr name="fab_addButtonIconPressed" format="reference"/>
         <attr name="fab_labelStyle" format="reference"/>
         <attr name="fab_labelsPosition" format="enum">
             <enum name="left" value="0"/>

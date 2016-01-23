@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -42,6 +43,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonColorPressed;
   private int mAddButtonSize;
   private boolean mAddButtonStrokeVisible;
+  private int mAddButtonIcon;
+  private int mAddButtonIconPressed;
   private int mExpandDirection;
 
   private int mButtonSpacing;
@@ -52,8 +55,9 @@ public class FloatingActionsMenu extends ViewGroup {
 
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
-  private AddFloatingActionButton mAddButton;
+  private FloatingActionButton mAddButton;
   private RotatingDrawable mRotatingDrawable;
+  private SwitchingDrawable mSwitchingDrawable;
   private int mMaxButtonWidth;
   private int mMaxButtonHeight;
   private int mLabelsStyle;
@@ -97,6 +101,8 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
     mAddButtonSize = attr.getInt(R.styleable.FloatingActionsMenu_fab_addButtonSize, FloatingActionButton.SIZE_NORMAL);
     mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
+    mAddButtonIcon = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_addButtonIcon, 0);
+    mAddButtonIconPressed = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_addButtonIconPressed, 0);
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
@@ -144,36 +150,119 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
-  private void createAddButton(Context context) {
-    mAddButton = new AddFloatingActionButton(context) {
-      @Override
-      void updateBackground() {
-        mPlusColor = mAddButtonPlusColor;
-        mColorNormal = mAddButtonColorNormal;
-        mColorPressed = mAddButtonColorPressed;
-        mStrokeVisible = mAddButtonStrokeVisible;
-        super.updateBackground();
+  private static class SwitchingDrawable extends LayerDrawable {
+
+    private float mProgress;
+
+    private Drawable mStartDrawable;
+
+    private Drawable mEndDrawable;
+
+    public SwitchingDrawable(Drawable startDrawable) {
+      super(new Drawable[] {startDrawable});
+      mStartDrawable = startDrawable;
+    }
+
+    public SwitchingDrawable(Drawable starDrawable, Drawable endDrawable) {
+      super(new Drawable[] {starDrawable, endDrawable});
+      mStartDrawable = starDrawable;
+      mEndDrawable = endDrawable;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public float getProgress() {
+      return mProgress;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setProgress(float progress) {
+      mProgress = progress;
+      invalidateSelf();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+      if (mEndDrawable == null) {
+        super.draw(canvas);
+        return;
       }
 
-      @Override
-      Drawable getIconDrawable() {
-        final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
-        mRotatingDrawable = rotatingDrawable;
+      canvas.save();
+      canvas.scale(1 - mProgress, 1 - mProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
+      mStartDrawable.draw(canvas);
+      canvas.restore();
 
-        final OvershootInterpolator interpolator = new OvershootInterpolator();
+      canvas.save();
+      canvas.scale(mProgress, mProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
+      mEndDrawable.draw(canvas);
+      canvas.restore();
+    }
+  }
 
-        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
-        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
+  private void createAddButton(final Context context) {
+    if (mAddButtonIcon != 0) {
+        mAddButton = new FloatingActionButton(context) {
+          @Override
+          void updateBackground() {
+            mColorNormal = mAddButtonColorNormal;
+            mColorPressed = mAddButtonColorPressed;
+            mStrokeVisible = mAddButtonStrokeVisible;
+            super.updateBackground();
+          }
 
-        collapseAnimator.setInterpolator(interpolator);
-        expandAnimator.setInterpolator(interpolator);
+          @Override
+          Drawable getIconDrawable() {
+            final Resources res = context.getResources();
+            final SwitchingDrawable drawable = mAddButtonIconPressed != 0 ?
+                    new SwitchingDrawable(res.getDrawable(mAddButtonIcon), res.getDrawable(mAddButtonIconPressed)) :
+                    new SwitchingDrawable(res.getDrawable(mAddButtonIcon));
+            mSwitchingDrawable = drawable;
 
-        mExpandAnimation.play(expandAnimator);
-        mCollapseAnimation.play(collapseAnimator);
+            final OvershootInterpolator interpolator = new OvershootInterpolator();
 
-        return rotatingDrawable;
-      }
-    };
+            final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(drawable, "progress", 1f, 0f);
+            final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(drawable, "progress", 0f, 1f);
+
+            collapseAnimator.setInterpolator(interpolator);
+            expandAnimator.setInterpolator(interpolator);
+
+            mExpandAnimation.play(expandAnimator);
+            mCollapseAnimation.play(collapseAnimator);
+
+            return drawable;
+          }
+        };
+    } else {
+        mAddButton = new AddFloatingActionButton(context) {
+            @Override
+            void updateBackground() {
+                mPlusColor = mAddButtonPlusColor;
+                mColorNormal = mAddButtonColorNormal;
+                mColorPressed = mAddButtonColorPressed;
+                mStrokeVisible = mAddButtonStrokeVisible;
+                super.updateBackground();
+            }
+
+            @Override
+            Drawable getIconDrawable() {
+                final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
+                mRotatingDrawable = rotatingDrawable;
+
+                final OvershootInterpolator interpolator = new OvershootInterpolator();
+
+                final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
+                final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
+
+                collapseAnimator.setInterpolator(interpolator);
+                expandAnimator.setInterpolator(interpolator);
+
+                mExpandAnimation.play(expandAnimator);
+                mCollapseAnimation.play(collapseAnimator);
+
+                return rotatingDrawable;
+            }
+        };
+    }
 
     mAddButton.setId(R.id.fab_expand_menu_button);
     mAddButton.setSize(mAddButtonSize);
@@ -600,6 +689,9 @@ public class FloatingActionsMenu extends ViewGroup {
 
       if (mRotatingDrawable != null) {
         mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
+      }
+      if (mSwitchingDrawable != null) {
+        mSwitchingDrawable.setProgress(mExpanded ? 1 : 0);
       }
 
       super.onRestoreInstanceState(savedState.getSuperState());
