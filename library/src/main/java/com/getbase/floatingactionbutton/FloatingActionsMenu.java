@@ -56,8 +56,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private FloatingActionButton mAddButton;
-  private RotatingDrawable mRotatingDrawable;
-  private SwitchingDrawable mSwitchingDrawable;
+  private AnimatingDrawable mAnimatingDrawable;
   private int mMaxButtonWidth;
   private int mMaxButtonHeight;
   private int mLabelsStyle;
@@ -123,50 +122,12 @@ public class FloatingActionsMenu extends ViewGroup {
     return mExpandDirection == EXPAND_LEFT || mExpandDirection == EXPAND_RIGHT;
   }
 
-  private static class RotatingDrawable extends LayerDrawable {
-    public RotatingDrawable(Drawable drawable) {
-      super(new Drawable[] { drawable });
-    }
+  private static abstract class AnimatingDrawable extends LayerDrawable {
 
-    private float mRotation;
+    protected float mProgress;
 
-    @SuppressWarnings("UnusedDeclaration")
-    public float getRotation() {
-      return mRotation;
-    }
-
-    @SuppressWarnings("UnusedDeclaration")
-    public void setRotation(float rotation) {
-      mRotation = rotation;
-      invalidateSelf();
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-      canvas.save();
-      canvas.rotate(mRotation, getBounds().centerX(), getBounds().centerY());
-      super.draw(canvas);
-      canvas.restore();
-    }
-  }
-
-  private static class SwitchingDrawable extends LayerDrawable {
-
-    private float mProgress;
-
-    private Drawable mStartDrawable;
-
-    private Drawable mEndDrawable;
-
-    public SwitchingDrawable(Drawable startDrawable) {
-      super(new Drawable[] {startDrawable});
-      mStartDrawable = startDrawable;
-    }
-
-    public SwitchingDrawable(Drawable starDrawable, Drawable endDrawable) {
-      super(new Drawable[] {starDrawable, endDrawable});
-      mStartDrawable = starDrawable;
-      mEndDrawable = endDrawable;
+    public AnimatingDrawable(Drawable[] layers) {
+      super(layers);
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -178,6 +139,43 @@ public class FloatingActionsMenu extends ViewGroup {
     public void setProgress(float progress) {
       mProgress = progress;
       invalidateSelf();
+    }
+  }
+
+  private static class RotatingDrawable extends AnimatingDrawable {
+
+    private final float mStartRotation;
+    private final float mEndRotation;
+
+    public RotatingDrawable(Drawable drawable, float startRotation, float endRotation) {
+      super(new Drawable[] { drawable });
+      mStartRotation = startRotation;
+      mEndRotation = endRotation;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+      canvas.save();
+      canvas.rotate(mStartRotation * (1 - mProgress) + mEndRotation * mProgress, getBounds().centerX(), getBounds().centerY());
+      super.draw(canvas);
+      canvas.restore();
+    }
+  }
+
+  private static class SwitchingDrawable extends AnimatingDrawable {
+
+    private Drawable mStartDrawable;
+    private Drawable mEndDrawable;
+
+    public SwitchingDrawable(Drawable startDrawable) {
+      super(new Drawable[] {startDrawable});
+      mStartDrawable = startDrawable;
+    }
+
+    public SwitchingDrawable(Drawable starDrawable, Drawable endDrawable) {
+      super(new Drawable[] {starDrawable, endDrawable});
+      mStartDrawable = starDrawable;
+      mEndDrawable = endDrawable;
     }
 
     @Override
@@ -216,19 +214,8 @@ public class FloatingActionsMenu extends ViewGroup {
             final SwitchingDrawable drawable = mAddButtonIconPressed != 0 ?
                     new SwitchingDrawable(res.getDrawable(mAddButtonIcon), res.getDrawable(mAddButtonIconPressed)) :
                     new SwitchingDrawable(res.getDrawable(mAddButtonIcon));
-            mSwitchingDrawable = drawable;
-
-            final OvershootInterpolator interpolator = new OvershootInterpolator();
-
-            final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(drawable, "progress", 1f, 0f);
-            final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(drawable, "progress", 0f, 1f);
-
-            collapseAnimator.setInterpolator(interpolator);
-            expandAnimator.setInterpolator(interpolator);
-
-            mExpandAnimation.play(expandAnimator);
-            mCollapseAnimation.play(collapseAnimator);
-
+            mAnimatingDrawable = drawable;
+            setUpIconAnimation(drawable);
             return drawable;
           }
         };
@@ -245,20 +232,9 @@ public class FloatingActionsMenu extends ViewGroup {
 
             @Override
             Drawable getIconDrawable() {
-                final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
-                mRotatingDrawable = rotatingDrawable;
-
-                final OvershootInterpolator interpolator = new OvershootInterpolator();
-
-                final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
-                final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
-
-                collapseAnimator.setInterpolator(interpolator);
-                expandAnimator.setInterpolator(interpolator);
-
-                mExpandAnimation.play(expandAnimator);
-                mCollapseAnimation.play(collapseAnimator);
-
+                final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable(), COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
+                mAnimatingDrawable = rotatingDrawable;
+                setUpIconAnimation(rotatingDrawable);
                 return rotatingDrawable;
             }
         };
@@ -275,6 +251,19 @@ public class FloatingActionsMenu extends ViewGroup {
 
     addView(mAddButton, super.generateDefaultLayoutParams());
     mButtonsCount++;
+  }
+
+  private void setUpIconAnimation(AnimatingDrawable animatingDrawable) {
+    final OvershootInterpolator interpolator = new OvershootInterpolator();
+
+    final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(animatingDrawable, "progress", 1f, 0f);
+    final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(animatingDrawable, "progress", 0f, 1f);
+
+    collapseAnimator.setInterpolator(interpolator);
+    expandAnimator.setInterpolator(interpolator);
+
+    mExpandAnimation.play(expandAnimator);
+    mCollapseAnimation.play(collapseAnimator);
   }
 
   public void addButton(FloatingActionButton button) {
@@ -687,12 +676,7 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpanded = savedState.mExpanded;
       mTouchDelegateGroup.setEnabled(mExpanded);
 
-      if (mRotatingDrawable != null) {
-        mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
-      }
-      if (mSwitchingDrawable != null) {
-        mSwitchingDrawable.setProgress(mExpanded ? 1 : 0);
-      }
+      mAnimatingDrawable.setProgress(mExpanded ? 1 : 0);
 
       super.onRestoreInstanceState(savedState.getSuperState());
     } else {
