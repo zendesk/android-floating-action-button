@@ -197,6 +197,15 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  public void addButton(FloatingActionButton button, int index) {
+    addView(button, index);
+    mButtonsCount++;
+
+    if (mLabelsStyle != 0) {
+      createLabels();
+    }
+  }
+
   public void removeButton(FloatingActionButton button) {
     removeView(button.getLabelView());
     removeView(button);
