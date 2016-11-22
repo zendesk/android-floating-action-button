@@ -24,6 +24,8 @@ import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class FloatingActionsMenu extends ViewGroup {
   public static final int EXPAND_UP = 0;
   public static final int EXPAND_DOWN = 1;
@@ -48,6 +50,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mLabelsMargin;
   private int mLabelsVerticalOffset;
 
+  private ArrayList<FloatingActionButton> buttonsList = new ArrayList<FloatingActionButton>();
+  
   private boolean mExpanded;
 
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
@@ -191,7 +195,7 @@ public class FloatingActionsMenu extends ViewGroup {
   public void addButton(FloatingActionButton button) {
     addView(button, mButtonsCount - 1);
     mButtonsCount++;
-
+    buttonsList.add(button);
     if (mLabelsStyle != 0) {
       createLabels();
     }
@@ -204,6 +208,15 @@ public class FloatingActionsMenu extends ViewGroup {
     mButtonsCount--;
   }
 
+  public void removeAllButtons() {
+      for(FloatingActionButton button : buttonsList){
+          removeView(button.getLabelView());
+          removeView(button);
+          buttonsList.remove(button);
+          mButtonsCount--;
+      }
+  }
+  
   private int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
