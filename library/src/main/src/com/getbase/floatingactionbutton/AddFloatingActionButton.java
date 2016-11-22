@@ -2,21 +2,16 @@ package com.getbase.floatingactionbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
 public class AddFloatingActionButton extends FloatingActionButton {
   int mPlusColor;
-
 
   public AddFloatingActionButton(Context context) {
     this(context, null);
@@ -46,7 +41,7 @@ public class AddFloatingActionButton extends FloatingActionButton {
     return mPlusColor;
   }
 
-  public void setPlusColorResId(@ColorRes int plusColor) {
+	public void setPlusColorResId( int plusColor) {
     setPlusColor(getColor(plusColor));
   }
 
@@ -58,13 +53,13 @@ public class AddFloatingActionButton extends FloatingActionButton {
   }
 
   @Override
-  public void setIcon(@DrawableRes int icon) {
+  public void setIcon( int icon) {
     throw new UnsupportedOperationException("Use FloatingActionButton if you want to use custom icon");
   }
 
   @Override
   Drawable getIconDrawable() {
-    final float iconSize = getDimension(R.dimen.fab_icon_size_12);
+    final float iconSize = getDimension(R.dimen.fab_icon_size);
     final float iconHalfSize = iconSize / 2f;
 
     final float plusSize = getDimension(R.dimen.fab_plus_icon_size);
@@ -78,24 +73,7 @@ public class AddFloatingActionButton extends FloatingActionButton {
         canvas.drawRect(iconHalfSize - plusHalfStroke, plusOffset, iconHalfSize + plusHalfStroke, iconSize - plusOffset, paint);
       }
     };
-    ShapeDrawable drawable = new ShapeDrawable(shape);
 
-    final Paint paint = drawable.getPaint();
-    paint.setColor(mPlusColor);
-    paint.setStyle(Style.FILL);
-    paint.setAntiAlias(true);
-
-    return drawable;
-  }
-  public Drawable getBitmapDrawable(final int resIcon) {
-
-    final Shape shape = new Shape() {
-      @Override
-      public void draw(Canvas canvas, Paint paint) {
-        Bitmap iconbit = BitmapFactory.decodeResource(getResources(), resIcon) ;
-        canvas.drawBitmap(iconbit,0,0,paint);
-      }
-    };
     ShapeDrawable drawable = new ShapeDrawable(shape);
 
     final Paint paint = drawable.getPaint();

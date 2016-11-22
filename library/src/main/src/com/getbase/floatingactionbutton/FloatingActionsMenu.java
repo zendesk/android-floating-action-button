@@ -1,13 +1,10 @@
 package com.getbase.floatingactionbutton;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
@@ -16,7 +13,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -35,7 +31,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
   private static final int ANIMATION_DURATION = 300;
   private static final float COLLAPSED_PLUS_ROTATION = 0f;
-  private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;//rorate
+  private static final float EXPANDED_PLUS_ROTATION = 90f + 45f;
 
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
@@ -59,10 +55,6 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mLabelsStyle;
   private int mLabelsPosition;
   private int mButtonsCount;
-  private int mResIcon=-1;
-  private float rotate=EXPANDED_PLUS_ROTATION;
-
-  private TouchDelegateGroup mTouchDelegateGroup;
 
   private OnFloatingActionsMenuUpdateListener mListener;
 
@@ -90,9 +82,6 @@ public class FloatingActionsMenu extends ViewGroup {
     mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
     mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
 
-    mTouchDelegateGroup = new TouchDelegateGroup(this);
-    setTouchDelegate(mTouchDelegateGroup);
-
     TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
     mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
     mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
@@ -102,8 +91,6 @@ public class FloatingActionsMenu extends ViewGroup {
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
-    mResIcon=attr.getResourceId(R.styleable.FloatingActionsMenu_fab_bitmap, -1);//get bitmap resource
-    rotate=attr.getFloat(R.styleable.FloatingActionsMenu_fab_rotation,EXPANDED_PLUS_ROTATION);
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -161,20 +148,13 @@ public class FloatingActionsMenu extends ViewGroup {
 
       @Override
       Drawable getIconDrawable() {
-        RotatingDrawable rotatingDrawable;
-        if(mResIcon!=-1){
-          rotatingDrawable = new RotatingDrawable(getBitmapDrawable(mResIcon));
-        }
-        else{
-          rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
-        }
-
+        final RotatingDrawable rotatingDrawable = new RotatingDrawable(super.getIconDrawable());
         mRotatingDrawable = rotatingDrawable;
 
         final OvershootInterpolator interpolator = new OvershootInterpolator();
 
-        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", getRotate(), COLLAPSED_PLUS_ROTATION);
-        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, getRotate());
+        final ObjectAnimator collapseAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", EXPANDED_PLUS_ROTATION, COLLAPSED_PLUS_ROTATION);
+        final ObjectAnimator expandAnimator = ObjectAnimator.ofFloat(rotatingDrawable, "rotation", COLLAPSED_PLUS_ROTATION, EXPANDED_PLUS_ROTATION);
 
         collapseAnimator.setInterpolator(interpolator);
         expandAnimator.setInterpolator(interpolator);
@@ -196,7 +176,6 @@ public class FloatingActionsMenu extends ViewGroup {
     });
 
     addView(mAddButton, super.generateDefaultLayoutParams());
-    mButtonsCount++;
   }
 
   public void addButton(FloatingActionButton button) {
@@ -211,7 +190,6 @@ public class FloatingActionsMenu extends ViewGroup {
   public void removeButton(FloatingActionButton button) {
     removeView(button.getLabelView());
     removeView(button);
-    button.setTag(R.id.fab_label, null);
     mButtonsCount--;
   }
 
@@ -267,12 +245,12 @@ public class FloatingActionsMenu extends ViewGroup {
     switch (mExpandDirection) {
     case EXPAND_UP:
     case EXPAND_DOWN:
-      height += mButtonSpacing * (mButtonsCount - 1);
+      height += mButtonSpacing * (getChildCount() - 1);
       height = adjustForOvershoot(height);
       break;
     case EXPAND_LEFT:
     case EXPAND_RIGHT:
-      width += mButtonSpacing * (mButtonsCount - 1);
+      width += mButtonSpacing * (getChildCount() - 1);
       width = adjustForOvershoot(width);
       break;
     }
@@ -290,10 +268,6 @@ public class FloatingActionsMenu extends ViewGroup {
     case EXPAND_UP:
     case EXPAND_DOWN:
       boolean expandUp = mExpandDirection == EXPAND_UP;
-
-      if (changed) {
-        mTouchDelegateGroup.clearTouchDelegates();
-      }
 
       int addButtonY = expandUp ? b - t - mAddButton.getMeasuredHeight() : 0;
       // Ensure mAddButton is centered on the line where the buttons should be
@@ -349,13 +323,6 @@ public class FloatingActionsMenu extends ViewGroup {
           int labelTop = childY - mLabelsVerticalOffset + (child.getMeasuredHeight() - label.getMeasuredHeight()) / 2;
 
           label.layout(labelLeft, labelTop, labelRight, labelTop + label.getMeasuredHeight());
-
-          Rect touchArea = new Rect(
-              Math.min(childX, labelLeft),
-              childY - mButtonSpacing / 2,
-              Math.max(childX + child.getMeasuredWidth(), labelRight),
-              childY + child.getMeasuredHeight() + mButtonSpacing / 2);
-          mTouchDelegateGroup.addTouchDelegate(new TouchDelegate(touchArea, child));
 
           label.setTranslationY(mExpanded ? expandedTranslation : collapsedTranslation);
           label.setAlpha(mExpanded ? 1f : 0f);
@@ -482,29 +449,12 @@ public class FloatingActionsMenu extends ViewGroup {
 
       // Now that the animations have targets, set them to be played
       if (!animationsSetToPlay) {
-        addLayerTypeListener(mExpandDir, view);
-        addLayerTypeListener(mCollapseDir, view);
-
         mCollapseAnimation.play(mCollapseAlpha);
         mCollapseAnimation.play(mCollapseDir);
         mExpandAnimation.play(mExpandAlpha);
         mExpandAnimation.play(mExpandDir);
         animationsSetToPlay = true;
       }
-    }
-
-    private void addLayerTypeListener(Animator animator, final View view) {
-      animator.addListener(new AnimatorListenerAdapter() {
-        @Override
-        public void onAnimationEnd(Animator animation) {
-          view.setLayerType(LAYER_TYPE_NONE, null);
-        }
-
-        @Override
-        public void onAnimationStart(Animator animation) {
-          view.setLayerType(LAYER_TYPE_HARDWARE, null);
-        }
-      });
     }
   }
 
@@ -531,7 +481,6 @@ public class FloatingActionsMenu extends ViewGroup {
           button.getTag(R.id.fab_label) != null) continue;
 
       TextView label = new TextView(context);
-      label.setTextAppearance(getContext(), mLabelsStyle);
       label.setText(button.getTitle());
       addView(label);
 
@@ -540,18 +489,8 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   public void collapse() {
-    collapse(false);
-  }
-
-  public void collapseImmediately() {
-    collapse(true);
-  }
-
-  private void collapse(boolean immediately) {
     if (mExpanded) {
       mExpanded = false;
-      mTouchDelegateGroup.setEnabled(false);
-      mCollapseAnimation.setDuration(immediately ? 0 : ANIMATION_DURATION);
       mCollapseAnimation.start();
       mExpandAnimation.cancel();
 
@@ -572,7 +511,6 @@ public class FloatingActionsMenu extends ViewGroup {
   public void expand() {
     if (!mExpanded) {
       mExpanded = true;
-      mTouchDelegateGroup.setEnabled(true);
       mCollapseAnimation.cancel();
       mExpandAnimation.start();
 
@@ -584,13 +522,6 @@ public class FloatingActionsMenu extends ViewGroup {
 
   public boolean isExpanded() {
     return mExpanded;
-  }
-
-  @Override
-  public void setEnabled(boolean enabled) {
-    super.setEnabled(enabled);
-
-    mAddButton.setEnabled(enabled);
   }
 
   @Override
@@ -607,10 +538,9 @@ public class FloatingActionsMenu extends ViewGroup {
     if (state instanceof SavedState) {
       SavedState savedState = (SavedState) state;
       mExpanded = savedState.mExpanded;
-      mTouchDelegateGroup.setEnabled(mExpanded);
 
       if (mRotatingDrawable != null) {
-        mRotatingDrawable.setRotation(mExpanded ? getRotation() : COLLAPSED_PLUS_ROTATION);
+        mRotatingDrawable.setRotation(mExpanded ? EXPANDED_PLUS_ROTATION : COLLAPSED_PLUS_ROTATION);
       }
 
       super.onRestoreInstanceState(savedState.getSuperState());
@@ -649,12 +579,5 @@ public class FloatingActionsMenu extends ViewGroup {
         return new SavedState[size];
       }
     };
-  }
-  public float getRotate() {
-    return rotate;
-  }
-
-  public void setRotate(float rotate) {
-    this.rotate = rotate;
   }
 }
