@@ -59,6 +59,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mLabelsStyle;
   private int mLabelsPosition;
   private int mButtonsCount;
+  
+  private OnFloatingActionMenuUpdateListener onFloatingActionMenuUpdateListener;
 
   private TouchDelegateGroup mTouchDelegateGroup;
 
@@ -195,6 +197,10 @@ public class FloatingActionsMenu extends ViewGroup {
     if (mLabelsStyle != 0) {
       createLabels();
     }
+  }
+  
+  public void setOnFloatingActionMenuUpdateListener( OnFloatingActionMenuUpdateListener listener ) {
+    onFloatingActionMenuUpdateListener = listener;
   }
 
   public void removeButton(FloatingActionButton button) {
@@ -556,6 +562,10 @@ public class FloatingActionsMenu extends ViewGroup {
     } else {
       expand();
     }
+
+    if( onFloatingActionMenuUpdateListener != null ) {
+      onFloatingActionMenuUpdateListener.actionMenuToggled();
+    }
   }
 
   public void expand() {
@@ -638,5 +648,9 @@ public class FloatingActionsMenu extends ViewGroup {
         return new SavedState[size];
       }
     };
+  }
+
+  public interface OnFloatingActionMenuUpdateListener {
+      public void actionMenuToggled();
   }
 }
