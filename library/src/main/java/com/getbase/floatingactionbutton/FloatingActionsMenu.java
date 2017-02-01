@@ -72,6 +72,11 @@ public class FloatingActionsMenu extends ViewGroup {
   public FloatingActionsMenu(Context context) {
     this(context, null);
   }
+  
+  public FloatingActionsMenu(Context context, int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle, boolean strokeVisible){
+   super(context);
+   initProg(plusColor, normalColor, pressedColor, expandDirection, labelStyle, strokeVisible);
+  }
 
   public FloatingActionsMenu(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -81,6 +86,25 @@ public class FloatingActionsMenu extends ViewGroup {
   public FloatingActionsMenu(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     init(context, attrs);
+  }
+  
+  private void initProg(int plusColor, int normalColor, int pressedColor, int expandDirection, int labelStyle, boolean strokeVisible){
+    mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
+    mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
+    mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
+    
+    mAddButtonPlusColor = plusColor;
+    mAddButtonColorNormal = normalColor;
+    mAddButtonColorPressed = pressedColor;
+    mAddButtonStrokeVisible = strokeVisible;
+    mExpandDirection = expandDirection;
+    mLabelsStyle = labelStyle;
+    
+    if (mLabelsStyle != 0 && expandsHorizontally()) {
+      throw new IllegalStateException("Action labels in horizontal expand orientation is not supported.");
+    }
+
+    createAddButton(context);
   }
 
   private void init(Context context, AttributeSet attributeSet) {
