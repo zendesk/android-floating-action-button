@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fab_snackbar_push_behavior_btn">com.getbase.floatingactionbutton.CoordinatorLayoutBehaviorButton</string>
+    <string name="fab_snackbar_push_behavior_menu">com.getbase.floatingactionbutton.CoordinatorLayoutBehaviorMenu</string>
+</resources>
