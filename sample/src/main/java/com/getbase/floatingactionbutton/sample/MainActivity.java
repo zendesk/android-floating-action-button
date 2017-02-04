@@ -1,15 +1,15 @@
 package com.getbase.floatingactionbutton.sample;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
 import android.app.Activity;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 public class MainActivity extends Activity {
   @Override
@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
     findViewById(R.id.pink_icon).setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Toast.makeText(MainActivity.this, "Clicked pink Floating Action Button", Toast.LENGTH_SHORT).show();
+        Snackbar.make(v, "Clicked Pink Floating ACtion Button", Snackbar.LENGTH_SHORT).show();
       }
     });
 
