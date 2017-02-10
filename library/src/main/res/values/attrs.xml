@@ -5,6 +5,7 @@
         <attr name="fab_colorDisabled" format="color"/>
         <attr name="fab_colorNormal" format="color"/>
         <attr name="fab_icon" format="reference"/>
+        <attr name="fab_iconTint" format="color"/>
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
@@ -18,6 +19,7 @@
     <declare-styleable name="FloatingActionsMenu">
         <attr name="fab_addButtonColorPressed" format="color"/>
         <attr name="fab_addButtonColorNormal" format="color"/>
+        <attr name="fab_addButtonColorDisabled" format="color"/>
         <attr name="fab_addButtonSize" format="enum">
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>

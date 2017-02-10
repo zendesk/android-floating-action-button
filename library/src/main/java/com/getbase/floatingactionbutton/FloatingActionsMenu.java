@@ -40,6 +40,7 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonPlusColor;
   private int mAddButtonColorNormal;
   private int mAddButtonColorPressed;
+  private int mAddButtonColorDisabled;
   private int mAddButtonSize;
   private boolean mAddButtonStrokeVisible;
   private int mExpandDirection;
@@ -95,6 +96,7 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
     mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
     mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+    mAddButtonColorDisabled = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorDisabled, getColor(android.R.color.darker_gray));
     mAddButtonSize = attr.getInt(R.styleable.FloatingActionsMenu_fab_addButtonSize, FloatingActionButton.SIZE_NORMAL);
     mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
@@ -151,6 +153,7 @@ public class FloatingActionsMenu extends ViewGroup {
         mPlusColor = mAddButtonPlusColor;
         mColorNormal = mAddButtonColorNormal;
         mColorPressed = mAddButtonColorPressed;
+        mColorDisabled = mAddButtonColorDisabled;
         mStrokeVisible = mAddButtonStrokeVisible;
         super.updateBackground();
       }
@@ -186,6 +189,10 @@ public class FloatingActionsMenu extends ViewGroup {
 
     addView(mAddButton, super.generateDefaultLayoutParams());
     mButtonsCount++;
+  }
+
+  public AddFloatingActionButton getAddButton() {
+    return mAddButton;
   }
 
   public void addButton(FloatingActionButton button) {

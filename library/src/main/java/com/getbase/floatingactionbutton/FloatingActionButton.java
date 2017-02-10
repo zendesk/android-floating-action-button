@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
@@ -49,6 +50,7 @@ public class FloatingActionButton extends ImageButton {
   @DrawableRes
   private int mIcon;
   private Drawable mIconDrawable;
+  private int mIconTint;
   private int mSize;
 
   private float mCircleSize;
@@ -78,6 +80,7 @@ public class FloatingActionButton extends ImageButton {
     mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, getColor(android.R.color.darker_gray));
     mSize = attr.getInt(R.styleable.FloatingActionButton_fab_size, SIZE_NORMAL);
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
+    mIconTint = attr.getColor(R.styleable.FloatingActionButton_fab_iconTint, getColor(android.R.color.white));
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
     attr.recycle();
@@ -128,6 +131,7 @@ public class FloatingActionButton extends ImageButton {
     if (mIconDrawable != iconDrawable) {
       mIcon = 0;
       mIconDrawable = iconDrawable;
+      mIconDrawable.setColorFilter(mIconTint, PorterDuff.Mode.SRC_IN);
       updateBackground();
     }
   }
@@ -270,7 +274,9 @@ public class FloatingActionButton extends ImageButton {
     if (mIconDrawable != null) {
       return mIconDrawable;
     } else if (mIcon != 0) {
-      return getResources().getDrawable(mIcon);
+      Drawable iconDrawable = getResources().getDrawable(mIcon);
+      iconDrawable.setColorFilter(mIconTint, PorterDuff.Mode.SRC_IN);
+      return iconDrawable;
     } else {
       return new ColorDrawable(Color.TRANSPARENT);
     }
