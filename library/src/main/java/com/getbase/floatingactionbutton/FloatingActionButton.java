@@ -55,6 +55,7 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
+  private boolean mIconVisible;
   boolean mStrokeVisible;
 
   public FloatingActionButton(Context context) {
@@ -80,6 +81,7 @@ public class FloatingActionButton extends ImageButton {
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
+    mIconVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_icon_visible, true);
     attr.recycle();
 
     updateCircleSize();
@@ -305,7 +307,7 @@ public class FloatingActionButton extends ImageButton {
 
     int halfStrokeWidth = (int) (strokeWidth / 2f);
     drawable.setLayerInset(1, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth);
-
+    
     return drawable;
   }
 
