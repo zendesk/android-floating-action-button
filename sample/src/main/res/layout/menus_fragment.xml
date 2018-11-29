@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:background="@color/app_primary"
+        android:elevation="4dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:maxLines="3"
+        android:paddingLeft="60dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/lorem_ipsum"
+        android:textColor="@android:color/white"
+        android:textSize="22sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/lorem_ipsum_large"
+        android:textSize="18sp" />
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_yellow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        app:menu_animationDelayPerItem="0"
+        app:menu_colorNormal="#FFB805"
+        app:menu_colorPressed="#F2AB00"
+        app:menu_colorRipple="#D99200"
+        app:menu_labels_hideAnimation="@anim/jump_to_down"
+        app:menu_labels_showAnimation="@anim/jump_from_down"
+        app:menu_labels_style="@style/MenuLabelsStyle"
+        app:menu_shadowColor="#444">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab12"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 1"
+            app:srcCompat="@drawable/ic_android_white" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab22"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 2"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab32"
+            style="@style/MenuButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/lorem_ipsum"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginTop="10dp"
+        app:menu_animationDelayPerItem="0"
+        app:menu_colorNormal="#43A047"
+        app:menu_colorPressed="#2E7D32"
+        app:menu_colorRipple="#1B5E20"
+        app:menu_icon="@drawable/ic_android_white"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_maxLines="2">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            style="@style/MenuButtonsSmall.Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 1"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            style="@style/MenuButtonsSmall.Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 2"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            style="@style/MenuButtonsSmall.Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/lorem_ipsum"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="220dp"
+        android:layout_marginTop="10dp"
+        app:menu_colorNormal="#1565C0"
+        app:menu_colorPressed="#2272CD"
+        app:menu_colorRipple="#62B2FF"
+        app:menu_fab_size="mini">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab14"
+            style="@style/MenuButtonsSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_fab_star" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab24"
+            style="@style/MenuButtonsSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_fab_star" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab34"
+            style="@style/MenuButtonsSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_fab_star" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:visibility="invisible"
+        app:fab_colorNormal="#F50057"
+        app:fab_colorPressed="#E8004A"
+        app:fab_colorRipple="#C20024"
+        app:fab_elevationCompat="6dp"
+        app:fab_shadowColor="#000"
+        app:fab_size="mini"
+        app:srcCompat="@drawable/ic_android_white"
+        tools:visibility="visible" />
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="65dp"
+        android:elevation="6dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        app:menu_fab_size="mini"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_openDirection="down">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 1"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 2"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/lorem_ipsum"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_red"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_label="Menu label"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Disabled"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Remove button"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Restore Button"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_labels_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_position="right"
+        app:menu_labels_singleLine="true">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 1"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="Menu item 2"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_label="@string/lorem_ipsum"
+            app:fab_size="mini"
+            app:srcCompat="@drawable/ic_edit" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</RelativeLayout>

@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="menu_labels_style">
-        <item name="android:background">@drawable/fab_label_background</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
     </style>
 
+    <style name="AppTheme" parent="BaseTheme">
+
+    </style>
+
+    <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="MenuLabelsStyle">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="MenuButtonsStyle">
+        <item name="fab_size">mini</item>
+        <item name="fab_showAnimation">@anim/jump_from_down</item>
+        <item name="fab_hideAnimation">@anim/jump_to_down</item>
+        <item name="fab_shadowColor">#444</item>
+        <item name="fab_colorNormal">#FFB805</item>
+        <item name="fab_colorPressed">#F2AB00</item>
+        <item name="fab_colorRipple">#D99200</item>
+    </style>
+
+    <style name="MenuButtonsSmall">
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">#1565C0</item>
+        <item name="fab_colorPressed">#2272CD</item>
+        <item name="fab_colorRipple">#62B2FF</item>
+    </style>
+
+    <style name="MenuButtonsSmall.Green">
+        <item name="fab_colorNormal">#43A047</item>
+        <item name="fab_colorPressed">#2E7D32</item>
+        <item name="fab_colorRipple">#1B5E20</item>
+    </style>
+
+    <style name="DrawerItemTextAppearance">
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
 </resources>

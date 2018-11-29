@@ -9,4 +9,10 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="app_primary">#1976D2</color>
+    <color name="app_primary_dark">#1565C0</color>
+    <color name="grey">#DDDDDD</color>
+    <color name="light_grey">#EEEEEE</color>
+    <color name="white_transparent">#99FFFFFF</color>
+    <color name="black">#000</color>
 </resources>

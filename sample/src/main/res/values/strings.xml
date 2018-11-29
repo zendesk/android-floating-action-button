@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">Floating Action Button</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur magna tortor, semper eu feugiat eu, vehicula vitae lacus.</string>
+    <string name="recyclerview_fab_example">RecyclerView FAB example</string>
+    <string name="floating_action_menu">Floating Action Menu</string>
+    <string name="lorem_ipsum_large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed ultricies risus. Integer nisi orci, lacinia sit amet mi in, mollis scelerisque purus. Nunc risus ligula, maximus eu orci a, facilisis dictum velit. Proin nec laoreet magna. Nulla ut sagittis lorem. Morbi id enim fermentum, semper diam et, tempus leo. Aliquam vel congue orci. Suspendisse potenti. Curabitur finibus diam augue, vel bibendum sapien ultrices non.</string>
+    <string name="navigation_drawer_open">Navigation open</string>
+    <string name="navigation_drawer_close">Navigation close</string>
 </resources>
