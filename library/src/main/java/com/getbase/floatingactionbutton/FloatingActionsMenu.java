@@ -207,6 +207,11 @@ public class FloatingActionsMenu extends ViewGroup {
   private int getColor(@ColorRes int id) {
     return getResources().getColor(id);
   }
+  
+  public void setMenuButtonColorNormal(int color) {
+    mAddButtonColorNormal = color;
+    mAddButton.setColorNormal(color);
+  }
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
