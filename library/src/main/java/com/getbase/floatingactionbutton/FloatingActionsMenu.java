@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -84,9 +85,9 @@ public class FloatingActionsMenu extends ViewGroup {
   }
 
   private void init(Context context, AttributeSet attributeSet) {
-    mButtonSpacing = (int) (getResources().getDimension(R.dimen.fab_actions_spacing) - getResources().getDimension(R.dimen.fab_shadow_radius) - getResources().getDimension(R.dimen.fab_shadow_offset));
-    mLabelsMargin = getResources().getDimensionPixelSize(R.dimen.fab_labels_margin);
-    mLabelsVerticalOffset = getResources().getDimensionPixelSize(R.dimen.fab_shadow_offset);
+    final Resources resources = getResources();
+    mLabelsMargin = resources.getDimensionPixelSize(R.dimen.fab_labels_margin);
+    mLabelsVerticalOffset = resources.getDimensionPixelSize(R.dimen.fab_shadow_offset);
 
     mTouchDelegateGroup = new TouchDelegateGroup(this);
     setTouchDelegate(mTouchDelegateGroup);
@@ -100,6 +101,8 @@ public class FloatingActionsMenu extends ViewGroup {
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
+    final float originalButtonSpacing = attr.getDimension(R.styleable.FloatingActionsMenu_fab_button_spacing, resources.getDimension(R.dimen.fab_actions_spacing));
+    mButtonSpacing = (int) (originalButtonSpacing - resources.getDimension(R.dimen.fab_shadow_radius) - resources.getDimension(R.dimen.fab_shadow_offset));
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
