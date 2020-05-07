@@ -639,4 +639,9 @@ public class FloatingActionsMenu extends ViewGroup {
       }
     };
   }
+  
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+      return false;
+  }
 }
