@@ -37,6 +37,9 @@ public class FloatingActionButton extends ImageButton {
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
 
+  static final int SHOW_HIDE_ANIM_DURATION = 200;
+  static final Interpolator FAST_OUT_SLOW_IN_INTERPOLATOR = new FastOutSlowInInterpolator();
+
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({ SIZE_NORMAL, SIZE_MINI })
   public @interface FAB_SIZE {
@@ -425,5 +428,55 @@ public class FloatingActionButton extends ImageButton {
     }
 
     super.setVisibility(visibility);
+  }
+
+  public void show() {
+    show(false);
+  }
+
+  public void show(boolean isImmediately) {
+    if (isImmediately || getVisibility() == View.VISIBLE) {
+      setVisibility(View.VISIBLE);
+      setAlpha(1f);
+      setScaleY(1f);
+      setScaleX(1f);
+    } else {
+      animate().cancel();
+
+      animate()
+               .scaleX(1f)
+               .scaleY(1f)
+               .alpha(1f)
+               .setDuration(SHOW_HIDE_ANIM_DURATION)
+               .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
+               .setListener(new AnimatorListenerAdapter() {
+                 @Override
+                 public void onAnimationStart(Animator animation) {
+                   setScaleX(0);
+                   setScaleY(0);
+                   setAlpha(0);
+                   setVisibility(View.VISIBLE);
+                 }
+               });
+    }
+  }
+
+  public void hide() {
+    if (getVisibility() == VISIBLE) {
+      animate().cancel();
+
+      animate()
+               .scaleX(0f)
+               .scaleY(0f)
+               .alpha(0f)
+               .setDuration(SHOW_HIDE_ANIM_DURATION)
+               .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
+               .setListener(new AnimatorListenerAdapter() {
+                 @Override
+                 public void onAnimationEnd(Animator animation) {
+                   setVisibility(View.GONE);
+                 }
+               });
+    }
   }
 }
