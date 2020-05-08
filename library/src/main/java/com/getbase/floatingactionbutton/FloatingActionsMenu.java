@@ -13,6 +13,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
@@ -43,6 +44,8 @@ public class FloatingActionsMenu extends ViewGroup {
   private int mAddButtonSize;
   private boolean mAddButtonStrokeVisible;
   private int mExpandDirection;
+  @DrawableRes
+  Drawable mAddIconDrawable;
 
   private int mButtonSpacing;
   private int mLabelsMargin;
@@ -100,6 +103,10 @@ public class FloatingActionsMenu extends ViewGroup {
     mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
     mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionsMenu_fab_labelStyle, 0);
     mLabelsPosition = attr.getInt(R.styleable.FloatingActionsMenu_fab_labelsPosition, LABELS_ON_LEFT_SIDE);
+	mAddIconDrawable = attr.getDrawable(R.styleable.FloatingActionsMenu_menu_icon);
+        if (mAddIconDrawable == null) {
+            mAddIconDrawable = getResources().getDrawable(R.drawable.fab_add);
+        }
     attr.recycle();
 
     if (mLabelsStyle != 0 && expandsHorizontally()) {
@@ -148,7 +155,8 @@ public class FloatingActionsMenu extends ViewGroup {
     mAddButton = new AddFloatingActionButton(context) {
       @Override
       void updateBackground() {
-        mPlusColor = mAddButtonPlusColor;
+        mIconDrawable = mAddIconDrawable;
+		mPlusColor = mAddButtonPlusColor;
         mColorNormal = mAddButtonColorNormal;
         mColorPressed = mAddButtonColorPressed;
         mStrokeVisible = mAddButtonStrokeVisible;
