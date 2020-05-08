@@ -11,6 +11,7 @@
         </attr>
         <attr name="fab_title" format="string"/>
         <attr name="fab_stroke_visible" format="boolean"/>
+        <attr name="fab_icon_visible" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="AddFloatingActionButton">
         <attr name="fab_plusIconColor" format="color"/>
@@ -22,6 +23,8 @@
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
         </attr>
+        <attr name="fab_addButtonCustomDrawableIcon" format="integer" />
+        <attr name="fab_buttonDrawableDisableRotation" format="boolean" />
         <attr name="fab_addButtonPlusIconColor" format="color"/>
         <attr name="fab_addButtonStrokeVisible" format="boolean"/>
         <attr name="fab_labelStyle" format="reference"/>

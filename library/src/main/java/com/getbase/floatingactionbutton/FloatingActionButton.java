@@ -55,7 +55,12 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowRadius;
   private float mShadowOffset;
   private int mDrawableSize;
+  boolean mIconVisible;
   boolean mStrokeVisible;
+
+  public boolean ismIconVisible() {
+    return mIconVisible;
+  }
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -80,6 +85,7 @@ public class FloatingActionButton extends ImageButton {
     mIcon = attr.getResourceId(R.styleable.FloatingActionButton_fab_icon, 0);
     mTitle = attr.getString(R.styleable.FloatingActionButton_fab_title);
     mStrokeVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_stroke_visible, true);
+    mIconVisible = attr.getBoolean(R.styleable.FloatingActionButton_fab_icon_visible, true);
     attr.recycle();
 
     updateCircleSize();
@@ -91,7 +97,7 @@ public class FloatingActionButton extends ImageButton {
   }
 
   private void updateDrawableSize() {
-    mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
+      mDrawableSize = (int) (mCircleSize + 2 * mShadowRadius);
   }
 
   private void updateCircleSize() {
@@ -231,39 +237,43 @@ public class FloatingActionButton extends ImageButton {
     final float strokeWidth = getDimension(R.dimen.fab_stroke_width);
     final float halfStrokeWidth = strokeWidth / 2f;
 
-    LayerDrawable layerDrawable = new LayerDrawable(
-        new Drawable[] {
-            getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
-            createFillDrawable(strokeWidth),
-            createOuterStrokeDrawable(strokeWidth),
-            getIconDrawable()
-        });
+    if (mIconVisible) {
+      LayerDrawable layerDrawable = new LayerDrawable(
+              new Drawable[]{
+                      getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
+                      createFillDrawable(strokeWidth),
+                      createOuterStrokeDrawable(strokeWidth),
+                      getIconDrawable()
+              });
 
-    int iconOffset = (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
+      int iconOffset = (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
 
-    int circleInsetHorizontal = (int) (mShadowRadius);
-    int circleInsetTop = (int) (mShadowRadius - mShadowOffset);
-    int circleInsetBottom = (int) (mShadowRadius + mShadowOffset);
+      int circleInsetHorizontal = (int) (mShadowRadius);
+      int circleInsetTop = (int) (mShadowRadius - mShadowOffset);
+      int circleInsetBottom = (int) (mShadowRadius + mShadowOffset);
 
-    layerDrawable.setLayerInset(1,
-        circleInsetHorizontal,
-        circleInsetTop,
-        circleInsetHorizontal,
-        circleInsetBottom);
+      layerDrawable.setLayerInset(1,
+              circleInsetHorizontal,
+              circleInsetTop,
+              circleInsetHorizontal,
+              circleInsetBottom);
 
-    layerDrawable.setLayerInset(2,
-        (int) (circleInsetHorizontal - halfStrokeWidth),
-        (int) (circleInsetTop - halfStrokeWidth),
-        (int) (circleInsetHorizontal - halfStrokeWidth),
-        (int) (circleInsetBottom - halfStrokeWidth));
+      layerDrawable.setLayerInset(2,
+              (int) (circleInsetHorizontal - halfStrokeWidth),
+              (int) (circleInsetTop - halfStrokeWidth),
+              (int) (circleInsetHorizontal - halfStrokeWidth),
+              (int) (circleInsetBottom - halfStrokeWidth));
 
-    layerDrawable.setLayerInset(3,
-        circleInsetHorizontal + iconOffset,
-        circleInsetTop + iconOffset,
-        circleInsetHorizontal + iconOffset,
-        circleInsetBottom + iconOffset);
+      layerDrawable.setLayerInset(3,
+              circleInsetHorizontal + iconOffset,
+              circleInsetTop + iconOffset,
+              circleInsetHorizontal + iconOffset,
+              circleInsetBottom + iconOffset);
 
-    setBackgroundCompat(layerDrawable);
+      setBackgroundCompat(layerDrawable);
+    } else {
+      setBackgroundCompat(new LayerDrawable(new Drawable[]{}));
+    }
   }
 
   Drawable getIconDrawable() {
@@ -305,6 +315,7 @@ public class FloatingActionButton extends ImageButton {
 
     int halfStrokeWidth = (int) (strokeWidth / 2f);
     drawable.setLayerInset(1, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth, halfStrokeWidth);
+
 
     return drawable;
   }
