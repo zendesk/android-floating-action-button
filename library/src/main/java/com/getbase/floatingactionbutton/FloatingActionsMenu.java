@@ -52,7 +52,7 @@ public class FloatingActionsMenu extends ViewGroup {
 
   private AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
   private AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
-  private AddFloatingActionButton mAddButton;
+  protected FloatingActionButton mAddButton;
   private RotatingDrawable mRotatingDrawable;
   private int mMaxButtonWidth;
   private int mMaxButtonHeight;
@@ -144,7 +144,7 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
-  private void createAddButton(Context context) {
+  protected void createAddButton(Context context) {
     mAddButton = new AddFloatingActionButton(context) {
       @Override
       void updateBackground() {
@@ -190,6 +190,15 @@ public class FloatingActionsMenu extends ViewGroup {
 
   public void addButton(FloatingActionButton button) {
     addView(button, mButtonsCount - 1);
+    mButtonsCount++;
+
+    if (mLabelsStyle != 0) {
+      createLabels();
+    }
+  }
+
+  public void addButton(FloatingActionButton button, int index) {
+    addView(button, index);
     mButtonsCount++;
 
     if (mLabelsStyle != 0) {
