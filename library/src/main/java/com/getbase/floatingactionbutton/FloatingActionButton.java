@@ -56,6 +56,7 @@ public class FloatingActionButton extends ImageButton {
   private float mShadowOffset;
   private int mDrawableSize;
   boolean mStrokeVisible;
+  private boolean mIconFillCircle;
 
   public FloatingActionButton(Context context) {
     this(context, null);
@@ -114,6 +115,13 @@ public class FloatingActionButton extends ImageButton {
   @FAB_SIZE
   public int getSize() {
     return mSize;
+  }
+  
+  public void setIconFillCircle(boolean fillCircle){
+      if(mIconFillCircle != fillCircle) {
+          mIconFillCircle = fillCircle;
+          updateBackground();
+      }
   }
 
   public void setIcon(@DrawableRes int icon) {
@@ -239,7 +247,7 @@ public class FloatingActionButton extends ImageButton {
             getIconDrawable()
         });
 
-    int iconOffset = (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
+    int iconOffset = mIconFillCircle ? 0 : (int) (mCircleSize - getDimension(R.dimen.fab_icon_size)) / 2;
 
     int circleInsetHorizontal = (int) (mShadowRadius);
     int circleInsetTop = (int) (mShadowRadius - mShadowOffset);
