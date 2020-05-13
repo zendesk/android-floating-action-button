@@ -144,6 +144,74 @@ public class FloatingActionsMenu extends ViewGroup {
     }
   }
 
+  /**
+  * Set normal color to the plus button and to all children of this menu.
+  *
+  * @param normalColor The normal color
+  */
+  public void setColorNormalToAll(int normalColor) {
+    mAddButtonColorNormal = normalColor;
+    mAddButton.setColorNormal(normalColor);
+
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
+      if (child instanceof FloatingActionButton) {
+        ((FloatingActionButton) child).setColorNormal(normalColor);
+      }
+    }
+  }
+
+  /**
+  * Set pressed color to the plus button and to all children of this menu.
+  *
+  * @param pressedColor The pressed color
+  */
+  public void setColorPressedToAll(int pressedColor) {
+    mAddButtonColorPressed = pressedColor;
+    mAddButton.setColorPressed(pressedColor);
+
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
+      if (child instanceof FloatingActionButton) {
+        ((FloatingActionButton) child).setColorPressed(pressedColor);
+      }
+    }
+  }
+  
+  /**
+  * Set normal color id to the plus button and to all children of this menu.
+  *
+  * @param normalColor The normal color res id
+  */
+  public void setColorNormalResIdToAll(@ColorRes int normalColor) {
+    mAddButtonColorNormal = getColor(normalColor);
+    mAddButton.setColorNormalResId(normalColor);
+
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
+      if (child instanceof FloatingActionButton) {
+        ((FloatingActionButton) child).setColorNormalResId(normalColor);
+      }
+    }
+  }
+
+  /**
+  * Set pressed color id to the plus button and to all children of this menu.
+  *
+  * @param pressedColor The pressed color res id
+  */
+  public void setColorPressedResIdToAll(@ColorRes int pressedColor) {
+    mAddButtonColorPressed = getColor(pressedColor);
+    mAddButton.setColorPressedResId(pressedColor);
+
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
+      if (child instanceof FloatingActionButton) {
+        ((FloatingActionButton) child).setColorPressedResId(pressedColor);
+      }
+    }
+  }
+
   private void createAddButton(Context context) {
     mAddButton = new AddFloatingActionButton(context) {
       @Override
