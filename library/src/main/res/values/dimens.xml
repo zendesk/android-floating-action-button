@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="fab_size_big">68dp</dimen>
     <dimen name="fab_size_normal">56dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
 
