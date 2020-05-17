@@ -41,9 +41,10 @@ public class MainActivity extends Activity {
         actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
       }
     });
-
     final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
     menuMultipleActions.addButton(actionC);
+    menuMultipleActions.setColorNormalResId(android.R.color.holo_orange_dark);
+    menuMultipleActions.setColorPressedResId(android.R.color.holo_orange_light);
 
     final FloatingActionButton removeAction = (FloatingActionButton) findViewById(R.id.button_remove);
     removeAction.setOnClickListener(new OnClickListener() {
