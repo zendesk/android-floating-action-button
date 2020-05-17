@@ -23,15 +23,22 @@ Features
 
 Usage
 =====
-Just add the dependency to your `build.gradle`:
+### dependencies
+Add the dependency to your `build.gradle`:
 
-```groovy
+```android
 dependencies {
-    compile 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 }
 ```
 
-To see how the buttons are added to your xml layouts, check the sample project.
+### XML
+Checkout complete `layout.xml` [here](https://github.com/zendesk/android-floating-action-button/blob/master/sample/src/main/res/layout/activity_main.xml)
+
+### Activity
+Checkout `MainActivity.java` code [here](https://github.com/zendesk/android-floating-action-button/blob/master/sample/src/main/java/com/getbase/floatingactionbutton/sample/MainActivity.java)
+
+You can find sample project [here](https://github.com/zendesk/android-floating-action-button/tree/master/sample)
 
 Caveats
 =======
